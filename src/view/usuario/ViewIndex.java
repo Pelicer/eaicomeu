@@ -52,28 +52,23 @@ public class ViewIndex extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblNewLabel.setForeground(new Color(51, 51, 51));
-		lblNewLabel.setBounds(32, 184, 340, 30);
+		lblNewLabel.setBounds(32, 128, 340, 30);
 		contentPane.add(lblNewLabel);
 
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(51, 51, 51));
 		separator.setForeground(Color.BLACK);
-		separator.setBounds(32, 212, 340, 2);
+		separator.setBounds(32, 156, 340, 2);
 		contentPane.add(separator);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(51, 51, 51));
-		panel.setBounds(0, 0, 404, 184);
+		panel.setBounds(0, 0, 404, 100);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(222, 11, 172, 75);
-		panel.add(lblLogo);
-		lblLogo.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/logo/logo-small.png")));
-
 		JButton btnHome = new JButton("");
-		btnHome.setBounds(28, 109, 64, 64);
+		btnHome.setBounds(29, 18, 64, 64);
 		panel.add(btnHome);
 		btnHome.addMouseListener(new MouseAdapter() {
 			@Override
@@ -88,7 +83,7 @@ public class ViewIndex extends JFrame {
 		btnHome.setBorderPainted(false);
 
 		JButton btnPerfil = new JButton("");
-		btnPerfil.setBounds(121, 109, 64, 64);
+		btnPerfil.setBounds(122, 18, 64, 64);
 		panel.add(btnPerfil);
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,7 +113,7 @@ public class ViewIndex extends JFrame {
 		btnPerfil.setBorderPainted(false);
 
 		JButton btnPedidos = new JButton("");
-		btnPedidos.setBounds(214, 109, 64, 64);
+		btnPedidos.setBounds(215, 18, 64, 64);
 		panel.add(btnPedidos);
 		btnPedidos.setBackground(Color.WHITE);
 		btnPedidos.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/list (64x64).png")));
@@ -128,7 +123,7 @@ public class ViewIndex extends JFrame {
 		btnPedidos.setBorderPainted(false);
 
 		JButton btnCarrinho = new JButton("");
-		btnCarrinho.setBounds(307, 109, 64, 64);
+		btnCarrinho.setBounds(308, 18, 64, 64);
 		panel.add(btnCarrinho);
 		btnCarrinho.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/cart (64x64).png")));
 		btnCarrinho.setForeground(Color.WHITE);
@@ -138,7 +133,7 @@ public class ViewIndex extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(32, 225, 340, 100);
+		panel_1.setBounds(32, 169, 340, 100);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -169,7 +164,7 @@ public class ViewIndex extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(32, 336, 340, 100);
+		panel_2.setBounds(32, 280, 340, 100);
 		contentPane.add(panel_2);
 
 		JLabel lblImagem_2 = new JLabel("");
@@ -199,7 +194,7 @@ public class ViewIndex extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBackground(Color.WHITE);
-		panel_3.setBounds(32, 447, 340, 100);
+		panel_3.setBounds(32, 391, 340, 100);
 		contentPane.add(panel_3);
 
 		JLabel lblImagem_3 = new JLabel("");
@@ -229,7 +224,7 @@ public class ViewIndex extends JFrame {
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
 		panel_4.setBackground(Color.WHITE);
-		panel_4.setBounds(32, 558, 340, 100);
+		panel_4.setBounds(32, 502, 340, 100);
 		contentPane.add(panel_4);
 
 		JLabel lblImagem_4 = new JLabel("");
@@ -258,12 +253,12 @@ public class ViewIndex extends JFrame {
 
 		JLabel lblNext = new JLabel("");
 		lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
-		lblNext.setBounds(340, 669, 32, 32);
+		lblNext.setBounds(258, 641, 32, 32);
 		contentPane.add(lblNext);
 
 		JLabel lblPrevious = new JLabel("");
 		lblPrevious.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/back (32x32).png")));
-		lblPrevious.setBounds(32, 669, 32, 32);
+		lblPrevious.setBounds(113, 641, 32, 32);
 		contentPane.add(lblPrevious);
 
 	}

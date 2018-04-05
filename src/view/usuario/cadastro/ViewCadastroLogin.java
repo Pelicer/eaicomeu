@@ -27,6 +27,7 @@ import dao.DaoUsuario;
 import model.ModelLogin;
 import model.ModelUsuario;
 import view.ViewLogin;
+import java.awt.Toolkit;
 
 public class ViewCadastroLogin extends JFrame {
 
@@ -36,6 +37,7 @@ public class ViewCadastroLogin extends JFrame {
 	private JPasswordField pswSenha;
 
 	public ViewCadastroLogin(ModelUsuario u) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 		setBounds(100, 100, 420, 750);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -21,6 +21,7 @@ import javax.swing.text.MaskFormatter;
 import dao.DaoUsuario;
 import model.ModelUsuario;
 import view.ViewLogin;
+import java.awt.Toolkit;
 
 public class ViewPerfil extends JFrame {
 
@@ -43,6 +44,7 @@ public class ViewPerfil extends JFrame {
 	private JButton btnVoltarAoMenu;
 
 	public ViewPerfil(ModelUsuario u) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewPerfil.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Perfil");
 
 		// Máscara de Campo.

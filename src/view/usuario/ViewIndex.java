@@ -23,6 +23,7 @@ import dao.DaoUsuario;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.cadastro.ViewCadastroLogin;
+import java.awt.Toolkit;
 
 public class ViewIndex extends JFrame {
 
@@ -34,6 +35,7 @@ public class ViewIndex extends JFrame {
 	List<ModelRestaurante> r = dao.carregarRestaurantes();
 
 	public ViewIndex(ModelUsuario u) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("E a\u00ED, Comeu?");
 		usuario = u;
 

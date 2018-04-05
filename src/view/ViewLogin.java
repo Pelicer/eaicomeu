@@ -28,6 +28,7 @@ import model.ModelUsuario;
 import view.restaurante.ViewIndexRes;
 import view.usuario.ViewIndex;
 import view.usuario.cadastro.ViewCadastroUsuario;
+import java.awt.Toolkit;
 
 public class ViewLogin extends JFrame {
 
@@ -41,6 +42,7 @@ public class ViewLogin extends JFrame {
 	private JLabel lblCadastrese;
 
 	public ViewLogin() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewLogin.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Login");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import dao.DaoRecuperacaoSenha;
+import java.awt.Toolkit;
 
 public class ViewReenvio extends JFrame {
 
@@ -23,6 +24,7 @@ public class ViewReenvio extends JFrame {
 	private JTextField txtEmail;
 
 	public ViewReenvio() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewReenvio.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Recupera\u00E7\u00E3o de Senha");
 		setResizable(false);
 		setBounds(100, 100, 420, 750);

@@ -3,6 +3,7 @@ package view.usuario.cadastro;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -22,7 +23,6 @@ import javax.swing.text.MaskFormatter;
 import controller.ControllerCEP;
 import dao.DaoUsuario;
 import model.ModelUsuario;
-import java.awt.Toolkit;
 
 public class ViewCadastroUsuario extends JFrame {
 
@@ -41,7 +41,8 @@ public class ViewCadastroUsuario extends JFrame {
 	private JTextField txtComplemento;
 
 	public ViewCadastroUsuario() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 
 		// Máscara de Campo.

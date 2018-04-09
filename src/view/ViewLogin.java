@@ -1,8 +1,8 @@
 package view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,16 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerRestaurante;
+import controller.ControllerUsuario;
 import dao.DaoLogin;
-import dao.DaoRestaurante;
-import dao.DaoUsuario;
 import model.ModelLogin;
-import model.ModelRestaurante;
-import model.ModelUsuario;
-import view.restaurante.ViewIndexRes;
-import view.usuario.ViewIndex;
-import view.usuario.cadastro.ViewCadastroUsuario;
-import java.awt.Toolkit;
 
 public class ViewLogin extends JFrame {
 
@@ -100,48 +94,15 @@ public class ViewLogin extends JFrame {
 						if (ver.getUsuario_id() != 0) {
 
 							// Mainpage do usuário
-							EventQueue.invokeLater(new Runnable() {
-								public void run() {
-									try {
-
-										// Passa o usuário como parâmetro para a página principal
-										ModelUsuario u = new ModelUsuario();
-										DaoUsuario userDAO = new DaoUsuario();
-										u = userDAO.selecionarUsuarioID(usuarioID);
-
-										ViewIndex frame = new ViewIndex(u);
-										frame.setLocationRelativeTo(null);
-										frame.setUndecorated(false);
-										frame.setVisible(true);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-							});
+							ControllerUsuario cu = new ControllerUsuario();
+							cu.carregarIndex(usuarioID);
 							dispose();
 
 						} else {
 							// Mainpage do restaurante
-							EventQueue.invokeLater(new Runnable() {
-								public void run() {
-									try {
-
-										// Passa o restaurante como parâmetro para a página principal
-										ModelRestaurante r = new ModelRestaurante();
-										DaoRestaurante resDAO = new DaoRestaurante();
-										r = resDAO.selecionarRestaurante(restauranteID);
-
-										ViewIndexRes frame = new ViewIndexRes(r);
-										frame.setLocationRelativeTo(null);
-										frame.setUndecorated(false);
-										frame.setVisible(true);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-							});
+							ControllerRestaurante cr = new ControllerRestaurante();
+							cr.carregarIndex(restauranteID);
 							dispose();
-
 						}
 					}
 
@@ -182,17 +143,8 @@ public class ViewLogin extends JFrame {
 		lblEsqueciMinhaSenha.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewReenvio frame = new ViewReenvio();
-							frame.setLocationRelativeTo(null);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarRecuperacaoSenha();
 				dispose();
 
 			}
@@ -206,19 +158,9 @@ public class ViewLogin extends JFrame {
 		lblCadastrese.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewCadastroUsuario frame = new ViewCadastroUsuario();
-							frame.setLocationRelativeTo(null);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarCadastroUsuario();
 				dispose();
-
 			}
 		});
 		lblCadastrese.setHorizontalAlignment(SwingConstants.RIGHT);

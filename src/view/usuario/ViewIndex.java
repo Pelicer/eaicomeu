@@ -1,8 +1,8 @@
 package view.usuario;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,12 +18,12 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import dao.DaoRestaurante;
+import controller.ControllerRestaurante;
+import controller.ControllerUsuario;
 import dao.DaoUsuario;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.cadastro.ViewCadastroLogin;
-import java.awt.Toolkit;
 
 public class ViewIndex extends JFrame {
 
@@ -31,8 +31,10 @@ public class ViewIndex extends JFrame {
 	private JPanel contentPane;
 	ModelUsuario usuario = new ModelUsuario();
 
-	DaoRestaurante dao = new DaoRestaurante();
-	List<ModelRestaurante> r = dao.carregarRestaurantes();
+	ControllerRestaurante cr = new ControllerRestaurante();
+	List<ModelRestaurante> r = cr.carregarRestaurantes();
+
+	int pageCount = 1;
 
 	public ViewIndex(ModelUsuario u) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (16x16).png")));
@@ -87,17 +89,8 @@ public class ViewIndex extends JFrame {
 		panel.add(btnPerfil);
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewPerfil frame = new ViewPerfil(usuario);
-							frame.setLocationRelativeTo(null);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarPerfil(usuario);
 
 				dispose();
 
@@ -252,11 +245,64 @@ public class ViewIndex extends JFrame {
 		panel_4.add(lblEndereco_4);
 
 		JLabel lblNext = new JLabel("");
+		lblNext.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				pageCount++;
+
+				lblImagem_1.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 4))));
+				lblRestaurante_1.setText(carregarRazaoSocial((pageCount * 4) - 4));
+				lblEndereco_1.setText(carregarEndereco((pageCount * 4) - 4));
+
+				lblImagem_2.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 3))));
+				lblRestaurante_2.setText(carregarRazaoSocial((pageCount * 4) - 3));
+				lblEndereco_2.setText(carregarEndereco((pageCount * 4) - 3));
+
+				lblImagem_3.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 2))));
+				lblRestaurante_3.setText(carregarRazaoSocial((pageCount * 4) - 2));
+				lblEndereco_3.setText(carregarEndereco((pageCount * 4) - 2));
+
+				lblImagem_4.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 1))));
+				lblRestaurante_4.setText(carregarRazaoSocial((pageCount * 4) - 1));
+				lblEndereco_4.setText(carregarEndereco((pageCount * 4) - 1));
+
+			}
+		});
 		lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
 		lblNext.setBounds(258, 641, 32, 32);
 		contentPane.add(lblNext);
 
 		JLabel lblPrevious = new JLabel("");
+		lblPrevious.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				pageCount--;
+
+				lblImagem_1.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 4))));
+				lblRestaurante_1.setText(carregarRazaoSocial((pageCount * 4) - 4));
+				lblEndereco_1.setText(carregarEndereco((pageCount * 4) - 4));
+
+				lblImagem_2.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 3))));
+				lblRestaurante_2.setText(carregarRazaoSocial((pageCount * 4) - 3));
+				lblEndereco_2.setText(carregarEndereco((pageCount * 4) - 3));
+
+				lblImagem_3.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 2))));
+				lblRestaurante_3.setText(carregarRazaoSocial((pageCount * 4) - 2));
+				lblEndereco_3.setText(carregarEndereco((pageCount * 4) - 2));
+
+				lblImagem_4.setIcon(
+						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 1))));
+				lblRestaurante_4.setText(carregarRazaoSocial((pageCount * 4) - 1));
+				lblEndereco_4.setText(carregarEndereco((pageCount * 4) - 1));
+			}
+		});
 		lblPrevious.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/back (32x32).png")));
 		lblPrevious.setBounds(113, 641, 32, 32);
 		contentPane.add(lblPrevious);

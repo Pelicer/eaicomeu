@@ -1,6 +1,14 @@
 package model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+
 public class ModelUsuario {
+
+	Email email;
 
 	int usuario_id;
 	String usuario_cpf;
@@ -15,7 +23,6 @@ public class ModelUsuario {
 	String usuario_logradouro;
 	String usuario_complemento;
 	String usuario_thumbnail;
-
 
 	public ModelUsuario(String usuario_nome, String usuario_email, String usuario_uf, String usuario_cidade,
 			String usuario_bairro, String usuario_endereco, String usuario_logradouro, String usuario_complemento,
@@ -103,7 +110,7 @@ public class ModelUsuario {
 	public void setUsuario_complemento(String usuario_complemento) {
 		this.usuario_complemento = usuario_complemento;
 	}
-	
+
 	public String getUsuario_thumbnail() {
 		return usuario_thumbnail;
 	}
@@ -111,19 +118,19 @@ public class ModelUsuario {
 	public void setUsuario_thumbnail(String usuario_thumbnail) {
 		this.usuario_thumbnail = usuario_thumbnail;
 	}
-	
+
 	public int getUsuario_id() {
 		return usuario_id;
 	}
-	
+
 	public void setUsuario_id(int usuario_id) {
 		this.usuario_id = usuario_id;
 	}
-	
+
 	public String getUsuario_cpf() {
 		return usuario_cpf;
 	}
-	
+
 	public void setUsuario_cpf(String usuario_cpf) {
 		this.usuario_cpf = usuario_cpf;
 	}
@@ -142,6 +149,24 @@ public class ModelUsuario {
 
 	public void setUsuario_cep(String usuario_cep) {
 		this.usuario_cep = usuario_cep;
+	}
+
+	// Recuperação de senha.
+
+	public void enviarEmail(String msg, String para) {
+		try {
+			email.setHostName("smtp.googlemail.com");
+			email.setSmtpPort(465);
+			email.setAuthentication("eaicomeuapp@gmail.com", "m3lk0rt#");
+			email.setSSLOnConnect(true);
+			email.setFrom("eaicomeuapp@gmail.com");
+			email.setSubject("Recuperação de senha");
+			email.setMsg(msg);
+			email.addTo(para);
+			email.send();
+		} catch (EmailException e) {
+			Logger.getLogger(ModelUsuario.class.getName()).log(Level.SEVERE, null, e);
+		}
 	}
 
 }

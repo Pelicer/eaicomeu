@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 import model.ModelLogin;
-import model.ModelRecuperacaoSenha;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 
@@ -66,13 +65,12 @@ public class DaoRecuperacaoSenha {
 					l.setLogin_nome(rs.getString("login_nome"));
 					l.setLogin_senha(rs.getString("login_senha"));
 
-					ModelRecuperacaoSenha mrs = new ModelRecuperacaoSenha();
 					String msg = "Olá, " + u.getUsuario_nome()
 							+ "!  \n\nNós da E aí, comeu? pedimos desculpas pelo inconveninente. Seguem abaixo nome de usuário e senha. \n\n\nUSUÁRIO: "
 							+ l.getLogin_nome() + "\nSENHA: " + l.getLogin_senha()
 							+ "\n\n\n E-Mail gerado automatcamente. Favor não responder. \n\n\nE aí, Comeu? © 2018";
 
-					mrs.enviarEmail(msg, email);
+					u.enviarEmail(msg, email);
 
 				}
 
@@ -94,12 +92,11 @@ public class DaoRecuperacaoSenha {
 					l.setLogin_nome(rs.getString("login_nome"));
 					l.setLogin_senha(rs.getString("login_senha"));
 
-					ModelRecuperacaoSenha mrs = new ModelRecuperacaoSenha();
 					String msg = "Olá, " + r.getRestaurante_razaosocial()
 							+ "!  \n\nNós da E aí, comeu? pedimos desculpas pelo inconveninente. Seguem abaixo nome de usuário e senha. \n\n\nUSUÁRIO: "
 							+ l.getLogin_nome() + "\nSENHA: " + l.getLogin_senha()
 							+ "\n\n A nossa equipe recomenda que o restaurante possua algum software que guarde estas credenciais, visto que suas vendas não podem parar caso este serviço não esteja funcionando (o que nós resolveríamos rapidinho, mas mesmo assim :) ) \n\n\n E-Mail gerado automatcamente. Favor não responder. \n\n\nE aí, Comeu? © 2018";
-					mrs.enviarEmail(msg, email);
+					r.enviarEmail(msg, email);
 
 				}
 

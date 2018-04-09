@@ -1,7 +1,6 @@
 package view.usuario.cadastro;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import controller.ControllerCEP;
+import controller.ControllerLogin;
 import dao.DaoUsuario;
 import model.ModelUsuario;
 
@@ -201,21 +201,12 @@ public class ViewCadastroUsuario extends JFrame {
 
 				du.cadastrarUsuario(u);
 
-				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Cadastro realizado",
-						JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null,
+						"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
+						"Usuário cadastrado", JOptionPane.OK_OPTION);
 
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewCadastroLogin frame = new ViewCadastroLogin(u);
-							frame.setVisible(true);
-							frame.setLocationRelativeTo(null);
-							// frame.setUndecorated(false);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarCadastroLogin(u);
 				dispose();
 
 			}

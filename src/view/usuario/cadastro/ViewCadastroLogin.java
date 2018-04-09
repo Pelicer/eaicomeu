@@ -1,8 +1,8 @@
 package view.usuario.cadastro;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,12 +22,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import controller.ControllerLogin;
 import dao.DaoLogin;
 import dao.DaoUsuario;
 import model.ModelLogin;
 import model.ModelUsuario;
-import view.ViewLogin;
-import java.awt.Toolkit;
 
 public class ViewCadastroLogin extends JFrame {
 
@@ -37,7 +36,8 @@ public class ViewCadastroLogin extends JFrame {
 	private JPasswordField pswSenha;
 
 	public ViewCadastroLogin(ModelUsuario u) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 		setBounds(100, 100, 420, 750);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -155,18 +155,8 @@ public class ViewCadastroLogin extends JFrame {
 				JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
 						"Cadastro realizado!", JOptionPane.OK_OPTION);
 
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewLogin frame = new ViewLogin();
-							frame.setLocationRelativeTo(null);
-							frame.setUndecorated(false);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarLogin();
 				dispose();
 
 			}

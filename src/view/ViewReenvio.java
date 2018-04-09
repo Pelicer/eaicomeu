@@ -2,8 +2,11 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,8 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerLogin;
 import dao.DaoRecuperacaoSenha;
-import java.awt.Toolkit;
 
 public class ViewReenvio extends JFrame {
 
@@ -24,6 +27,13 @@ public class ViewReenvio extends JFrame {
 	private JTextField txtEmail;
 
 	public ViewReenvio() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarLogin();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewReenvio.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Recupera\u00E7\u00E3o de Senha");
 		setResizable(false);

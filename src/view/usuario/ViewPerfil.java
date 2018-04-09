@@ -1,8 +1,8 @@
 package view.usuario;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,10 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import controller.ControllerLogin;
+import controller.ControllerUsuario;
 import dao.DaoUsuario;
 import model.ModelUsuario;
-import view.ViewLogin;
-import java.awt.Toolkit;
 
 public class ViewPerfil extends JFrame {
 
@@ -207,19 +207,8 @@ public class ViewPerfil extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-
-							ViewIndex frame = new ViewIndex(u);
-							frame.setLocationRelativeTo(null);
-							frame.setUndecorated(false);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarIndex(u.getUsuario_id());
 				dispose();
 			}
 		});
@@ -233,20 +222,8 @@ public class ViewPerfil extends JFrame {
 		btnVoltarAoMenu = new JButton("VOLTAR AO MENU");
 		btnVoltarAoMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-
-							ViewIndex frame = new ViewIndex(u);
-							frame.setLocationRelativeTo(null);
-							frame.setUndecorated(false);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarIndex(u.getUsuario_id());
 				dispose();
 
 			}
@@ -262,18 +239,8 @@ public class ViewPerfil extends JFrame {
 		JButton btnLogout = new JButton("LOG OUT");
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewLogin frame = new ViewLogin();
-							frame.setLocationRelativeTo(null);
-							frame.setUndecorated(false);
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarLogin();
 				dispose();
 			}
 		});

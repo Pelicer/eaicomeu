@@ -1,6 +1,14 @@
 package model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+
 public class ModelRestaurante {
+
+	Email email;
 
 	int restaurante_id;
 	String restaurante_cnpj;
@@ -74,7 +82,7 @@ public class ModelRestaurante {
 	public void setRestaurante_razaosocial(String restaurante_razaosocial) {
 		this.restaurante_razaosocial = restaurante_razaosocial;
 	}
-	
+
 	public String getRestaurante_email() {
 		return restaurante_email;
 	}
@@ -82,7 +90,7 @@ public class ModelRestaurante {
 	public void setRestaurante_email(String restaurante_email) {
 		this.restaurante_email = restaurante_email;
 	}
-	
+
 	public String getRestaurante_telefone() {
 		return restaurante_telefone;
 	}
@@ -90,7 +98,7 @@ public class ModelRestaurante {
 	public void setRestaurante_telefone(String restaurante_telefone) {
 		this.restaurante_telefone = restaurante_telefone;
 	}
-	
+
 	public String getRestaurante_celular() {
 		return restaurante_celular;
 	}
@@ -153,6 +161,24 @@ public class ModelRestaurante {
 
 	public void setRestaurante_thumbnail(String restaurante_thumbnail) {
 		this.restaurante_thumbnail = restaurante_thumbnail;
+	}
+
+	// Recuperação de senha.
+
+	public void enviarEmail(String msg, String para) {
+		try {
+			email.setHostName("smtp.googlemail.com");
+			email.setSmtpPort(465);
+			email.setAuthentication("eaicomeuapp@gmail.com", "m3lk0rt#");
+			email.setSSLOnConnect(true);
+			email.setFrom("eaicomeuapp@gmail.com");
+			email.setSubject("Recuperação de senha");
+			email.setMsg(msg);
+			email.addTo(para);
+			email.send();
+		} catch (EmailException e) {
+			Logger.getLogger(ModelUsuario.class.getName()).log(Level.SEVERE, null, e);
+		}
 	}
 
 }

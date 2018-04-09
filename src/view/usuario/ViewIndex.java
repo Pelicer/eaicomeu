@@ -250,25 +250,69 @@ public class ViewIndex extends JFrame {
 			public void mouseReleased(MouseEvent e) {
 				pageCount++;
 
-				lblImagem_1.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 4))));
-				lblRestaurante_1.setText(carregarRazaoSocial((pageCount * 4) - 4));
-				lblEndereco_1.setText(carregarEndereco((pageCount * 4) - 4));
+				int restaurante[] = new int[4];
+				String res[] = new String[4];
 
-				lblImagem_2.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 3))));
-				lblRestaurante_2.setText(carregarRazaoSocial((pageCount * 4) - 3));
-				lblEndereco_2.setText(carregarEndereco((pageCount * 4) - 3));
+				restaurante[0] = (pageCount * 4) - 4;
+				restaurante[1] = (pageCount * 4) - 3;
+				restaurante[2] = (pageCount * 4) - 2;
+				restaurante[3] = (pageCount * 4) - 1;
 
-				lblImagem_3.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 2))));
-				lblRestaurante_3.setText(carregarRazaoSocial((pageCount * 4) - 2));
-				lblEndereco_3.setText(carregarEndereco((pageCount * 4) - 2));
+				for (int i = restaurante[0]; i == r.size(); i++) {
+					if (restaurante[i] <= i) {
+						res[i] = Integer.toString(restaurante[i]);
+					} else {
+						res[i] = "";
+					}
+				}
 
-				lblImagem_4.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 1))));
-				lblRestaurante_4.setText(carregarRazaoSocial((pageCount * 4) - 1));
-				lblEndereco_4.setText(carregarEndereco((pageCount * 4) - 1));
+				if (res[0].toString().equals("")) {
+					lblImagem_1.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_1.setText("");
+					lblEndereco_1.setText("");
+
+				} else {
+					lblImagem_1.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[0]))));
+					lblRestaurante_1.setText(carregarRazaoSocial(restaurante[0]));
+					lblEndereco_1.setText(carregarEndereco(restaurante[0]));
+				}
+
+				if (res[1].toString().equals("")) {
+					lblImagem_2.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_2.setText("");
+					lblEndereco_2.setText("");
+
+				} else {
+					lblImagem_2.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[1]))));
+					lblRestaurante_2.setText(carregarRazaoSocial(restaurante[1]));
+					lblEndereco_2.setText(carregarEndereco(restaurante[1]));
+
+				}
+
+				if (res[2].toString().equals("")) {
+					lblImagem_3.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_3.setText("");
+					lblEndereco_3.setText("");
+
+				} else {
+					lblImagem_3.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[2]))));
+					lblRestaurante_3.setText(carregarRazaoSocial(restaurante[2]));
+					lblEndereco_3.setText(carregarEndereco(restaurante[2]));
+				}
+
+				if (res[3].toString().equals("")) {
+					lblImagem_4.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_4.setText("");
+					lblEndereco_4.setText("");
+				} else {
+					lblImagem_4.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[3]))));
+					lblRestaurante_4.setText(carregarRazaoSocial(restaurante[3]));
+					lblEndereco_4.setText(carregarEndereco(restaurante[3]));
+				}
 
 			}
 		});
@@ -282,25 +326,69 @@ public class ViewIndex extends JFrame {
 			public void mouseReleased(MouseEvent arg0) {
 				pageCount--;
 
-				lblImagem_1.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 4))));
-				lblRestaurante_1.setText(carregarRazaoSocial((pageCount * 4) - 4));
-				lblEndereco_1.setText(carregarEndereco((pageCount * 4) - 4));
+				int restaurante[] = new int[4];
+				String res[] = new String[4];
 
-				lblImagem_2.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 3))));
-				lblRestaurante_2.setText(carregarRazaoSocial((pageCount * 4) - 3));
-				lblEndereco_2.setText(carregarEndereco((pageCount * 4) - 3));
+				restaurante[0] = (pageCount * 4) - 4;
+				restaurante[1] = (pageCount * 4) - 3;
+				restaurante[2] = (pageCount * 4) - 2;
+				restaurante[3] = (pageCount * 4) - 1;
 
-				lblImagem_3.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 2))));
-				lblRestaurante_3.setText(carregarRazaoSocial((pageCount * 4) - 2));
-				lblEndereco_3.setText(carregarEndereco((pageCount * 4) - 2));
+				for (int i = restaurante[0]; i == r.size(); i++) {
+					if (restaurante[i] <= i) {
+						res[i] = Integer.toString(restaurante[i]);
+					} else {
+						res[i] = "";
+					}
+				}
 
-				lblImagem_4.setIcon(
-						new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem((pageCount * 4) - 1))));
-				lblRestaurante_4.setText(carregarRazaoSocial((pageCount * 4) - 1));
-				lblEndereco_4.setText(carregarEndereco((pageCount * 4) - 1));
+				if (res[0].toString().equals("")) {
+					lblImagem_1.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_1.setText("");
+					lblEndereco_1.setText("");
+
+				} else {
+					lblImagem_1.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[0]))));
+					lblRestaurante_1.setText(carregarRazaoSocial(restaurante[0]));
+					lblEndereco_1.setText(carregarEndereco(restaurante[0]));
+				}
+
+				if (res[1].toString().equals("")) {
+					lblImagem_2.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_2.setText("");
+					lblEndereco_2.setText("");
+
+				} else {
+					lblImagem_2.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[1]))));
+					lblRestaurante_2.setText(carregarRazaoSocial(restaurante[1]));
+					lblEndereco_2.setText(carregarEndereco(restaurante[1]));
+
+				}
+
+				if (res[2].toString().equals("")) {
+					lblImagem_3.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_3.setText("");
+					lblEndereco_3.setText("");
+
+				} else {
+					lblImagem_3.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[2]))));
+					lblRestaurante_3.setText(carregarRazaoSocial(restaurante[2]));
+					lblEndereco_3.setText(carregarEndereco(restaurante[2]));
+				}
+
+				if (res[3].toString().equals("")) {
+					lblImagem_4.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
+					lblRestaurante_4.setText("");
+					lblEndereco_4.setText("");
+				} else {
+					lblImagem_4.setIcon(
+							new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[3]))));
+					lblRestaurante_4.setText(carregarRazaoSocial(restaurante[3]));
+					lblEndereco_4.setText(carregarEndereco(restaurante[3]));
+				}
 			}
 		});
 		lblPrevious.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/back (32x32).png")));

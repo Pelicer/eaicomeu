@@ -20,7 +20,6 @@ import javax.swing.text.MaskFormatter;
 
 import controller.ControllerLogin;
 import controller.ControllerUsuario;
-import dao.DaoUsuario;
 import model.ModelUsuario;
 
 public class ViewPerfil extends JFrame {
@@ -200,8 +199,8 @@ public class ViewPerfil extends JFrame {
 					JOptionPane.showMessageDialog(null, "Não é possível atualizar com campos vazios.", "Campos vazios",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
-					DaoUsuario daoU = new DaoUsuario();
-					daoU.atualizarUsuario(attU);
+					ControllerUsuario cu = new ControllerUsuario();
+					cu.atualizarUsuario(attU);
 
 					JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso.", "Atualizado!",
 							JOptionPane.INFORMATION_MESSAGE);

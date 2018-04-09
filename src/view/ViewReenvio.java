@@ -12,13 +12,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controller.ControllerLogin;
-import dao.DaoRecuperacaoSenha;
+import controller.ControllerUsuario;
 
 public class ViewReenvio extends JFrame {
 
@@ -66,8 +67,15 @@ public class ViewReenvio extends JFrame {
 		JButton btnRecuperar = new JButton("RECUPERAR");
 		btnRecuperar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DaoRecuperacaoSenha drs = new DaoRecuperacaoSenha();
-				drs.Recuperar(txtEmail.getText());
+				boolean recuperado = false;
+				ControllerUsuario cu = new ControllerUsuario();
+				recuperado = cu.recuperarSenha(txtEmail.getText());
+
+				if (recuperado) {
+					JOptionPane.showMessageDialog(null,
+							"Um e-mail com as informações sobre a recuperação da conta foi enviado à você.",
+							"E-Mail enviado", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnRecuperar.setOpaque(true);

@@ -74,4 +74,25 @@ public class ControllerUsuario {
 
 	}
 
+	public void cadastrarUsuario(ModelUsuario u) {
+		DaoUsuario dao = new DaoUsuario();
+		dao.cadastrarUsuario(u);
+	}
+
+	public ModelUsuario selecionarUsuarioCPF(String cpf) {
+		DaoUsuario dao = new DaoUsuario();
+		ModelUsuario u = new ModelUsuario();
+		u = dao.selecionarUsuarioCPF(cpf);
+		return u;
+	}
+
+	public void atualizarUsuario(ModelUsuario u) {
+		DaoUsuario dao = new DaoUsuario();
+		dao.atualizarUsuario(u);
+	}
+
+	public boolean recuperarSenha(String email) {
+		DaoUsuario dao = new DaoUsuario();
+		return dao.recuperarSenha(email);
+	}
 }

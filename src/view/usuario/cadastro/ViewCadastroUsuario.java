@@ -21,7 +21,7 @@ import javax.swing.text.MaskFormatter;
 
 import controller.ControllerCEP;
 import controller.ControllerLogin;
-import dao.DaoUsuario;
+import controller.ControllerUsuario;
 import model.ModelUsuario;
 
 public class ViewCadastroUsuario extends JFrame {
@@ -184,7 +184,7 @@ public class ViewCadastroUsuario extends JFrame {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ModelUsuario u = new ModelUsuario();
-				DaoUsuario du = new DaoUsuario();
+				ControllerUsuario cu = new ControllerUsuario();
 
 				u.setUsuario_bairro(txtBairro.getText());
 				u.setUsuario_cep(txtCEP.getText());
@@ -199,7 +199,7 @@ public class ViewCadastroUsuario extends JFrame {
 				u.setUsuario_uf(txtUF.getText());
 				u.setUsuario_celular(txtCelular.getText());
 
-				du.cadastrarUsuario(u);
+				cu.cadastrarUsuario(u);
 
 				JOptionPane.showMessageDialog(null,
 						"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",

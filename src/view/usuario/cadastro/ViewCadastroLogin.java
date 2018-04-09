@@ -23,8 +23,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ControllerLogin;
-import dao.DaoLogin;
-import dao.DaoUsuario;
+import controller.ControllerUsuario;
 import model.ModelLogin;
 import model.ModelUsuario;
 
@@ -139,10 +138,10 @@ public class ViewCadastroLogin extends JFrame {
 				ModelLogin l = new ModelLogin();
 				ModelUsuario nu = new ModelUsuario();
 
-				DaoLogin dl = new DaoLogin();
-				DaoUsuario du = new DaoUsuario();
+				ControllerLogin cl = new ControllerLogin();
+				ControllerUsuario cu = new ControllerUsuario();
 
-				nu = du.selecionarUsuarioCPF(u.getUsuario_cpf());
+				nu = cu.selecionarUsuarioCPF(u.getUsuario_cpf());
 
 				String senha = new String(pswSenha.getPassword());
 				l.setLogin_nome(txtUsuario.getText());
@@ -150,12 +149,11 @@ public class ViewCadastroLogin extends JFrame {
 
 				l.setUsuario_id(nu.getUsuario_id());
 
-				dl.cadastrarLogin(l, true);
+				cl.cadastrarLoginUsuario(l);
 
 				JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
 						"Cadastro realizado!", JOptionPane.OK_OPTION);
 
-				ControllerLogin cl = new ControllerLogin();
 				cl.carregarLogin();
 				dispose();
 

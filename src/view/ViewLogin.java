@@ -19,9 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerLogin;
 import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
-import dao.DaoLogin;
 import model.ModelLogin;
 
 public class ViewLogin extends JFrame {
@@ -70,7 +70,7 @@ public class ViewLogin extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ModelLogin l = new ModelLogin();
-				DaoLogin dao = new DaoLogin();
+				ControllerLogin cl = new ControllerLogin();
 
 				String nome = txtUsuario.getText();
 				String senha = new String(pswSenha.getPassword());
@@ -80,13 +80,13 @@ public class ViewLogin extends JFrame {
 
 				if (l.getLogin_nome() != "" || l.getLogin_senha() != "") {
 
-					boolean logged = dao.logar(l);
+					boolean logged = cl.logar(l);
 
 					// Login de usuário.
 					if (logged) {
 
 						ModelLogin ver = new ModelLogin();
-						ver = dao.selecionarLoginCRED(l);
+						ver = cl.selecionarLoginCRED(l);
 
 						int usuarioID = ver.getUsuario_id();
 						int restauranteID = ver.getRestaurante_id();

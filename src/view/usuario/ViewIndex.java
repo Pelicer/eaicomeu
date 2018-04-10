@@ -35,8 +35,10 @@ public class ViewIndex extends JFrame {
 	List<ModelRestaurante> r = cr.carregarRestaurantes();
 
 	int pageCount = 1;
+	float pages;
 
 	public ViewIndex(ModelUsuario u) {
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("E a\u00ED, Comeu?");
 		usuario = u;
@@ -244,11 +246,25 @@ public class ViewIndex extends JFrame {
 		lblEndereco_4.setBounds(98, 36, 232, 53);
 		panel_4.add(lblEndereco_4);
 
+		JLabel lblPrevious = new JLabel("");
+
 		JLabel lblNext = new JLabel("");
 		lblNext.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				pageCount++;
+				
+				float contagem = pageCount;
+				pages = r.size() / (4 * contagem);
+				
+				lblPrevious.setVisible(true);
+				if (pages < 1) {
+					lblNext.setVisible(false);
+				} else if(pageCount >= pages){
+					lblNext.setVisible(true);
+				}else {
+					lblNext.setVisible(false);
+				}
 
 				int restaurante[] = new int[4];
 				String res[] = new String[4];
@@ -263,11 +279,16 @@ public class ViewIndex extends JFrame {
 				restaurante[2] = (pageCount * 4) - 2;
 				restaurante[3] = (pageCount * 4) - 1;
 
-				for (int i = restaurante[0]; i <= r.size(); i++) {
-					if (restaurante[i] <= i) {
-						res[i] = Integer.toString(restaurante[i]);
-					} else {
-						res[i] = "";
+				int f = 0;
+
+				for (int i = restaurante[0]; i < r.size(); i++) {
+					if (f <= 3) {
+						if (restaurante[f] <= i) {
+							res[f] = Integer.toString(restaurante[f]);
+						} else {
+							res[f] = "";
+						}
+						f++;
 					}
 				}
 
@@ -328,11 +349,19 @@ public class ViewIndex extends JFrame {
 		lblNext.setBounds(258, 641, 32, 32);
 		contentPane.add(lblNext);
 
-		JLabel lblPrevious = new JLabel("");
+		// JLabel lblPrevious = new JLabel("");
+		lblPrevious.setVisible(false);
 		lblPrevious.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				pageCount--;
+
+				lblNext.setVisible(true);
+				if (pageCount > r.size() / (4 * pageCount)) {
+					lblPrevious.setVisible(true);
+				} else {
+					lblPrevious.setVisible(false);
+				}
 
 				int restaurante[] = new int[4];
 				String res[] = new String[4];
@@ -347,11 +376,16 @@ public class ViewIndex extends JFrame {
 				restaurante[2] = (pageCount * 4) - 2;
 				restaurante[3] = (pageCount * 4) - 1;
 
-				for (int i = restaurante[0]; i <= r.size(); i++) {
-					if (restaurante[i] <= i) {
-						res[i] = Integer.toString(restaurante[i]);
-					} else {
-						res[i] = "";
+				int f = 0;
+
+				for (int i = restaurante[0]; i < r.size(); i++) {
+					if (f <= 3) {
+						if (restaurante[f] <= i) {
+							res[f] = Integer.toString(restaurante[f]);
+						} else {
+							res[f] = "";
+						}
+						f++;
 					}
 				}
 

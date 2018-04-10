@@ -81,7 +81,7 @@ public class ViewLogin extends JFrame {
 				if (l.getLogin_nome() != "" || l.getLogin_senha() != "") {
 
 					boolean logged = cl.logar(l);
-
+					
 					// Login de usuário.
 					if (logged) {
 
@@ -90,7 +90,7 @@ public class ViewLogin extends JFrame {
 
 						int usuarioID = ver.getUsuario_id();
 						int restauranteID = ver.getRestaurante_id();
-
+												
 						if (ver.getUsuario_id() != 0) {
 
 							// Mainpage do usuário

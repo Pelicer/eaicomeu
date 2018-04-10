@@ -18,8 +18,9 @@ public class DaoLogin {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("SELECT * FROM tbl_login WHERE login_nome = '" + l.getLogin_nome()
-					+ "' AND login_senha = '" + l.getLogin_senha() + "';");
+			stm = con.prepareStatement("SELECT * FROM tbl_login WHERE login_nome = ? AND login_senha = ?");
+			stm.setString(1, l.getLogin_nome());
+			stm.setString(2, l.getLogin_senha());
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -105,9 +106,12 @@ public class DaoLogin {
 		PreparedStatement stm = null;
 		ModelLogin login = new ModelLogin();
 
+		
+		
 		try {
-			stm = con.prepareStatement("SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = '"
-					+ l.getLogin_nome() + "' and login_senha = '" + l.getLogin_senha() + "';");
+			stm = con.prepareStatement("SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
+			stm.setString(1, l.getLogin_nome());
+			stm.setString(2, l.getLogin_senha());
 			rs = stm.executeQuery();
 
 			while (rs.next()) {

@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import dao.DaoUsuario;
 import model.ModelUsuario;
+import view.restaurante.ViewIndexRes;
 import view.usuario.ViewIndex;
 import view.usuario.ViewPerfil;
 import view.usuario.cadastro.ViewCadastroUsuario;

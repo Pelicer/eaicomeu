@@ -18,6 +18,9 @@ public class ControllerLogin {
 					frame.setLocationRelativeTo(null);
 					frame.setUndecorated(false);
 					frame.setVisible(true);
+					
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,12 +57,16 @@ public class ControllerLogin {
 	public ModelLogin selecionarLoginCRED(ModelLogin l) {
 		DaoLogin dao = new DaoLogin();
 		dao.selecionarLoginCRED(l);
-		return l;
+		ModelLogin login = new ModelLogin();
+		login = dao.selecionarLoginCRED(l);
+		return login;
 	}
 
 	public boolean logar(ModelLogin l) {
 		DaoLogin dao = new DaoLogin();
-		return dao.logar(l);
+		boolean connected = false;
+		connected = dao.logar(l);
+		return connected;
 	}
 
 }

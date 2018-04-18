@@ -76,12 +76,13 @@ public class ViewLogin extends JFrame {
 				String senha = new String(pswSenha.getPassword());
 
 				l.setLogin_nome(nome);
+				l.setLogin_email(nome);
 				l.setLogin_senha(senha);
 
 				if (l.getLogin_nome() != "" || l.getLogin_senha() != "") {
 
 					boolean logged = cl.logar(l);
-					
+
 					// Login de usuário.
 					if (logged) {
 
@@ -90,7 +91,7 @@ public class ViewLogin extends JFrame {
 
 						int usuarioID = ver.getUsuario_id();
 						int restauranteID = ver.getRestaurante_id();
-												
+
 						if (ver.getUsuario_id() != 0) {
 
 							// Mainpage do usuário
@@ -125,18 +126,18 @@ public class ViewLogin extends JFrame {
 		btnLogin.setBounds(65, 408, 120, 23);
 		contentPane.add(btnLogin);
 
-		lblUsuario = new JLabel("USU\u00C1RIO");
+		lblUsuario = new JLabel("USU\u00C1RIO ou E-MAIL");
 		lblUsuario.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblUsuario.setForeground(Color.WHITE);
 		lblUsuario.setLabelFor(txtUsuario);
-		lblUsuario.setBounds(65, 264, 70, 14);
+		lblUsuario.setBounds(65, 264, 280, 14);
 		contentPane.add(lblUsuario);
 
 		lblSenha = new JLabel("SENHA");
 		lblSenha.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblSenha.setForeground(Color.WHITE);
 		lblSenha.setLabelFor(pswSenha);
-		lblSenha.setBounds(65, 329, 46, 14);
+		lblSenha.setBounds(65, 329, 280, 14);
 		contentPane.add(lblSenha);
 
 		lblEsqueciMinhaSenha = new JLabel("Esqueci minha senha");

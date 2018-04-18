@@ -16,7 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.PlainDocument;
 
 import controller.ControllerLogin;
 import controller.ControllerUsuario;
@@ -53,6 +56,32 @@ public class ViewPerfil extends JFrame {
 	private JLabel lblCelular;
 	private JLabel lblEmail;
 	private JLabel lblNome;
+
+	class JTextFieldLimit extends PlainDocument {
+
+		private static final long serialVersionUID = 1L;
+
+		private int limit;
+
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null)
+				return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
+	}
 
 	public ViewPerfil(ModelUsuario u) {
 		setResizable(false);
@@ -93,13 +122,13 @@ public class ViewPerfil extends JFrame {
 		lblInformacoesPessoais.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblInformacoesPessoais.setBounds(39, 150, 191, 14);
 		contentPane.add(lblInformacoesPessoais);
-		
+
 		separator_1 = new JSeparator();
 		separator_1.setForeground(Color.ORANGE);
 		separator_1.setBackground(new Color(51, 51, 51));
 		separator_1.setBounds(39, 175, 330, 2);
 		contentPane.add(separator_1);
-		
+
 		lblNome = new JLabel("Nome:");
 		lblNome.setForeground(Color.WHITE);
 		lblNome.setBounds(39, 182, 330, 14);
@@ -111,7 +140,8 @@ public class ViewPerfil extends JFrame {
 		txtNome.setBounds(39, 207, 330, 30);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
-		
+		txtNome.setDocument(new JTextFieldLimit(30));
+
 		lblEmail = new JLabel("E-Mail:");
 		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setBounds(39, 250, 46, 14);
@@ -123,7 +153,8 @@ public class ViewPerfil extends JFrame {
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(39, 275, 330, 30);
 		contentPane.add(txtEmail);
-		
+		txtEmail.setDocument(new JTextFieldLimit(30));
+
 		lblCpf = new JLabel("CPF:");
 		lblCpf.setForeground(Color.WHITE);
 		lblCpf.setBounds(39, 316, 160, 14);
@@ -135,7 +166,7 @@ public class ViewPerfil extends JFrame {
 		txtCpf.setColumns(10);
 		txtCpf.setBounds(39, 341, 160, 30);
 		contentPane.add(txtCpf);
-		
+
 		lblCelular = new JLabel("Celular:");
 		lblCelular.setForeground(Color.WHITE);
 		lblCelular.setBounds(209, 316, 160, 14);
@@ -161,19 +192,20 @@ public class ViewPerfil extends JFrame {
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(209, 445, 160, 30);
 		contentPane.add(txtCidade);
+		txtCidade.setDocument(new JTextFieldLimit(60));
 
 		lblEndereoDeEntrega = new JLabel("ENDERE\u00C7O DE ENTREGA");
 		lblEndereoDeEntrega.setForeground(Color.WHITE);
 		lblEndereoDeEntrega.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblEndereoDeEntrega.setBounds(39, 382, 191, 14);
 		contentPane.add(lblEndereoDeEntrega);
-		
+
 		separator = new JSeparator();
 		separator.setForeground(Color.ORANGE);
 		separator.setBackground(new Color(51, 51, 51));
 		separator.setBounds(39, 407, 330, 2);
 		contentPane.add(separator);
-		
+
 		lblBairro = new JLabel("Bairro:");
 		lblBairro.setForeground(Color.WHITE);
 		lblBairro.setBounds(39, 486, 160, 14);
@@ -185,7 +217,8 @@ public class ViewPerfil extends JFrame {
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(39, 511, 160, 30);
 		contentPane.add(txtBairro);
-		
+		txtBairro.setDocument(new JTextFieldLimit(60));
+
 		lblEndereco = new JLabel("Endere\u00E7o:");
 		lblEndereco.setForeground(Color.WHITE);
 		lblEndereco.setBounds(209, 486, 160, 14);
@@ -197,7 +230,8 @@ public class ViewPerfil extends JFrame {
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(209, 511, 160, 30);
 		contentPane.add(txtEndereco);
-		
+		txtEndereco.setDocument(new JTextFieldLimit(60));
+
 		lblLogradouro = new JLabel("Logradouro:");
 		lblLogradouro.setForeground(Color.WHITE);
 		lblLogradouro.setBounds(39, 552, 75, 14);
@@ -209,7 +243,8 @@ public class ViewPerfil extends JFrame {
 		txtLogradouro.setColumns(10);
 		txtLogradouro.setBounds(39, 577, 75, 30);
 		contentPane.add(txtLogradouro);
-		
+		txtLogradouro.setDocument(new JTextFieldLimit(10));
+
 		lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.WHITE);
 		lblComplemento.setBounds(209, 552, 160, 14);
@@ -221,7 +256,8 @@ public class ViewPerfil extends JFrame {
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(209, 577, 160, 30);
 		contentPane.add(txtComplemento);
-		
+		txtComplemento.setDocument(new JTextFieldLimit(60));
+
 		lblUf = new JLabel("UF:");
 		lblUf.setForeground(Color.WHITE);
 		lblUf.setBounds(124, 552, 46, 14);
@@ -233,11 +269,15 @@ public class ViewPerfil extends JFrame {
 		txtUf.setColumns(10);
 		txtUf.setBounds(124, 577, 75, 30);
 		contentPane.add(txtUf);
+		txtUf.setDocument(new JTextFieldLimit(2));
 
 		btnAtualizar = new JButton("ATUALIZAR");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				ModelUsuario attU = new ModelUsuario();
+				ControllerUsuario cu = new ControllerUsuario();
+
 				attU.setUsuario_id(u.getUsuario_id());
 				attU.setUsuario_bairro(txtBairro.getText());
 				attU.setUsuario_celular(txtCelular.getText());
@@ -251,24 +291,17 @@ public class ViewPerfil extends JFrame {
 				attU.setUsuario_nome(txtNome.getText());
 				attU.setUsuario_uf(txtUf.getText());
 
-				if (txtBairro.getText().equals("") || txtCelular.getText().equals("") || txtCep.getText().equals("")
-						|| txtCidade.getText().equals("") || txtComplemento.getText().equals("")
-						|| txtCpf.getText().equals("") || txtEmail.getText().equals("")
-						|| txtEndereco.getText().equals("") || txtLogradouro.getText().equals("")
-						|| txtNome.getText().equals("") || txtUf.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Não é possível atualizar com campos vazios.", "Campos vazios",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					ControllerUsuario cu = new ControllerUsuario();
+				if (!cu.verificarObrigatorios(attU).equals("")) {
 					cu.atualizarUsuario(attU);
 
 					JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso.", "Atualizado!",
 							JOptionPane.INFORMATION_MESSAGE);
+					cu.carregarIndex(u.getUsuario_id());
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, cu.verificarObrigatorios(attU), "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
 				}
-
-				ControllerUsuario cu = new ControllerUsuario();
-				cu.carregarIndex(u.getUsuario_id());
-				dispose();
 			}
 		});
 		btnAtualizar.setForeground(Color.WHITE);
@@ -309,12 +342,12 @@ public class ViewPerfil extends JFrame {
 		btnLogout.setBorderPainted(true);
 		btnLogout.setBounds(39, 678, 160, 23);
 		contentPane.add(btnLogout);
-		
+
 		lblCep = new JLabel("CEP:");
 		lblCep.setForeground(Color.WHITE);
 		lblCep.setBounds(39, 420, 46, 14);
 		contentPane.add(lblCep);
-		
+
 		lblCidade = new JLabel("Cidade:");
 		lblCidade.setForeground(Color.WHITE);
 		lblCidade.setBounds(209, 420, 46, 14);

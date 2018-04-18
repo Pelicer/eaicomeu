@@ -9,7 +9,33 @@ import model.ModelLogin;
 
 public class DaoLogin {
 
-	public boolean logar(ModelLogin l) {
+	public boolean logarEmail(ModelLogin l) {
+		Connection con = ConnectionFactory.getConnection();
+		boolean connected = false;
+
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_login WHERE login_email = ? AND login_senha = ?");
+			stm.setString(1, l.getLogin_email());
+			stm.setString(2, l.getLogin_senha());
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				connected = true;
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return connected;
+	}
+
+	public boolean logarUsuario(ModelLogin l) {
 
 		Connection con = ConnectionFactory.getConnection();
 		boolean connected = false;
@@ -25,6 +51,10 @@ public class DaoLogin {
 
 			while (rs.next()) {
 				connected = true;
+			}
+
+			if (!connected) {
+				connected = logarEmail(l);
 			}
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -43,18 +73,20 @@ public class DaoLogin {
 		try {
 			if (usuario) {
 				stm = con.prepareStatement(
-						"INSERT INTO tbl_login (login_nome, login_senha, usuario_id, restaurante_id) VALUES ( ?,  ?,  ?,  ?)");
+						"INSERT INTO tbl_login (login_nome, login_senha, login_email, usuario_id, restaurante_id) VALUES ( ?,  ?,  ?,  ?,  ?)");
 				stm.setString(1, l.getLogin_nome());
 				stm.setString(2, l.getLogin_senha());
+				stm.setString(3, l.getLogin_email());
 				stm.setInt(3, l.getUsuario_id());
 				stm.setString(4, null);
 				stm.executeUpdate();
 
 			} else {
 				stm = con.prepareStatement(
-						"INSERT INTO tbl_login (login_nome, login_senha, usuario_id, restaurante_id) VALUES ( ?,  ?,  ?,  ?)");
+						"INSERT INTO tbl_login (login_nome, login_senha, login_email, usuario_id, restaurante_id) VALUES ( ?,  ?,  ?,  ?,  ?)");
 				stm.setString(1, l.getLogin_nome());
 				stm.setString(2, l.getLogin_senha());
+				stm.setString(3, l.getLogin_email());
 				stm.setString(3, null);
 				stm.setInt(4, l.getRestaurante_id());
 				stm.executeUpdate();
@@ -106,10 +138,9 @@ public class DaoLogin {
 		PreparedStatement stm = null;
 		ModelLogin login = new ModelLogin();
 
-		
-		
 		try {
-			stm = con.prepareStatement("SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
+			stm = con.prepareStatement(
+					"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
 			stm.setString(1, l.getLogin_nome());
 			stm.setString(2, l.getLogin_senha());
 			rs = stm.executeQuery();
@@ -162,4 +193,55 @@ public class DaoLogin {
 		return nl;
 	}
 
+	public boolean verificarUsuario(String usuario) {
+
+		Connection con = ConnectionFactory.getConnection();
+		boolean existente = false;
+
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_login WHERE login_nome = ?");
+			stm.setString(1, usuario);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				existente = true;
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return existente;
+	}
+
+	public boolean verificarEmail(String email) {
+
+		Connection con = ConnectionFactory.getConnection();
+		boolean existente = false;
+
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_login WHERE login_email = ?");
+			stm.setString(1, email);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				existente = true;
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return existente;
+	}
 }

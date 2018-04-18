@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import dao.DaoUsuario;
 import model.ModelUsuario;
+import view.ViewReenvio;
 import view.usuario.ViewIndex;
 import view.usuario.ViewPerfil;
 import view.usuario.cadastro.ViewCadastroUsuario;
@@ -49,7 +50,7 @@ public class ControllerUsuario {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewCadastroUsuario frame = new ViewCadastroUsuario();
+					ViewReenvio frame = new ViewReenvio();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -94,5 +95,27 @@ public class ControllerUsuario {
 	public boolean recuperarSenha(String email) {
 		DaoUsuario dao = new DaoUsuario();
 		return dao.recuperarSenha(email);
+	}
+
+	public String verificarObrigatorios(ModelUsuario u) {
+		String resultado = "";
+		if (u.getUsuario_bairro().equals("") || u.getUsuario_cep().equals("") || u.getUsuario_cidade().equals("")
+				|| u.getUsuario_endereco().equals("") || u.getUsuario_uf().equals("")
+				|| u.getUsuario_logradouro().equals("")) {
+			resultado = "Campos de endereço não podem estar vazios.";
+		}
+		if (u.getUsuario_celular().equals("")) {
+			resultado = "O campo celular não pode ser inválido.";
+		}
+		if (u.getUsuario_email().equals("")) {
+			resultado = "O campo e-mail é obrigatório.";
+		}
+		if (u.getUsuario_nome().equals("")) {
+			resultado = "Por favor, identifique-se com um nome.";
+		}
+		if (u.getUsuario_cpf().equals("")) {
+			resultado = "Por favor, digite seu CPF.";
+		}
+		return resultado;
 	}
 }

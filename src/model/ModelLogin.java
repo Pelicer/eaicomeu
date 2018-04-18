@@ -4,13 +4,15 @@ public class ModelLogin {
 
 	String login_nome;
 	String login_senha;
+	String login_email;
 	int usuario_id;
 	int restaurante_id;
 
-	public ModelLogin(String login_nome, String login_senha, int usuario_id, int restaurante_id) {
+	public ModelLogin(String login_nome, String login_senha, String login_email, int usuario_id, int restaurante_id) {
 		super();
 		this.login_nome = login_nome;
 		this.login_senha = login_senha;
+		this.login_email = login_email;
 		this.usuario_id = usuario_id;
 		this.restaurante_id = restaurante_id;
 	}
@@ -33,6 +35,14 @@ public class ModelLogin {
 
 	public void setLogin_senha(String login_senha) {
 		this.login_senha = login_senha;
+	}
+
+	public String getLogin_email() {
+		return login_email;
+	}
+
+	public void setLogin_email(String login_email) {
+		this.login_email = login_email;
 	}
 
 	public int getUsuario_id() {

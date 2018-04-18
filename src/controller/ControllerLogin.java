@@ -18,9 +18,7 @@ public class ControllerLogin {
 					frame.setLocationRelativeTo(null);
 					frame.setUndecorated(false);
 					frame.setVisible(true);
-					
-					
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,8 +63,25 @@ public class ControllerLogin {
 	public boolean logar(ModelLogin l) {
 		DaoLogin dao = new DaoLogin();
 		boolean connected = false;
-		connected = dao.logar(l);
+		if (!dao.logarUsuario(l)) {
+			connected = dao.logarEmail(l);
+		} else {
+			connected = dao.logarUsuario(l);
+		}
 		return connected;
+	}
+
+	public String verificarCredenciais(String usuario, String email) {
+		String resultado = "";
+		DaoLogin dao = new DaoLogin();
+		if (dao.verificarUsuario(usuario)) {
+			resultado = "Este nome de usuário já está em uso.";
+		}
+		if (dao.verificarEmail(email)) {
+			resultado = "Este e-mail já está em uso.";
+		}
+
+		return resultado;
 	}
 
 }

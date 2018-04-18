@@ -17,7 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.PlainDocument;
 
 import controller.ControllerCEP;
 import controller.ControllerLogin;
@@ -39,6 +42,32 @@ public class ViewCadastroUsuario extends JFrame {
 	private JTextField txtEndereco;
 	private JTextField txtLogradouro;
 	private JTextField txtComplemento;
+
+	class JTextFieldLimit extends PlainDocument {
+
+		private static final long serialVersionUID = 1L;
+
+		private int limit;
+
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null)
+				return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
+	}
 
 	public ViewCadastroUsuario() {
 		setResizable(false);
@@ -85,6 +114,7 @@ public class ViewCadastroUsuario extends JFrame {
 		txtNome.setBounds(32, 88, 340, 30);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
+		txtNome.setDocument(new JTextFieldLimit(30));
 
 		JLabel lblEmail = new JLabel("E-Mail:");
 		lblEmail.setForeground(Color.WHITE);
@@ -96,6 +126,7 @@ public class ViewCadastroUsuario extends JFrame {
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(32, 154, 340, 30);
 		contentPane.add(txtEmail);
+		txtEmail.setDocument(new JTextFieldLimit(30));
 
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setForeground(Color.WHITE);
@@ -171,11 +202,11 @@ public class ViewCadastroUsuario extends JFrame {
 		contentPane.add(lblUf);
 
 		txtUF = new JTextField();
-
 		txtUF.setForeground(Color.DARK_GRAY);
 		txtUF.setColumns(10);
 		txtUF.setBounds(212, 411, 160, 30);
 		contentPane.add(txtUF);
+		txtUF.setDocument(new JTextFieldLimit(2));
 
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setForeground(Color.WHITE);
@@ -187,6 +218,7 @@ public class ViewCadastroUsuario extends JFrame {
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(32, 477, 160, 30);
 		contentPane.add(txtCidade);
+		txtCidade.setDocument(new JTextFieldLimit(60));
 
 		JLabel lblBairro = new JLabel("Bairro:");
 		lblBairro.setForeground(Color.WHITE);
@@ -198,6 +230,8 @@ public class ViewCadastroUsuario extends JFrame {
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(212, 477, 160, 30);
 		contentPane.add(txtBairro);
+		txtBairro.setDocument(new JTextFieldLimit(60));
+
 
 		JLabel lblEndereco = new JLabel("Endere\u00E7o:");
 		lblEndereco.setForeground(Color.WHITE);
@@ -209,6 +243,8 @@ public class ViewCadastroUsuario extends JFrame {
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(32, 543, 340, 30);
 		contentPane.add(txtEndereco);
+		txtEndereco.setDocument(new JTextFieldLimit(60));
+
 
 		JLabel lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.WHITE);
@@ -220,6 +256,7 @@ public class ViewCadastroUsuario extends JFrame {
 		txtLogradouro.setColumns(10);
 		txtLogradouro.setBounds(32, 609, 160, 30);
 		contentPane.add(txtLogradouro);
+		txtLogradouro.setDocument(new JTextFieldLimit(60));
 
 		JLabel lblLogradouro = new JLabel("Logradouro");
 		lblLogradouro.setForeground(Color.WHITE);
@@ -231,6 +268,7 @@ public class ViewCadastroUsuario extends JFrame {
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(212, 609, 160, 30);
 		contentPane.add(txtComplemento);
+		txtComplemento.setDocument(new JTextFieldLimit(60));
 
 		JButton btnCadastrar = new JButton("CADASTRAR");
 		btnCadastrar.addActionListener(new ActionListener() {
@@ -251,15 +289,21 @@ public class ViewCadastroUsuario extends JFrame {
 				u.setUsuario_uf(txtUF.getText());
 				u.setUsuario_celular(txtCelular.getText());
 
-				cu.cadastrarUsuario(u);
+				if (!cu.verificarObrigatorios(u).equals("")) {
 
-				JOptionPane.showMessageDialog(null,
-						"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
-						"Usuário cadastrado", JOptionPane.OK_OPTION);
+					cu.cadastrarUsuario(u);
 
-				ControllerLogin cl = new ControllerLogin();
-				cl.carregarCadastroLogin(u);
-				dispose();
+					JOptionPane.showMessageDialog(null,
+							"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
+							"Usuário cadastrado", JOptionPane.OK_OPTION);
+
+					ControllerLogin cl = new ControllerLogin();
+					cl.carregarCadastroLogin(u);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, cu.verificarObrigatorios(u), "Verifique campos obrigatórios",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
 			}
 		});

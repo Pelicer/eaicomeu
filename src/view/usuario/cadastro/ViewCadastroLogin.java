@@ -21,6 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 import controller.ControllerLogin;
 import controller.ControllerUsuario;
@@ -33,6 +36,32 @@ public class ViewCadastroLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField pswSenha;
+
+	class JTextFieldLimit extends PlainDocument {
+
+		private static final long serialVersionUID = 1L;
+
+		private int limit;
+
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null)
+				return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
+	}
 
 	public ViewCadastroLogin(ModelUsuario u) {
 		setResizable(false);
@@ -75,11 +104,13 @@ public class ViewCadastroLogin extends JFrame {
 		txtUsuario.setBounds(110, 223, 238, 30);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
+		txtUsuario.setDocument(new JTextFieldLimit(30));
 
 		pswSenha = new JPasswordField();
 		pswSenha.setForeground(Color.DARK_GRAY);
 		pswSenha.setBounds(110, 262, 238, 30);
 		contentPane.add(pswSenha);
+		pswSenha.setDocument(new JTextFieldLimit(12));
 
 		JLabel lblEUmaFoto = new JLabel("E uma foto para lembrarmos de voc\u00EA");
 		lblEUmaFoto.setForeground(Color.WHITE);
@@ -147,16 +178,23 @@ public class ViewCadastroLogin extends JFrame {
 				String senha = new String(pswSenha.getPassword());
 				l.setLogin_nome(txtUsuario.getText());
 				l.setLogin_senha(senha);
+				l.setLogin_email(nu.getUsuario_email());
 
-				l.setUsuario_id(nu.getUsuario_id());
+				if (!cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()).equals("")) {
+					l.setUsuario_id(nu.getUsuario_id());
 
-				cl.cadastrarLoginUsuario(l);
+					cl.cadastrarLoginUsuario(l);
 
-				JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
-						"Cadastro realizado!", JOptionPane.OK_OPTION);
+					JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
+							"Cadastro realizado!", JOptionPane.OK_OPTION);
 
-				cl.carregarLogin();
-				dispose();
+					cl.carregarLogin();
+					dispose();
+
+				} else {
+					JOptionPane.showMessageDialog(null, cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()),
+							"Nome de usuário ou email em uso", JOptionPane.WARNING_MESSAGE);
+				}
 
 			}
 		});

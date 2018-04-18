@@ -64,6 +64,7 @@ DROP TABLE IF EXISTS `tbl_login`;
 CREATE TABLE tbl_login(
 	login_nome VARCHAR(30) NOT NULL,
 	login_senha VARCHAR(12) NOT NULL,
+    login_email VARCHAR(30) NOT NULL,
 	usuario_id INT,
 	restaurante_id INT,
 	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id),

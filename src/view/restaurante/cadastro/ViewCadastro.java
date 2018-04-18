@@ -27,6 +27,7 @@ public class ViewCadastro extends JFrame {
 	}
 
 	public ViewCadastro() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastro.class.getResource("/img/logo/logo (16x16).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

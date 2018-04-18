@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `db_sea`;
-CREATE DATABASE db_sea;
-USE db_sea;
+DROP DATABASE IF EXISTS `db_eaicomeu`;
+CREATE DATABASE db_eaicomeu;
+USE db_eaicomeu;
 
 DROP TABLE IF EXISTS `tbl_usuario`;
 CREATE TABLE tbl_usuario(
@@ -47,6 +47,18 @@ CREATE TABLE tbl_restaurante(
 	restaurante_thumbnail VARCHAR(60) NOT NULL,
 	PRIMARY KEY(restaurante_id)
 );
+
+INSERT INTO `tbl_restaurante`( `restaurante_cnpj`, `restaurante_razaoSocial`, `restaurante_email`, `restaurante_telefone`,
+`restaurante_celular`, `restaurante_uf`, `restaurante_cidade`, `restaurante_cep`, `restaurante_bairro`, `restaurante_endereco`, `restaurante_logradouro`, `restaurante_complemento`, `restaurante_thumbnail`) VALUES 
+('55.457.438/0001-95','Papa tudo lanches ME','papatudolanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/papatudo.png'),
+('43.341.433/0001-13','MC Donalds ME' ,'mcdonaldslanche@mcdonalds.com','3819-5577','3819-5577','SP','Campinas',' 13184-210','Parque Ortolândia','Av. Santana','970','Drive Thru','/img/perfil/restaurante/mcdonalds.png'),
+('77.441.422/0001-27','Subway Alimentos ME', 'subwayalimentos@subway.com', '3116-1137', '3116-1137','SP','Americana',' 13184-210',' Parque Ortolândia','Av. Santana','847','','/img/perfil/restaurante/subway.png'),
+('55.666.438/0001-95','Burguer King','bk@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/burguerking.png'),
+('25.666.438/0001-95','Turbinado Lanches','turbinado-lanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/turbinado.png'),
+('56.623.138/0001-15','Pizza Hut','contato@pizzahut.com','3965-5506','3965-2506','SP','Campinas',' 13156-054','Jardim Mirante','R. Tancredo Neves', '524','Hamburgueria','/img/perfil/restaurante/pizzahut.png'),
+('92.126.238/0001-26','Dog Supremo','dogsupremo@yahoo.com','3965-5506','3965-4306','SP','Sumaré',' 14186-054','Emancipação','R. Emancipação', '6356','Trailer','/img/perfil/restaurante/hotdogexpress.png'),
+('74.567.358/0001-32','China in Box','sac@chinainbox.com','3965-5506','3965-5234','SP','Monte-Mor',' 16186-054','Cambuí','R. Moraes Sales', '134','','/img/perfil/restaurante/chinainbox.png'),
+('49.837.445/0001-78','Kanibal Burguer','kanibal-burguer@gmail.com','3965-2137','3965-5506','SP','Hortolandia',' 13186-054','Jardim Oswaldo','R. dos Estudantes', '654','Trailer','/img/perfil/restaurante/kanibalburguer.png');
 
 DROP TABLE IF EXISTS `tbl_login`;
 CREATE TABLE tbl_login(

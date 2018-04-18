@@ -35,6 +35,7 @@ public class ViewCadastroLogin extends JFrame {
 	private JPasswordField pswSenha;
 
 	public ViewCadastroLogin(ModelUsuario u) {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (16x16).png")));
 		setTitle("Cadastro de Usu\u00E1rio");

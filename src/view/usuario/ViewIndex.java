@@ -20,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 
 import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
-import dao.DaoUsuario;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.cadastro.ViewCadastroLogin;
@@ -80,7 +79,9 @@ public class ViewIndex extends JFrame {
 		btnHome.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// carregarTabela();
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarIndex(usuario.getUsuario_id());
+				dispose();
 			}
 		});
 		btnHome.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/home (64x64).png")));
@@ -96,12 +97,8 @@ public class ViewIndex extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ControllerUsuario cu = new ControllerUsuario();
 				cu.carregarPerfil(usuario);
-
 				dispose();
-
-				DaoUsuario daoU = new DaoUsuario();
-				usuario = daoU.selecionarUsuarioID(u.getUsuario_id());
-
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
 			}
 		});
 		btnPerfil.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/profile (64x64).png")));
@@ -130,6 +127,13 @@ public class ViewIndex extends JFrame {
 		btnCarrinho.setBorderPainted(false);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarRestaurante(carregarRazaoSocial(0), usuario.getUsuario_id());
+			}
+		});
 		panel_1.setBackground(Color.WHITE);
 		panel_1.setBounds(37, 169, 340, 100);
 		contentPane.add(panel_1);
@@ -161,6 +165,13 @@ public class ViewIndex extends JFrame {
 			panel_1.add(lblEndereco_1);
 
 			JPanel panel_2 = new JPanel();
+			panel_2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					ControllerUsuario cu = new ControllerUsuario();
+					cu.carregarRestaurante(carregarRazaoSocial(1), usuario.getUsuario_id());
+				}
+			});
 			panel_2.setLayout(null);
 			panel_2.setBackground(Color.WHITE);
 			panel_2.setBounds(37, 280, 340, 100);
@@ -191,6 +202,13 @@ public class ViewIndex extends JFrame {
 			panel_2.add(lblEndereco_2);
 
 			JPanel panel_3 = new JPanel();
+			panel_3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					ControllerUsuario cu = new ControllerUsuario();
+					cu.carregarRestaurante(carregarRazaoSocial(2), usuario.getUsuario_id());
+				}
+			});
 			panel_3.setLayout(null);
 			panel_3.setBackground(Color.WHITE);
 			panel_3.setBounds(37, 391, 340, 100);
@@ -221,6 +239,13 @@ public class ViewIndex extends JFrame {
 			panel_3.add(lblEndereco_3);
 
 			JPanel panel_4 = new JPanel();
+			panel_4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					ControllerUsuario cu = new ControllerUsuario();
+					cu.carregarRestaurante(carregarRazaoSocial(3), usuario.getUsuario_id());
+				}
+			});
 			panel_4.setLayout(null);
 			panel_4.setBackground(Color.WHITE);
 			panel_4.setBounds(37, 502, 340, 100);
@@ -355,7 +380,7 @@ public class ViewIndex extends JFrame {
 
 			if (pageCount == 1 && pages == 1) {
 				lblNext.setVisible(false);
-			}else {
+			} else {
 				lblNext.setVisible(true);
 			}
 

@@ -160,7 +160,7 @@ public class ViewLogin extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ControllerUsuario cu = new ControllerUsuario();
-				cu.carregarCadastroUsuario();
+				cu.carregarSwitch();
 				dispose();
 			}
 		});

@@ -1,11 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 
 import model.ModelRestaurante;
 
@@ -50,6 +50,44 @@ public class DaoRestaurante {
 
 		try {
 			stm = con.prepareStatement("SELECT * FROM tbl_restaurante WHERE restaurante_id = " + id);
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				r.setRestaurante_id(rs.getInt("restaurante_id"));
+				r.setRestaurante_cnpj(rs.getString("restaurante_cnpj"));
+				r.setRestaurante_razaosocial(rs.getString("restaurante_razaoSocial"));
+				r.setRestaurante_email(rs.getString("restaurante_email"));
+				r.setRestaurante_telefone(rs.getString("restaurante_telefone"));
+				r.setRestaurante_celular(rs.getString("restaurante_celular"));
+				r.setRestaurante_uf(rs.getString("restaurante_uf"));
+				r.setRestaurante_cidade(rs.getString("restaurante_cidade"));
+				r.setRestaurante_cep(rs.getString("restaurante_cep"));
+				r.setRestaurante_bairro(rs.getString("restaurante_bairro"));
+				r.setRestaurante_endereco(rs.getString("restaurante_endereco"));
+				r.setRestaurante_logradouro(rs.getString("restaurante_logradouro"));
+				r.setRestaurante_complemento(rs.getString("restaurante_complemento"));
+				r.setRestaurante_thumbnail(rs.getString("restaurante_thumbnail"));
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return r;
+	}
+
+	public ModelRestaurante selecionarRestauranteRazaoSocial(String razaoSocial) {
+
+		Connection con = ConnectionFactory.getConnection();
+		ModelRestaurante r = new ModelRestaurante();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_restaurante WHERE restaurante_razaoSocial = '" + razaoSocial + "'");
 			rs = stm.executeQuery();
 
 			while (rs.next()) {

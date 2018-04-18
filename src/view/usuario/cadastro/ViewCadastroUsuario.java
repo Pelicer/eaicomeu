@@ -43,6 +43,8 @@ public class ViewCadastroUsuario extends JFrame {
 	private JTextField txtLogradouro;
 	private JTextField txtComplemento;
 
+	String tipo = "";
+
 	class JTextFieldLimit extends PlainDocument {
 
 		private static final long serialVersionUID = 1L;
@@ -50,11 +52,6 @@ public class ViewCadastroUsuario extends JFrame {
 		private int limit;
 
 		JTextFieldLimit(int limit) {
-			super();
-			this.limit = limit;
-		}
-
-		JTextFieldLimit(int limit, boolean upper) {
 			super();
 			this.limit = limit;
 		}
@@ -69,7 +66,10 @@ public class ViewCadastroUsuario extends JFrame {
 		}
 	}
 
-	public ViewCadastroUsuario() {
+	public ViewCadastroUsuario(String tipoUsuario) {
+
+		tipo = tipoUsuario;
+
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (16x16).png")));
@@ -82,7 +82,11 @@ public class ViewCadastroUsuario extends JFrame {
 		try {
 			campoCelular = new MaskFormatter("(##)#####-####");
 			campoCelular.setPlaceholderCharacter('_');
-			campoCpf = new MaskFormatter("###.###.###-##");
+			if (tipo == "restaurante") {
+				campoCpf = new MaskFormatter("##.###.###/####-##");
+			} else {
+				campoCpf = new MaskFormatter("###.###.###-##");
+			}
 			campoCpf.setPlaceholderCharacter('_');
 			campoCep = new MaskFormatter("##.###-###");
 			campoCep.setPlaceholderCharacter('_');
@@ -99,15 +103,21 @@ public class ViewCadastroUsuario extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblPessoais = new JLabel("PESSOAIS");
-		lblPessoais.setBounds(32, 27, 100, 14);
+		lblPessoais.setBounds(32, 27, 340, 14);
 		lblPessoais.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		lblPessoais.setForeground(Color.WHITE);
 		contentPane.add(lblPessoais);
+		if (tipo == "restaurante") {
+			lblPessoais.setText("SOBRE O ESTABELECIMENTO");
+		}
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setForeground(Color.WHITE);
 		lblNome.setBounds(32, 63, 340, 14);
 		contentPane.add(lblNome);
+		if (tipo == "restaurante") {
+			lblNome.setText("Razão Social:");
+		}
 
 		txtNome = new JTextField();
 		txtNome.setForeground(Color.DARK_GRAY);
@@ -132,9 +142,10 @@ public class ViewCadastroUsuario extends JFrame {
 		lblCpf.setForeground(Color.WHITE);
 		lblCpf.setBounds(32, 195, 340, 14);
 		contentPane.add(lblCpf);
-
+		if (tipo == "restaurante") {
+			lblCpf.setText("CNPJ:");
+		}
 		txtCpf = new JFormattedTextField(campoCpf);
-		txtCpf.setText("CPF (APENAS N\u00DAMEROS)");
 		txtCpf.setForeground(Color.DARK_GRAY);
 		txtCpf.setColumns(10);
 		txtCpf.setBounds(32, 220, 340, 30);
@@ -232,7 +243,6 @@ public class ViewCadastroUsuario extends JFrame {
 		contentPane.add(txtBairro);
 		txtBairro.setDocument(new JTextFieldLimit(60));
 
-
 		JLabel lblEndereco = new JLabel("Endere\u00E7o:");
 		lblEndereco.setForeground(Color.WHITE);
 		lblEndereco.setBounds(32, 518, 340, 14);
@@ -244,7 +254,6 @@ public class ViewCadastroUsuario extends JFrame {
 		txtEndereco.setBounds(32, 543, 340, 30);
 		contentPane.add(txtEndereco);
 		txtEndereco.setDocument(new JTextFieldLimit(60));
-
 
 		JLabel lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.WHITE);
@@ -325,5 +334,20 @@ public class ViewCadastroUsuario extends JFrame {
 		separator_1.setBackground(new Color(51, 51, 51));
 		separator_1.setBounds(32, 50, 340, 2);
 		contentPane.add(separator_1);
+
+		JButton btnVoltar = new JButton("VOLTAR");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarLogin();
+				dispose();
+			}
+		});
+		btnVoltar.setOpaque(true);
+		btnVoltar.setForeground(Color.WHITE);
+		btnVoltar.setContentAreaFilled(false);
+		btnVoltar.setBorderPainted(true);
+		btnVoltar.setBounds(212, 662, 160, 23);
+		contentPane.add(btnVoltar);
 	}
 }

@@ -48,11 +48,6 @@ public class ViewCadastroLogin extends JFrame {
 			this.limit = limit;
 		}
 
-		JTextFieldLimit(int limit, boolean upper) {
-			super();
-			this.limit = limit;
-		}
-
 		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
 			if (str == null)
 				return;

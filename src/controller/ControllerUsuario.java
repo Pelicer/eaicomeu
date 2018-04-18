@@ -2,12 +2,18 @@ package controller;
 
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
+
+import dao.DaoRestaurante;
 import dao.DaoUsuario;
+import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.ViewReenvio;
 import view.usuario.ViewIndex;
 import view.usuario.ViewPerfil;
+import view.usuario.cadastro.Switch;
 import view.usuario.cadastro.ViewCadastroUsuario;
+import view.usuario.pedido.ViewRestaurante;
 
 public class ControllerUsuario {
 
@@ -32,11 +38,45 @@ public class ControllerUsuario {
 		});
 	}
 
-	public void carregarCadastroUsuario() {
+	public void carregarRestaurante(String razaoSocial, int id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewCadastroUsuario frame = new ViewCadastroUsuario();
+					// Passa o restaurante como parâmetro para a página do restaurante
+					ModelRestaurante r = new ModelRestaurante();
+					DaoRestaurante resDao = new DaoRestaurante();
+					r = resDao.selecionarRestauranteRazaoSocial(razaoSocial);
+
+					// Passa o usuário como parâmetro para a página do restaurante
+					ModelUsuario u = new ModelUsuario();
+					DaoUsuario userDAO = new DaoUsuario();
+					u = userDAO.selecionarUsuarioID(id);
+
+					ViewRestaurante frame = new ViewRestaurante(r, u);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void carregarSwitch() {
+		try {
+			Switch dialog = new Switch();
+			dialog.setLocationRelativeTo(null);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void carregarCadastroUsuario(String tipoUsuario) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ViewCadastroUsuario frame = new ViewCadastroUsuario(tipoUsuario);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -84,6 +124,13 @@ public class ControllerUsuario {
 		DaoUsuario dao = new DaoUsuario();
 		ModelUsuario u = new ModelUsuario();
 		u = dao.selecionarUsuarioCPF(cpf);
+		return u;
+	}
+
+	public ModelUsuario selecionarUsuarioID(int id) {
+		DaoUsuario dao = new DaoUsuario();
+		ModelUsuario u = new ModelUsuario();
+		u = dao.selecionarUsuarioID(id);
 		return u;
 	}
 

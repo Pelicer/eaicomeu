@@ -16,7 +16,7 @@ public class ViewIndexRes extends JFrame {
 
 	public ViewIndexRes(ModelRestaurante r) {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndexRes.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndexRes.class.getResource("/img/logo/logo (64x64).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

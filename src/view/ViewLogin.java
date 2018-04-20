@@ -36,7 +36,7 @@ public class ViewLogin extends JFrame {
 	private JLabel lblCadastrese;
 
 	public ViewLogin() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewLogin.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewLogin.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Login");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,8 +86,14 @@ public class ViewLogin extends JFrame {
 					// Login de usuário.
 					if (logged) {
 
+						boolean email = false;
+
+						if (l.getLogin_nome().indexOf('@') >= 0) {
+							email = true;
+						}
+
 						ModelLogin ver = new ModelLogin();
-						ver = cl.selecionarLoginCRED(l);
+						ver = cl.selecionarLoginCRED(l, email);
 
 						int usuarioID = ver.getUsuario_id();
 						int restauranteID = ver.getRestaurante_id();

@@ -35,7 +35,7 @@ public class ViewReenvio extends JFrame {
 				cl.carregarLogin();
 			}
 		});
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewReenvio.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewReenvio.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Recupera\u00E7\u00E3o de Senha");
 		setResizable(false);
 		setBounds(100, 100, 420, 750);

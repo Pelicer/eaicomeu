@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import controller.ControllerUsuario;
@@ -32,7 +33,7 @@ public class ViewRestaurante extends JFrame {
 
 		setTitle("Restaurante");
 		setIconImage(
-				Toolkit.getDefaultToolkit().getImage(ViewRestaurante.class.getResource("/img/logo/logo (16x16).png")));
+				Toolkit.getDefaultToolkit().getImage(ViewRestaurante.class.getResource("/img/logo/logo (64x64).png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 420, 750);
@@ -115,9 +116,13 @@ public class ViewRestaurante extends JFrame {
 		separator.setBounds(159, 181, 232, 2);
 		contentPane.add(separator);
 
-		JLabel lblEndereco = new JLabel(
+		JTextArea txtEndereco = new JTextArea();
+		txtEndereco.setLineWrap(true);
+		txtEndereco.setRows(2);
+		txtEndereco.setWrapStyleWord(true);
+		txtEndereco.setBounds(159, 194, 232, 61);
+		contentPane.add(txtEndereco);
+		txtEndereco.setText(
 				r.getRestaurante_bairro() + " - " + r.getRestaurante_endereco() + ", " + r.getRestaurante_logradouro());
-		lblEndereco.setBounds(159, 194, 232, 14);
-		contentPane.add(lblEndereco);
 	}
 }

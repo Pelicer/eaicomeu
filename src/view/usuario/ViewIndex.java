@@ -38,10 +38,8 @@ public class ViewIndex extends JFrame {
 
 	public ViewIndex(ModelUsuario u) {
 
-		System.out.println(r.size());
 		setResizable(false);
-
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("E a\u00ED, Comeu?");
 		usuario = u;
 

@@ -77,8 +77,8 @@ public class DaoLogin {
 				stm.setString(1, l.getLogin_nome());
 				stm.setString(2, l.getLogin_senha());
 				stm.setString(3, l.getLogin_email());
-				stm.setInt(3, l.getUsuario_id());
-				stm.setString(4, null);
+				stm.setInt(4, l.getUsuario_id());
+				stm.setString(5, null);
 				stm.executeUpdate();
 
 			} else {
@@ -87,8 +87,8 @@ public class DaoLogin {
 				stm.setString(1, l.getLogin_nome());
 				stm.setString(2, l.getLogin_senha());
 				stm.setString(3, l.getLogin_email());
-				stm.setString(3, null);
-				stm.setInt(4, l.getRestaurante_id());
+				stm.setString(4, null);
+				stm.setInt(5, l.getRestaurante_id());
 				stm.executeUpdate();
 			}
 
@@ -131,7 +131,7 @@ public class DaoLogin {
 		return l;
 	}
 
-	public ModelLogin selecionarLoginCRED(ModelLogin l) {
+	public ModelLogin selecionarLoginCRED(ModelLogin l, boolean email) {
 
 		Connection con = ConnectionFactory.getConnection();
 		ResultSet rs = null;
@@ -139,18 +139,33 @@ public class DaoLogin {
 		ModelLogin login = new ModelLogin();
 
 		try {
-			stm = con.prepareStatement(
-					"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
-			stm.setString(1, l.getLogin_nome());
-			stm.setString(2, l.getLogin_senha());
-			rs = stm.executeQuery();
+			if(!email) {
+				stm = con.prepareStatement(
+						"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
+				stm.setString(1, l.getLogin_nome());
+				stm.setString(2, l.getLogin_senha());
+				rs = stm.executeQuery();
 
-			while (rs.next()) {
-				login.setUsuario_id(rs.getInt("usuario_id"));
-				login.setRestaurante_id(rs.getInt("restaurante_id"));
+				while (rs.next()) {
+					login.setUsuario_id(rs.getInt("usuario_id"));
+					login.setRestaurante_id(rs.getInt("restaurante_id"));
+				}
+
+				ConnectionFactory.closeConnection(con, stm);
+			}else {
+				stm = con.prepareStatement(
+						"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_email = ? and login_senha = ?");
+				stm.setString(1, l.getLogin_email());
+				stm.setString(2, l.getLogin_senha());
+				rs = stm.executeQuery();
+
+				while (rs.next()) {
+					login.setUsuario_id(rs.getInt("usuario_id"));
+					login.setRestaurante_id(rs.getInt("restaurante_id"));
+				}
+
+				ConnectionFactory.closeConnection(con, stm);
 			}
-
-			ConnectionFactory.closeConnection(con, stm);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -72,7 +72,7 @@ public class ViewCadastroUsuario extends JFrame {
 
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (16x16).png")));
+				.getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 
 		// Máscara de Campo.
@@ -298,7 +298,7 @@ public class ViewCadastroUsuario extends JFrame {
 				u.setUsuario_uf(txtUF.getText());
 				u.setUsuario_celular(txtCelular.getText());
 
-				if (!cu.verificarObrigatorios(u).equals("")) {
+				if (cu.verificarObrigatorios(u).equals("")) {
 
 					cu.cadastrarUsuario(u);
 

@@ -52,22 +52,17 @@ public class ControllerLogin {
 		dao.cadastrarLogin(l, false);
 	}
 
-	public ModelLogin selecionarLoginCRED(ModelLogin l) {
+	public ModelLogin selecionarLoginCRED(ModelLogin l, boolean email) {
 		DaoLogin dao = new DaoLogin();
-		dao.selecionarLoginCRED(l);
 		ModelLogin login = new ModelLogin();
-		login = dao.selecionarLoginCRED(l);
+		login = dao.selecionarLoginCRED(l, email);
 		return login;
 	}
 
 	public boolean logar(ModelLogin l) {
 		DaoLogin dao = new DaoLogin();
 		boolean connected = false;
-		if (!dao.logarUsuario(l)) {
-			connected = dao.logarEmail(l);
-		} else {
-			connected = dao.logarUsuario(l);
-		}
+		connected = dao.logarUsuario(l);
 		return connected;
 	}
 

@@ -11,7 +11,7 @@ import model.ModelUsuario;
 import view.ViewReenvio;
 import view.usuario.ViewIndex;
 import view.usuario.ViewPerfil;
-import view.usuario.cadastro.Switch;
+import view.usuario.cadastro.ViewCadastroSwitch;
 import view.usuario.cadastro.ViewCadastroUsuario;
 import view.usuario.pedido.ViewRestaurante;
 
@@ -53,6 +53,7 @@ public class ControllerUsuario {
 					u = userDAO.selecionarUsuarioID(id);
 
 					ViewRestaurante frame = new ViewRestaurante(r, u);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +64,7 @@ public class ControllerUsuario {
 
 	public void carregarSwitch() {
 		try {
-			Switch dialog = new Switch();
+			ViewCadastroSwitch dialog = new ViewCadastroSwitch();
 			dialog.setLocationRelativeTo(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

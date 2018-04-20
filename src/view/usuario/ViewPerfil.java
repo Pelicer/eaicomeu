@@ -80,7 +80,7 @@ public class ViewPerfil extends JFrame {
 
 	public ViewPerfil(ModelUsuario u) {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewPerfil.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewPerfil.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Perfil");
 
 		// Máscara de Campo.
@@ -131,11 +131,11 @@ public class ViewPerfil extends JFrame {
 
 		txtNome = new JTextField();
 		txtNome.setForeground(Color.DARK_GRAY);
-		txtNome.setText(u.getUsuario_nome());
 		txtNome.setBounds(39, 207, 330, 30);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setDocument(new JTextFieldLimit(30));
+		txtNome.setText(u.getUsuario_nome());
 
 		lblEmail = new JLabel("E-Mail:");
 		lblEmail.setForeground(Color.WHITE);
@@ -144,11 +144,11 @@ public class ViewPerfil extends JFrame {
 
 		txtEmail = new JTextField();
 		txtEmail.setForeground(Color.DARK_GRAY);
-		txtEmail.setText(u.getUsuario_email());
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(39, 275, 330, 30);
 		contentPane.add(txtEmail);
 		txtEmail.setDocument(new JTextFieldLimit(30));
+		txtEmail.setText(u.getUsuario_email());
 
 		lblCpf = new JLabel("CPF:");
 		lblCpf.setForeground(Color.WHITE);
@@ -157,10 +157,10 @@ public class ViewPerfil extends JFrame {
 
 		txtCpf = new JFormattedTextField(campoCpf);
 		txtCpf.setForeground(Color.DARK_GRAY);
-		txtCpf.setText(u.getUsuario_cpf());
 		txtCpf.setColumns(10);
 		txtCpf.setBounds(39, 341, 160, 30);
 		contentPane.add(txtCpf);
+		txtCpf.setText(u.getUsuario_cpf());
 
 		lblCelular = new JLabel("Celular:");
 		lblCelular.setForeground(Color.WHITE);
@@ -169,25 +169,25 @@ public class ViewPerfil extends JFrame {
 
 		txtCelular = new JFormattedTextField(campoCelular);
 		txtCelular.setForeground(Color.DARK_GRAY);
-		txtCelular.setText(u.getUsuario_celular());
 		txtCelular.setColumns(10);
 		txtCelular.setBounds(209, 341, 160, 30);
 		contentPane.add(txtCelular);
+		txtCelular.setText(u.getUsuario_celular());
 
 		txtCep = new JFormattedTextField(campoCep);
 		txtCep.setForeground(Color.DARK_GRAY);
-		txtCep.setText(u.getUsuario_cep());
 		txtCep.setColumns(10);
 		txtCep.setBounds(39, 445, 160, 30);
 		contentPane.add(txtCep);
+		txtCep.setText(u.getUsuario_cep());
 
 		txtCidade = new JTextField();
 		txtCidade.setForeground(Color.DARK_GRAY);
-		txtCidade.setText(u.getUsuario_cidade());
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(209, 445, 160, 30);
 		contentPane.add(txtCidade);
 		txtCidade.setDocument(new JTextFieldLimit(60));
+		txtCidade.setText(u.getUsuario_cidade());
 
 		lblEndereoDeEntrega = new JLabel("ENDERE\u00C7O DE ENTREGA");
 		lblEndereoDeEntrega.setForeground(Color.WHITE);
@@ -208,11 +208,11 @@ public class ViewPerfil extends JFrame {
 
 		txtBairro = new JTextField();
 		txtBairro.setForeground(Color.DARK_GRAY);
-		txtBairro.setText(u.getUsuario_bairro());
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(39, 511, 160, 30);
 		contentPane.add(txtBairro);
 		txtBairro.setDocument(new JTextFieldLimit(60));
+		txtBairro.setText(u.getUsuario_bairro());
 
 		lblEndereco = new JLabel("Endere\u00E7o:");
 		lblEndereco.setForeground(Color.WHITE);
@@ -221,11 +221,11 @@ public class ViewPerfil extends JFrame {
 
 		txtEndereco = new JTextField();
 		txtEndereco.setForeground(Color.DARK_GRAY);
-		txtEndereco.setText(u.getUsuario_endereco());
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(209, 511, 160, 30);
 		contentPane.add(txtEndereco);
 		txtEndereco.setDocument(new JTextFieldLimit(60));
+		txtEndereco.setText(u.getUsuario_endereco());
 
 		lblLogradouro = new JLabel("Logradouro:");
 		lblLogradouro.setForeground(Color.WHITE);
@@ -234,11 +234,11 @@ public class ViewPerfil extends JFrame {
 
 		txtLogradouro = new JTextField();
 		txtLogradouro.setForeground(Color.DARK_GRAY);
-		txtLogradouro.setText(u.getUsuario_logradouro());
 		txtLogradouro.setColumns(10);
 		txtLogradouro.setBounds(39, 577, 75, 30);
 		contentPane.add(txtLogradouro);
 		txtLogradouro.setDocument(new JTextFieldLimit(10));
+		txtLogradouro.setText(u.getUsuario_logradouro());
 
 		lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.WHITE);
@@ -247,11 +247,11 @@ public class ViewPerfil extends JFrame {
 
 		txtComplemento = new JTextField();
 		txtComplemento.setForeground(Color.DARK_GRAY);
-		txtComplemento.setText(u.getUsuario_complemento());
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(209, 577, 160, 30);
 		contentPane.add(txtComplemento);
 		txtComplemento.setDocument(new JTextFieldLimit(60));
+		txtComplemento.setText(u.getUsuario_complemento());
 
 		lblUf = new JLabel("UF:");
 		lblUf.setForeground(Color.WHITE);
@@ -260,11 +260,11 @@ public class ViewPerfil extends JFrame {
 
 		txtUf = new JTextField();
 		txtUf.setForeground(Color.DARK_GRAY);
-		txtUf.setText(u.getUsuario_uf());
 		txtUf.setColumns(10);
 		txtUf.setBounds(124, 577, 75, 30);
 		contentPane.add(txtUf);
 		txtUf.setDocument(new JTextFieldLimit(2));
+		txtUf.setText(u.getUsuario_uf());
 
 		btnAtualizar = new JButton("ATUALIZAR");
 		btnAtualizar.addActionListener(new ActionListener() {
@@ -286,7 +286,7 @@ public class ViewPerfil extends JFrame {
 				attU.setUsuario_nome(txtNome.getText());
 				attU.setUsuario_uf(txtUf.getText());
 
-				if (!cu.verificarObrigatorios(attU).equals("")) {
+				if (cu.verificarObrigatorios(attU).equals("")) {
 					cu.atualizarUsuario(attU);
 
 					JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso.", "Atualizado!",

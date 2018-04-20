@@ -60,8 +60,7 @@ public class ViewCadastroLogin extends JFrame {
 
 	public ViewCadastroLogin(ModelUsuario u) {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (16x16).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 		setBounds(100, 100, 420, 750);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -175,7 +174,7 @@ public class ViewCadastroLogin extends JFrame {
 				l.setLogin_senha(senha);
 				l.setLogin_email(nu.getUsuario_email());
 
-				if (!cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()).equals("")) {
+				if (cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()).equals("")) {
 					l.setUsuario_id(nu.getUsuario_id());
 
 					cl.cadastrarLoginUsuario(l);

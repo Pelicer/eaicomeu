@@ -2,10 +2,15 @@ package view.usuario.pedido;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +23,9 @@ import javax.swing.border.EmptyBorder;
 import controller.ControllerUsuario;
 import model.ModelRestaurante;
 import model.ModelUsuario;
-import view.usuario.cadastro.ViewCadastroLogin;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class ViewRestaurante extends JFrame {
@@ -100,29 +107,50 @@ public class ViewRestaurante extends JFrame {
 		btnCarrinho.setBounds(316, 18, 64, 64);
 		panel.add(btnCarrinho);
 
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(0, 99, 414, 118);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource(restaurante.getRestaurante_thumbnail())));
-		label.setBounds(21, 127, 128, 128);
-		contentPane.add(label);
+		label.setBackground(Color.DARK_GRAY);
+		label.setBounds(21, 20, 78, 78);
+		panel_1.add(label);
+		label.setIcon(new ImageIcon(ViewRestaurante.class.getResource(restaurante.getRestaurante_thumbnail())));
 
 		JLabel lblRestaunte = new JLabel(restaurante.getRestaurante_razaosocial());
+		lblRestaunte.setForeground(Color.BLACK);
+		lblRestaunte.setBounds(124, 11, 232, 25);
+		panel_1.add(lblRestaunte);
 		lblRestaunte.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-		lblRestaunte.setBounds(159, 145, 232, 25);
-		contentPane.add(lblRestaunte);
 
 		JSeparator separator = new JSeparator();
+		separator.setBounds(124, 33, 232, 2);
+		panel_1.add(separator);
 		separator.setForeground(Color.ORANGE);
 		separator.setBackground(new Color(51, 51, 51));
-		separator.setBounds(159, 181, 232, 2);
-		contentPane.add(separator);
 
 		JTextArea txtEndereco = new JTextArea();
+		txtEndereco.setEditable(false);
+		txtEndereco.setBackground(new Color(255, 255, 255));
+		txtEndereco.setBounds(124, 47, 232, 54);
+		panel_1.add(txtEndereco);
 		txtEndereco.setLineWrap(true);
 		txtEndereco.setRows(2);
 		txtEndereco.setWrapStyleWord(true);
-		txtEndereco.setBounds(159, 194, 232, 61);
-		contentPane.add(txtEndereco);
 		txtEndereco.setText(
 				r.getRestaurante_bairro() + " - " + r.getRestaurante_endereco() + ", " + r.getRestaurante_logradouro());
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 217, 414, 505);
+		contentPane.add(scrollPane);
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(ViewRestaurante.class.getResource("/img/pattern.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

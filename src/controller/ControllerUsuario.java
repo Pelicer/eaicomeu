@@ -11,7 +11,7 @@ import model.ModelUsuario;
 import view.ViewReenvio;
 import view.usuario.ViewIndex;
 import view.usuario.ViewPerfil;
-import view.usuario.cadastro.ViewCadastroSwitch;
+import view.usuario.cadastro.Switch;
 import view.usuario.cadastro.ViewCadastroUsuario;
 import view.usuario.pedido.ViewRestaurante;
 
@@ -64,7 +64,7 @@ public class ControllerUsuario {
 
 	public void carregarSwitch() {
 		try {
-			ViewCadastroSwitch dialog = new ViewCadastroSwitch();
+			Switch dialog = new Switch();
 			dialog.setLocationRelativeTo(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

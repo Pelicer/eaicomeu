@@ -312,7 +312,6 @@ public class ViewPerfil extends JFrame {
 				ControllerUsuario cu = new ControllerUsuario();
 				cu.carregarIndex(u.getUsuario_id());
 				dispose();
-
 			}
 		});
 

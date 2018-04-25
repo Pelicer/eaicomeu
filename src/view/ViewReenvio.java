@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -60,6 +62,23 @@ public class ViewReenvio extends JFrame {
 		contentPane.add(lblInsiraSeuEmail);
 
 		txtEmail = new JTextField();
+		txtEmail.addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == e.VK_ENTER) {
+					boolean recuperado = false;
+					ControllerUsuario cu = new ControllerUsuario();
+					recuperado = cu.recuperarSenha(txtEmail.getText());
+
+					if (recuperado) {
+						JOptionPane.showMessageDialog(null,
+								"Um e-mail com as informações sobre a recuperação da conta foi enviado à você.",
+								"E-Mail enviado", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		});
 		txtEmail.setBounds(39, 295, 331, 30);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);

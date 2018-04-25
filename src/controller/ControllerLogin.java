@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import dao.DaoLogin;
 import model.ModelLogin;
-import model.ModelUsuario;
 import view.ViewLogin;
 import view.usuario.cadastro.ViewCadastroLogin;
 
@@ -26,11 +25,11 @@ public class ControllerLogin {
 		});
 	}
 
-	public void carregarCadastroLogin(ModelUsuario u) {
+	public void carregarCadastroLogin(String tipo, int id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewCadastroLogin frame = new ViewCadastroLogin(u);
+					ViewCadastroLogin frame = new ViewCadastroLogin(tipo, id);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					// frame.setUndecorated(false);

@@ -226,7 +226,7 @@ public class DaoUsuario {
 					ModelLogin l = new ModelLogin();
 					DaoRestaurante daor = new DaoRestaurante();
 
-					r = daor.selecionarRestaurante(id);
+					r = daor.selecionarRestauranteID(id);
 
 					l.setLogin_nome(rs.getString("login_nome"));
 					l.setLogin_senha(rs.getString("login_senha"));

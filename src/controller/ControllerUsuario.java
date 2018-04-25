@@ -9,7 +9,9 @@ import dao.DaoUsuario;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.ViewReenvio;
+import view.usuario.ViewCarrinho;
 import view.usuario.ViewIndex;
+import view.usuario.ViewPedido;
 import view.usuario.ViewPerfil;
 import view.usuario.cadastro.ViewCadastroSwitch;
 import view.usuario.cadastro.ViewCadastroUsuario;
@@ -17,6 +19,10 @@ import view.usuario.pedido.ViewRestaurante;
 
 public class ControllerUsuario {
 
+	DaoUsuario dao = new DaoUsuario();
+	ModelUsuario u = new ModelUsuario();
+
+	// Métodos de carregamento.
 	public void carregarIndex(int id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -116,32 +122,54 @@ public class ControllerUsuario {
 
 	}
 
+	public void carregarPedidos(ModelUsuario u) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ViewPedido frame = new ViewPedido(u);
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void carregarCarrinho(ModelUsuario u) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ViewCarrinho frame = new ViewCarrinho(u);
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	public void cadastrarUsuario(ModelUsuario u) {
-		DaoUsuario dao = new DaoUsuario();
 		dao.cadastrarUsuario(u);
 	}
 
+	// Métodos de usuário.
 	public ModelUsuario selecionarUsuarioCPF(String cpf) {
-		DaoUsuario dao = new DaoUsuario();
-		ModelUsuario u = new ModelUsuario();
 		u = dao.selecionarUsuarioCPF(cpf);
 		return u;
 	}
 
 	public ModelUsuario selecionarUsuarioID(int id) {
-		DaoUsuario dao = new DaoUsuario();
-		ModelUsuario u = new ModelUsuario();
 		u = dao.selecionarUsuarioID(id);
 		return u;
 	}
 
 	public void atualizarUsuario(ModelUsuario u) {
-		DaoUsuario dao = new DaoUsuario();
 		dao.atualizarUsuario(u);
 	}
 
 	public boolean recuperarSenha(String email) {
-		DaoUsuario dao = new DaoUsuario();
 		return dao.recuperarSenha(email);
 	}
 

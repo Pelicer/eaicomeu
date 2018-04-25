@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -61,6 +63,71 @@ public class ViewLogin extends JFrame {
 		txtUsuario.setColumns(10);
 
 		pswSenha = new JPasswordField();
+		pswSenha.addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == e.VK_ENTER) {
+
+					ModelLogin l = new ModelLogin();
+					ControllerLogin cl = new ControllerLogin();
+
+					String nome = txtUsuario.getText();
+					String senha = new String(pswSenha.getPassword());
+
+					l.setLogin_nome(nome);
+					l.setLogin_email(nome);
+					l.setLogin_senha(senha);
+
+					if (l.getLogin_nome() != "" || l.getLogin_senha() != "") {
+
+						boolean logged = cl.logar(l);
+
+						// Login de usuário.
+						if (logged) {
+
+							boolean email = false;
+
+							if (l.getLogin_nome().indexOf('@') >= 0) {
+								email = true;
+							}
+
+							ModelLogin ver = new ModelLogin();
+							ver = cl.selecionarLoginCRED(l, email);
+
+							int usuarioID = ver.getUsuario_id();
+							int restauranteID = ver.getRestaurante_id();
+
+							if (ver.getUsuario_id() != 0) {
+
+								// Mainpage do usuário
+								ControllerUsuario cu = new ControllerUsuario();
+								cu.carregarIndex(usuarioID);
+								dispose();
+
+							} else {
+								// Mainpage do restaurante
+								ControllerRestaurante cr = new ControllerRestaurante();
+								cr.carregarIndex(restauranteID);
+								dispose();
+							}
+						}
+
+						else {
+							JOptionPane.showMessageDialog(null, "Credenciais incorretas. Por favor, verifique.",
+									"Verificação", JOptionPane.ERROR_MESSAGE);
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "Os campos de credenciais não podem ser vazios!",
+								"Verificação", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+
+			}
+
+		});
 		pswSenha.setForeground(Color.DARK_GRAY);
 		pswSenha.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		pswSenha.setBounds(65, 354, 280, 34);

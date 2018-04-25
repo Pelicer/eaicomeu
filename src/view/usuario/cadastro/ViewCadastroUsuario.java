@@ -23,14 +23,19 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.text.PlainDocument;
 
 import controller.ControllerCEP;
+import controller.ControllerEntregador;
 import controller.ControllerLogin;
+import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
+import model.ModelEntregador;
+import model.ModelRestaurante;
 import model.ModelUsuario;
 
 public class ViewCadastroUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField txtTelefone;
 	private JTextField txtNome;
 	private JTextField txtEmail;
 	private JTextField txtCpf;
@@ -42,6 +47,7 @@ public class ViewCadastroUsuario extends JFrame {
 	private JTextField txtEndereco;
 	private JTextField txtLogradouro;
 	private JTextField txtComplemento;
+	private JTextField txtCnh;
 
 	String tipo = "";
 
@@ -66,6 +72,126 @@ public class ViewCadastroUsuario extends JFrame {
 		}
 	}
 
+	public void cadastrarUsuario() {
+		switch (tipo) {
+		case "usuario":
+			ModelUsuario u = new ModelUsuario();
+			ControllerUsuario cu = new ControllerUsuario();
+
+			u.setUsuario_bairro(txtBairro.getText());
+			u.setUsuario_cep(txtCEP.getText());
+			u.setUsuario_cidade(txtCidade.getText());
+			u.setUsuario_complemento(txtComplemento.getText());
+			u.setUsuario_cpf(txtCpf.getText());
+			u.setUsuario_email(txtEmail.getText());
+			u.setUsuario_endereco(txtEndereco.getText());
+			u.setUsuario_logradouro(txtLogradouro.getText());
+			u.setUsuario_nome(txtNome.getText());
+			u.setUsuario_thumbnail("");
+			u.setUsuario_uf(txtUF.getText());
+			u.setUsuario_celular(txtCelular.getText());
+
+			if (cu.verificarObrigatorios(u).equals("")) {
+
+				cu.cadastrarUsuario(u);
+
+				JOptionPane.showMessageDialog(null,
+						"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
+						"Usuário cadastrado", JOptionPane.OK_OPTION);
+
+				u = cu.selecionarUsuarioCPF(u.getUsuario_cpf());
+
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarCadastroLogin(tipo, u.getUsuario_id());
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, cu.verificarObrigatorios(u), "Verifique campos obrigatórios",
+						JOptionPane.WARNING_MESSAGE);
+			}
+			break;
+		case "restaurante":
+			ModelRestaurante r = new ModelRestaurante();
+			ControllerRestaurante cr = new ControllerRestaurante();
+
+			r.setRestaurante_bairro(txtBairro.getText());
+			r.setRestaurante_cep(txtCEP.getText());
+			r.setRestaurante_cidade(txtCidade.getText());
+			r.setRestaurante_complemento(txtComplemento.getText());
+			r.setRestaurante_cnpj(txtCpf.getText());
+			r.setRestaurante_email(txtEmail.getText());
+			r.setRestaurante_endereco(txtEndereco.getText());
+			r.setRestaurante_logradouro(txtLogradouro.getText());
+			r.setRestaurante_razaosocial(txtNome.getText());
+			r.setRestaurante_thumbnail("");
+			r.setRestaurante_uf(txtUF.getText());
+			r.setRestaurante_celular(txtCelular.getText());
+			r.setRestaurante_telefone(txtTelefone.getText());
+
+			if (cr.verificarObrigatorios(r).equals("")) {
+				cr.cadastrarRestaurante(r);
+
+				JOptionPane.showMessageDialog(null,
+						"Cadastro do restaurante completado com sucesso! Agora você cadastrará suas credenciais.",
+						"Restaurante cadastrado", JOptionPane.OK_OPTION);
+
+				r = cr.selecionarRestauranteCNPJ(r.getRestaurante_cnpj());
+
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarCadastroLogin(tipo, r.getRestaurante_id());
+				dispose();
+			}
+			break;
+		case "entregador":
+			ModelUsuario ue = new ModelUsuario();
+			ModelEntregador en = new ModelEntregador();
+			ControllerUsuario cue = new ControllerUsuario();
+			ControllerEntregador ce = new ControllerEntregador();
+
+			ue.setUsuario_bairro(txtBairro.getText());
+			ue.setUsuario_cep(txtCEP.getText());
+			ue.setUsuario_cidade(txtCidade.getText());
+			ue.setUsuario_complemento(txtComplemento.getText());
+			ue.setUsuario_cpf(txtCpf.getText());
+			ue.setUsuario_email(txtEmail.getText());
+			ue.setUsuario_endereco(txtEndereco.getText());
+			ue.setUsuario_logradouro(txtLogradouro.getText());
+			ue.setUsuario_nome(txtNome.getText());
+			ue.setUsuario_thumbnail("");
+			ue.setUsuario_uf(txtUF.getText());
+			ue.setUsuario_celular(txtCelular.getText());
+
+			en.setEntregador_cnh(txtCnh.getText());
+
+			if (cue.verificarObrigatorios(ue).equals("") || txtCnh.getText() != "") {
+
+				cue.cadastrarUsuario(ue);
+				ue = cue.selecionarUsuarioCPF(ue.getUsuario_cpf());
+
+				en.setUsuario_id(ue.getUsuario_id());
+
+				ce.cadastrarEntregador(en);
+
+				JOptionPane.showMessageDialog(null,
+						"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
+						"Usuário cadastrado", JOptionPane.OK_OPTION);
+
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarCadastroLogin(tipo, ue.getUsuario_id());
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, cue.verificarObrigatorios(ue), "Verifique campos obrigatórios",
+						JOptionPane.WARNING_MESSAGE);
+			}
+			break;
+		default: {
+			JOptionPane.showMessageDialog(null,
+					"Oops. Algo deu errado, e parece que a culpa é nossa... tente novamente, por favor.", "Oops!",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		}
+		}
+	}
+
 	public ViewCadastroUsuario(String tipoUsuario) {
 
 		tipo = tipoUsuario;
@@ -73,12 +199,21 @@ public class ViewCadastroUsuario extends JFrame {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(ViewCadastroUsuario.class.getResource("/img/logo/logo (64x64).png")));
-		setTitle("Cadastro de Usu\u00E1rio");
+
+		if (tipo == "usuario") {
+			setTitle("Cadastro de Usu\u00E1rio");
+		} else if (tipo == "restaurante") {
+			setTitle("Cadastro de Restaurante");
+		} else if (tipo == "entregador") {
+			setTitle("Cadastro de Entregador");
+		}
 
 		// Máscara de Campo.
 		MaskFormatter campoCelular = null;
 		MaskFormatter campoCpf = null;
 		MaskFormatter campoCep = null;
+		MaskFormatter campoTelefone = null;
+		MaskFormatter campoCnh = null;
 		try {
 			campoCelular = new MaskFormatter("(##)#####-####");
 			campoCelular.setPlaceholderCharacter('_');
@@ -87,9 +222,13 @@ public class ViewCadastroUsuario extends JFrame {
 			} else {
 				campoCpf = new MaskFormatter("###.###.###-##");
 			}
+			campoTelefone = new MaskFormatter("(##)####-####");
+			campoTelefone.setPlaceholderCharacter('_');
 			campoCpf.setPlaceholderCharacter('_');
 			campoCep = new MaskFormatter("##.###-###");
 			campoCep.setPlaceholderCharacter('_');
+			campoCnh = new MaskFormatter("###.###.###-##");
+			campoCnh.setPlaceholderCharacter('_');
 		} catch (Exception e) {
 		}
 
@@ -140,7 +279,7 @@ public class ViewCadastroUsuario extends JFrame {
 
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setForeground(Color.WHITE);
-		lblCpf.setBounds(32, 195, 340, 14);
+		lblCpf.setBounds(32, 195, 160, 14);
 		contentPane.add(lblCpf);
 		if (tipo == "restaurante") {
 			lblCpf.setText("CNPJ:");
@@ -148,20 +287,28 @@ public class ViewCadastroUsuario extends JFrame {
 		txtCpf = new JFormattedTextField(campoCpf);
 		txtCpf.setForeground(Color.DARK_GRAY);
 		txtCpf.setColumns(10);
-		txtCpf.setBounds(32, 220, 340, 30);
+		txtCpf.setBounds(32, 220, 160, 30);
 		contentPane.add(txtCpf);
+
+		if (tipo != "entregador") {
+			txtCpf.setBounds(32, 220, 340, 30);
+		}
 
 		JLabel lblCelular = new JLabel("Celular:");
 		lblCelular.setForeground(Color.WHITE);
-		lblCelular.setBounds(32, 261, 340, 14);
+		lblCelular.setBounds(32, 261, 160, 14);
 		contentPane.add(lblCelular);
 
 		txtCelular = new JFormattedTextField(campoCelular);
-		txtCelular.setText("CELULAR");
 		txtCelular.setForeground(Color.DARK_GRAY);
 		txtCelular.setColumns(10);
-		txtCelular.setBounds(32, 286, 340, 30);
+		txtCelular.setBounds(32, 286, 160, 30);
 		contentPane.add(txtCelular);
+
+		if (tipo != "restaurante") {
+			lblCelular.setBounds(32, 261, 340, 14);
+			txtCelular.setBounds(32, 286, 340, 30);
+		}
 
 		JLabel lblEnderecoTitulo = new JLabel("ENDERE\u00C7O");
 		lblEnderecoTitulo.setForeground(Color.WHITE);
@@ -282,38 +429,7 @@ public class ViewCadastroUsuario extends JFrame {
 		JButton btnCadastrar = new JButton("CADASTRAR");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ModelUsuario u = new ModelUsuario();
-				ControllerUsuario cu = new ControllerUsuario();
-
-				u.setUsuario_bairro(txtBairro.getText());
-				u.setUsuario_cep(txtCEP.getText());
-				u.setUsuario_cidade(txtCidade.getText());
-				u.setUsuario_complemento(txtComplemento.getText());
-				u.setUsuario_cpf(txtCpf.getText());
-				u.setUsuario_email(txtEmail.getText());
-				u.setUsuario_endereco(txtEndereco.getText());
-				u.setUsuario_logradouro(txtLogradouro.getText());
-				u.setUsuario_nome(txtNome.getText());
-				u.setUsuario_thumbnail("");
-				u.setUsuario_uf(txtUF.getText());
-				u.setUsuario_celular(txtCelular.getText());
-
-				if (cu.verificarObrigatorios(u).equals("")) {
-
-					cu.cadastrarUsuario(u);
-
-					JOptionPane.showMessageDialog(null,
-							"Cadastrado de usuário completado com sucesso! Agora você cadastrará suas credenciais.",
-							"Usuário cadastrado", JOptionPane.OK_OPTION);
-
-					ControllerLogin cl = new ControllerLogin();
-					cl.carregarCadastroLogin(u);
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, cu.verificarObrigatorios(u), "Verifique campos obrigatórios",
-							JOptionPane.WARNING_MESSAGE);
-				}
-
+				cadastrarUsuario();
 			}
 		});
 		btnCadastrar.setForeground(Color.WHITE);
@@ -349,5 +465,41 @@ public class ViewCadastroUsuario extends JFrame {
 		btnVoltar.setBorderPainted(true);
 		btnVoltar.setBounds(212, 662, 160, 23);
 		contentPane.add(btnVoltar);
+
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setForeground(Color.WHITE);
+		lblTelefone.setBounds(212, 261, 160, 14);
+		contentPane.add(lblTelefone);
+		lblTelefone.setVisible(false);
+
+		txtTelefone = new JFormattedTextField(campoTelefone);
+		txtTelefone.setForeground(Color.DARK_GRAY);
+		txtTelefone.setColumns(10);
+		txtTelefone.setBounds(212, 286, 160, 30);
+		contentPane.add(txtTelefone);
+		txtTelefone.setVisible(false);
+
+		JLabel lblCnh = new JLabel("CNH:");
+		lblCnh.setForeground(Color.WHITE);
+		lblCnh.setBounds(212, 195, 160, 14);
+		contentPane.add(lblCnh);
+		lblCnh.setVisible(false);
+
+		txtCnh = new JFormattedTextField(campoCnh);
+		txtCnh.setForeground(Color.DARK_GRAY);
+		txtCnh.setColumns(10);
+		txtCnh.setBounds(212, 220, 160, 30);
+		contentPane.add(txtCnh);
+		txtCnh.setVisible(false);
+
+		if (tipo == "restaurante") {
+			txtTelefone.setVisible(true);
+			lblTelefone.setVisible(true);
+		}
+
+		if (tipo == "entregador") {
+			lblCnh.setVisible(true);
+			txtCnh.setVisible(true);
+		}
 	}
 }

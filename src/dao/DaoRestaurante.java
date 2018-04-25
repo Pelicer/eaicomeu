@@ -41,7 +41,7 @@ public class DaoRestaurante {
 		}
 	}
 
-	public ModelRestaurante selecionarRestaurante(int id) {
+	public ModelRestaurante selecionarRestauranteID(int id) {
 
 		Connection con = ConnectionFactory.getConnection();
 		ModelRestaurante r = new ModelRestaurante();
@@ -116,6 +116,43 @@ public class DaoRestaurante {
 		return r;
 	}
 
+	public ModelRestaurante selecionarRestauranteCNPJ(String cnpj) {
+
+		Connection con = ConnectionFactory.getConnection();
+		ModelRestaurante r = new ModelRestaurante();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_restaurante WHERE restaurante_cnpj = '" + cnpj + "'");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				r.setRestaurante_id(rs.getInt("restaurante_id"));
+				r.setRestaurante_cnpj(rs.getString("restaurante_cnpj"));
+				r.setRestaurante_razaosocial(rs.getString("restaurante_razaoSocial"));
+				r.setRestaurante_email(rs.getString("restaurante_email"));
+				r.setRestaurante_telefone(rs.getString("restaurante_telefone"));
+				r.setRestaurante_celular(rs.getString("restaurante_celular"));
+				r.setRestaurante_uf(rs.getString("restaurante_uf"));
+				r.setRestaurante_cidade(rs.getString("restaurante_cidade"));
+				r.setRestaurante_cep(rs.getString("restaurante_cep"));
+				r.setRestaurante_bairro(rs.getString("restaurante_bairro"));
+				r.setRestaurante_endereco(rs.getString("restaurante_endereco"));
+				r.setRestaurante_logradouro(rs.getString("restaurante_logradouro"));
+				r.setRestaurante_complemento(rs.getString("restaurante_complemento"));
+				r.setRestaurante_thumbnail(rs.getString("restaurante_thumbnail"));
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return r;
+	}
+
 	public ModelRestaurante atualizarRestaurante(ModelRestaurante r) {
 
 		Connection con = ConnectionFactory.getConnection();
@@ -141,7 +178,7 @@ public class DaoRestaurante {
 			stm.setInt(13, r.getRestaurante_id());
 			stm.executeUpdate();
 
-			nr = selecionarRestaurante(r.getRestaurante_id());
+			nr = selecionarRestauranteID(r.getRestaurante_id());
 
 			ConnectionFactory.closeConnection(con, stm);
 

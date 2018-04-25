@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -26,8 +28,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import controller.ControllerLogin;
+import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
 import model.ModelLogin;
+import model.ModelRestaurante;
 import model.ModelUsuario;
 
 public class ViewCadastroLogin extends JFrame {
@@ -36,6 +40,7 @@ public class ViewCadastroLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField pswSenha;
+	private JPasswordField pswConfirmar;
 
 	class JTextFieldLimit extends PlainDocument {
 
@@ -58,9 +63,125 @@ public class ViewCadastroLogin extends JFrame {
 		}
 	}
 
-	public ViewCadastroLogin(ModelUsuario u) {
+	public void cadastrarLogin(String tipo, int id) {
+
+		String senha = new String(pswSenha.getPassword());
+		String confirmar = new String(pswConfirmar.getPassword());
+
+		if (!senha.toString().equals(confirmar)) {
+			JOptionPane.showMessageDialog(null, "As senhas não conferem!", "Campo inválido",
+					JOptionPane.WARNING_MESSAGE);
+			pswConfirmar.grabFocus();
+
+		} else {
+			switch (tipo) {
+			case "usuario":
+				ModelLogin lu = new ModelLogin();
+				ModelUsuario nu = new ModelUsuario();
+
+				ControllerLogin clu = new ControllerLogin();
+				ControllerUsuario cu = new ControllerUsuario();
+
+				System.out.println(id);
+				nu = cu.selecionarUsuarioID(id);
+
+				String senhau = new String(pswSenha.getPassword());
+				lu.setLogin_nome(txtUsuario.getText());
+				lu.setLogin_senha(senhau);
+				lu.setLogin_email(nu.getUsuario_email());
+
+				if (clu.verificarCredenciais(lu.getLogin_nome(), lu.getLogin_email()).equals("")) {
+					lu.setUsuario_id(nu.getUsuario_id());
+
+					clu.cadastrarLoginUsuario(lu);
+
+					JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
+							"Cadastro realizado!", JOptionPane.OK_OPTION);
+
+					clu.carregarLogin();
+					dispose();
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							clu.verificarCredenciais(lu.getLogin_nome(), lu.getLogin_email()),
+							"Nome de usuário ou email em uso", JOptionPane.WARNING_MESSAGE);
+				}
+				break;
+			case "restaurante":
+				ModelLogin lr = new ModelLogin();
+				ModelRestaurante nr = new ModelRestaurante();
+
+				ControllerLogin clr = new ControllerLogin();
+				ControllerRestaurante cr = new ControllerRestaurante();
+
+				System.out.println(id);
+
+				nr = cr.selecionarRestauranteID(id);
+
+				String senhar = new String(pswSenha.getPassword());
+				lr.setLogin_nome(txtUsuario.getText());
+				lr.setLogin_senha(senhar);
+				lr.setLogin_email(nr.getRestaurante_email());
+
+				if (clr.verificarCredenciais(lr.getLogin_nome(), lr.getLogin_email()).equals("")) {
+					lr.setRestaurante_id(nr.getRestaurante_id());
+
+					clr.cadastrarLoginRestaurante(lr);
+
+					JOptionPane.showMessageDialog(null,
+							"Tudo pronto! O cadastro do seu restaurante está pronto para ser usado.",
+							"Cadastro realizado!", JOptionPane.OK_OPTION);
+
+					clr.carregarLogin();
+					dispose();
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							clr.verificarCredenciais(lr.getLogin_nome(), lr.getLogin_email()),
+							"Nome de usuário ou email em uso", JOptionPane.WARNING_MESSAGE);
+				}
+				break;
+			case "entregador":
+				ModelLogin lue = new ModelLogin();
+				ModelUsuario nue = new ModelUsuario();
+
+				ControllerLogin clue = new ControllerLogin();
+				ControllerUsuario cue = new ControllerUsuario();
+
+				System.out.println(id);
+				nue = cue.selecionarUsuarioID(id);
+
+				String senhaue = new String(pswSenha.getPassword());
+				lue.setLogin_nome(txtUsuario.getText());
+				lue.setLogin_senha(senhaue);
+				lue.setLogin_email(nue.getUsuario_email());
+
+				if (clue.verificarCredenciais(lue.getLogin_nome(), lue.getLogin_email()).equals("")) {
+					lue.setUsuario_id(nue.getUsuario_id());
+
+					clue.cadastrarLoginUsuario(lue);
+
+					JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
+							"Cadastro realizado!", JOptionPane.OK_OPTION);
+
+					clue.carregarLogin();
+					dispose();
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							clue.verificarCredenciais(lue.getLogin_nome(), lue.getLogin_email()),
+							"Nome de usuário ou email em uso", JOptionPane.WARNING_MESSAGE);
+				}
+				break;
+			}
+		}
+
+	}
+
+	public ViewCadastroLogin(String tipo, int id) {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (64x64).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ViewCadastroLogin.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Cadastro de Usu\u00E1rio");
 		setBounds(100, 100, 420, 750);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -95,21 +216,30 @@ public class ViewCadastroLogin extends JFrame {
 
 		txtUsuario = new JTextField();
 		txtUsuario.setForeground(Color.DARK_GRAY);
-		txtUsuario.setBounds(110, 223, 238, 30);
+		txtUsuario.setBounds(122, 221, 238, 30);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		txtUsuario.setDocument(new JTextFieldLimit(30));
 
 		pswSenha = new JPasswordField();
+		pswSenha.addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == e.VK_ENTER) {
+					cadastrarLogin(tipo, id);
+				}
+			}
+		});
 		pswSenha.setForeground(Color.DARK_GRAY);
-		pswSenha.setBounds(110, 262, 238, 30);
+		pswSenha.setBounds(122, 260, 238, 30);
 		contentPane.add(pswSenha);
 		pswSenha.setDocument(new JTextFieldLimit(12));
 
 		JLabel lblEUmaFoto = new JLabel("E uma foto para lembrarmos de voc\u00EA");
 		lblEUmaFoto.setForeground(Color.WHITE);
 		lblEUmaFoto.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-		lblEUmaFoto.setBounds(39, 303, 365, 30);
+		lblEUmaFoto.setBounds(39, 354, 365, 30);
 		contentPane.add(lblEUmaFoto);
 
 		JLabel lblPerfil = new JLabel("");
@@ -151,7 +281,7 @@ public class ViewCadastroLogin extends JFrame {
 			}
 		});
 		lblPerfil.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("/img/user/user (128px).png")));
-		lblPerfil.setBounds(139, 368, 128, 128);
+		lblPerfil.setBounds(139, 419, 128, 128);
 		contentPane.add(lblPerfil);
 
 		JButton btnCadastrar = new JButton("TUDO PRONTO!");
@@ -161,38 +291,30 @@ public class ViewCadastroLogin extends JFrame {
 		btnCadastrar.setBorderPainted(true);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ModelLogin l = new ModelLogin();
-				ModelUsuario nu = new ModelUsuario();
-
-				ControllerLogin cl = new ControllerLogin();
-				ControllerUsuario cu = new ControllerUsuario();
-
-				nu = cu.selecionarUsuarioCPF(u.getUsuario_cpf());
-
-				String senha = new String(pswSenha.getPassword());
-				l.setLogin_nome(txtUsuario.getText());
-				l.setLogin_senha(senha);
-				l.setLogin_email(nu.getUsuario_email());
-
-				if (cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()).equals("")) {
-					l.setUsuario_id(nu.getUsuario_id());
-
-					cl.cadastrarLoginUsuario(l);
-
-					JOptionPane.showMessageDialog(null, "Tudo pronto! Seus pedidos já podem começar a serem feitos.",
-							"Cadastro realizado!", JOptionPane.OK_OPTION);
-
-					cl.carregarLogin();
-					dispose();
-
-				} else {
-					JOptionPane.showMessageDialog(null, cl.verificarCredenciais(l.getLogin_nome(), l.getLogin_email()),
-							"Nome de usuário ou email em uso", JOptionPane.WARNING_MESSAGE);
-				}
-
+				cadastrarLogin(tipo, id);
 			}
 		});
-		btnCadastrar.setBounds(139, 526, 128, 23);
+		btnCadastrar.setBounds(139, 577, 128, 23);
 		contentPane.add(btnCadastrar);
+
+		pswConfirmar = new JPasswordField();
+		pswConfirmar.addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == e.VK_ENTER) {
+					cadastrarLogin(tipo, id);
+				}
+			}
+		});
+		pswConfirmar.setForeground(Color.DARK_GRAY);
+		pswConfirmar.setBounds(122, 301, 238, 30);
+		contentPane.add(pswConfirmar);
+
+		JLabel lblConfirmar = new JLabel("Confirmar:");
+		lblConfirmar.setForeground(Color.WHITE);
+		lblConfirmar.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+		lblConfirmar.setBounds(39, 303, 88, 30);
+		contentPane.add(lblConfirmar);
 	}
 }

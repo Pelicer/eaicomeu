@@ -35,8 +35,15 @@ public class ViewIndex extends JFrame {
 
 	int pageCount = 1;
 	float pages;
+	String res[] = new String[4];
 
 	public ViewIndex(ModelUsuario u) {
+
+		// Iniciando a variável RES para a primeira página.
+		res[0] = "0";
+		res[1] = "1";
+		res[2] = "2";
+		res[3] = "3";
 
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewIndex.class.getResource("/img/logo/logo (64x64).png")));
@@ -106,6 +113,14 @@ public class ViewIndex extends JFrame {
 		btnPerfil.setBorderPainted(false);
 
 		JButton btnPedidos = new JButton("");
+		btnPedidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarPedidos(usuario);
+				dispose();
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
+			}
+		});
 		btnPedidos.setBounds(221, 18, 64, 64);
 		panel.add(btnPedidos);
 		btnPedidos.setBackground(Color.WHITE);
@@ -116,6 +131,14 @@ public class ViewIndex extends JFrame {
 		btnPedidos.setBorderPainted(false);
 
 		JButton btnCarrinho = new JButton("");
+		btnCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarCarrinho(usuario);
+				dispose();
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
+			}
+		});
 		btnCarrinho.setBounds(316, 18, 64, 64);
 		panel.add(btnCarrinho);
 		btnCarrinho.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/cart (64x64).png")));
@@ -129,7 +152,8 @@ public class ViewIndex extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				ControllerUsuario cu = new ControllerUsuario();
-				cu.carregarRestaurante(carregarRazaoSocial(0), usuario.getUsuario_id());
+				cu.carregarRestaurante(carregarRazaoSocial(Integer.parseInt(res[0])), usuario.getUsuario_id());
+				dispose();
 			}
 		});
 		panel_1.setBackground(Color.WHITE);
@@ -167,7 +191,8 @@ public class ViewIndex extends JFrame {
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					ControllerUsuario cu = new ControllerUsuario();
-					cu.carregarRestaurante(carregarRazaoSocial(1), usuario.getUsuario_id());
+					cu.carregarRestaurante(carregarRazaoSocial(Integer.parseInt(res[1])), usuario.getUsuario_id());
+					dispose();
 				}
 			});
 			panel_2.setLayout(null);
@@ -204,7 +229,8 @@ public class ViewIndex extends JFrame {
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					ControllerUsuario cu = new ControllerUsuario();
-					cu.carregarRestaurante(carregarRazaoSocial(2), usuario.getUsuario_id());
+					cu.carregarRestaurante(carregarRazaoSocial(Integer.parseInt(res[2])), usuario.getUsuario_id());
+					dispose();
 				}
 			});
 			panel_3.setLayout(null);
@@ -241,7 +267,8 @@ public class ViewIndex extends JFrame {
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					ControllerUsuario cu = new ControllerUsuario();
-					cu.carregarRestaurante(carregarRazaoSocial(3), usuario.getUsuario_id());
+					cu.carregarRestaurante(carregarRazaoSocial(Integer.parseInt(res[3])), usuario.getUsuario_id());
+					dispose();
 				}
 			});
 			panel_4.setLayout(null);
@@ -280,6 +307,7 @@ public class ViewIndex extends JFrame {
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					pageCount++;
+					r = cr.carregarRestaurantes();
 
 					float contagem = pageCount;
 					pages = r.size() / (4 * contagem);
@@ -294,7 +322,6 @@ public class ViewIndex extends JFrame {
 					}
 
 					int restaurante[] = new int[4];
-					String res[] = new String[4];
 
 					res[0] = "";
 					res[1] = "";
@@ -388,6 +415,7 @@ public class ViewIndex extends JFrame {
 				@Override
 				public void mouseReleased(MouseEvent arg0) {
 					pageCount--;
+					r = cr.carregarRestaurantes();
 
 					lblNext.setVisible(true);
 					if (pageCount > r.size() / (4 * pageCount)) {
@@ -397,7 +425,6 @@ public class ViewIndex extends JFrame {
 					}
 
 					int restaurante[] = new int[4];
-					String res[] = new String[4];
 
 					res[0] = "";
 					res[1] = "";

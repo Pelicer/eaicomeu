@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -39,34 +38,22 @@ public class ViewCadastroSwitch extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(Color.ORANGE);
-		separator_1.setBackground(new Color(51, 51, 51));
-		separator_1.setBounds(10, 294, 394, 2);
-		contentPanel.add(separator_1);
-
 		JTextArea txtApresentacao = new JTextArea();
 		txtApresentacao.setEditable(false);
 		txtApresentacao.setWrapStyleWord(true);
-		txtApresentacao.setRows(2);
+		txtApresentacao.setRows(3);
 		txtApresentacao.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		txtApresentacao.setBackground(new Color(51, 51, 51));
 		txtApresentacao.setForeground(Color.WHITE);
 		txtApresentacao.setText(
 				"Muitos restaurantes querem fazer parte da nossa rede de entregas e ser parceiro da E a\u00ED, comeu? Por isso precisamos saber quem voc\u00EA \u00E9!");
 		txtApresentacao.setLineWrap(true);
-		txtApresentacao.setBounds(10, 307, 394, 49);
+		txtApresentacao.setBounds(20, 307, 369, 49);
 		contentPanel.add(txtApresentacao);
-
-		JSeparator separator = new JSeparator();
-		separator.setForeground(Color.ORANGE);
-		separator.setBackground(new Color(51, 51, 51));
-		separator.setBounds(10, 367, 394, 2);
-		contentPanel.add(separator);
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(ViewCadastroSwitch.class.getResource("/img/logo/logo-medium.png")));
-		label.setBounds(10, 33, 379, 75);
+		label.setBounds(20, 33, 369, 75);
 		contentPanel.add(label);
 
 		JTextArea txtTitulo = new JTextArea();
@@ -138,7 +125,7 @@ public class ViewCadastroSwitch extends JDialog {
 		JLabel lblRestaurante = new JLabel("Restaurante");
 		lblRestaurante.setForeground(Color.WHITE);
 		lblRestaurante.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRestaurante.setBounds(174, 558, 64, 14);
+		lblRestaurante.setBounds(174, 558, 70, 14);
 		contentPanel.add(lblRestaurante);
 
 		JLabel lblEntregador = new JLabel("Entregador");

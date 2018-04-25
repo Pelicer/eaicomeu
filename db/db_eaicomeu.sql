@@ -20,6 +20,9 @@ CREATE TABLE tbl_usuario(
 	PRIMARY KEY(usuario_id)
 );
 
+INSERT INTO tbl_usuario(usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento, usuario_thumbnail)
+VALUES('488.727.448-30', 'William Filho', 'willpelicer@gmail.com', '(19) 99996-7251', 'SP', 'Hortolândia', '13.186-203', 'Jardim Mirante', 'Rua Primeiro de Maio', '133', '', '');
+
 DROP TABLE IF EXISTS `tbl_entregador`;
 CREATE TABLE tbl_entregador(
 	entregador_id INT NOT NULL AUTO_INCREMENT,
@@ -58,7 +61,7 @@ INSERT INTO `tbl_restaurante`( `restaurante_cnpj`, `restaurante_razaoSocial`, `r
 ('56.623.138/0001-15','Pizza Hut','contato@pizzahut.com','3965-5506','3965-2506','SP','Campinas',' 13156-054','Jardim Mirante','R. Tancredo Neves', '524','Hamburgueria','/img/perfil/restaurante/pizzahut.png'),
 ('92.126.238/0001-26','Dog Supremo','dogsupremo@yahoo.com','3965-5506','3965-4306','SP','Sumaré',' 14186-054','Emancipação','R. Emancipação', '6356','Trailer','/img/perfil/restaurante/hotdogexpress.png'),
 ('74.567.358/0001-32','China in Box','sac@chinainbox.com','3965-5506','3965-5234','SP','Monte-Mor',' 16186-054','Cambuí','R. Moraes Sales', '134','','/img/perfil/restaurante/chinainbox.png'),
-('49.837.445/0001-78','Kanibal Burguer','kanibal-burguer@gmail.com','3965-2137','3965-5506','SP','Hortolandia',' 13186-054','Jardim Oswaldo','R. dos Estudantes', '654','Trailer','/img/perfil/restaurante/kanibalburguer.png');
+('49.837.445/0001-78','Kanibal Burguer','kanibal-burguer@gmail.com','3965-2137','3965-5506','SP','Hortolandia',' 13186-054','Jardim Oswaldo','R. dos Estudantes', '654','Trailer','/img/perfil/restaurante/kanibalburger.png');
 
 DROP TABLE IF EXISTS `tbl_login`;
 CREATE TABLE tbl_login(
@@ -70,6 +73,8 @@ CREATE TABLE tbl_login(
 	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id),
 	FOREIGN KEY(restaurante_id) REFERENCES tbl_restaurante(restaurante_id)
 );
+
+INSERT INTO tbl_login(login_nome, login_senha, login_email, usuario_id, restaurante_id) VALUES ('admin', 'admin', 'willpelicer@gmail', 1, null);
 
 DROP TABLE IF EXISTS `tbl_tipo`;
 CREATE TABLE tbl_tipo(

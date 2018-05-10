@@ -2,6 +2,7 @@ package model;
 
 public class ModelProduto {
 
+	int produto_id;
 	int tipo_id;
 	int restaurante_id;
 	float produto_valor;
@@ -9,9 +10,15 @@ public class ModelProduto {
 	String produto_descricao;
 	String produto_thumbnail;
 
-	public ModelProduto(int tipo_id, int restaurante_id, float produto_valor, String produto_nome,
+	public ModelProduto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ModelProduto(int produto_id, int tipo_id, int restaurante_id, float produto_valor, String produto_nome,
 			String produto_descricao, String produto_thumbnail) {
 		super();
+		this.produto_id = produto_id;
 		this.tipo_id = tipo_id;
 		this.restaurante_id = restaurante_id;
 		this.produto_valor = produto_valor;
@@ -20,8 +27,12 @@ public class ModelProduto {
 		this.produto_thumbnail = produto_thumbnail;
 	}
 
-	public ModelProduto() {
-		super();
+	public int getProduto_id() {
+		return produto_id;
+	}
+
+	public void setProduto_id(int produto_id) {
+		this.produto_id = produto_id;
 	}
 
 	public int getTipo_id() {

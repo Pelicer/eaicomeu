@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.ModelTipo;
 
@@ -37,7 +39,7 @@ public class DaoTipo {
 			stm = con.prepareStatement("SELECT * FROM tbl_tipo WHERE tipo_id = ?");
 			stm.setInt(1, id);
 			rs = stm.executeQuery();
-			
+
 			while (rs.next()) {
 				t.setTipo_id(rs.getInt("tipo_id"));
 				t.setTipo_descricao(rs.getString("tipo_descricao"));
@@ -63,7 +65,7 @@ public class DaoTipo {
 			stm.setString(1, t.getTipo_descricao());
 			stm.setInt(2, t.getTipo_id());
 			stm.executeUpdate();
-			
+
 			nt = selecionarTipo(t.getTipo_id());
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -72,6 +74,33 @@ public class DaoTipo {
 			e.printStackTrace();
 		}
 		return nt;
+	}
+
+	public List<ModelTipo> carregarTipos() {
+
+		Connection con = ConnectionFactory.getConnection();
+		List<ModelTipo> lista = new ArrayList<ModelTipo>();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_tipo;");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ModelTipo t = new ModelTipo();
+				t.setTipo_id(rs.getInt("tipo_id"));
+				t.setTipo_descricao(rs.getString("tipo_descricao"));
+				lista.add(t);
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
 
 }

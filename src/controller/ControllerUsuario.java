@@ -29,9 +29,7 @@ public class ControllerUsuario {
 				try {
 
 					// Passa o usuário como parâmetro para a página principal
-					ModelUsuario u = new ModelUsuario();
-					DaoUsuario userDAO = new DaoUsuario();
-					u = userDAO.selecionarUsuarioID(id);
+					u = dao.selecionarUsuarioID(id);
 
 					ViewIndex frame = new ViewIndex(u);
 					frame.setLocationRelativeTo(null);

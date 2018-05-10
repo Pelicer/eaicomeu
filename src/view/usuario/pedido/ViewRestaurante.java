@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -20,9 +21,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import controller.ControllerRestaurante;
+import controller.ControllerProduto;
+import controller.ControllerTipo;
 import controller.ControllerUsuario;
+import model.ModelProduto;
 import model.ModelRestaurante;
+import model.ModelTipo;
 import model.ModelUsuario;
 
 @SuppressWarnings("serial")
@@ -32,8 +36,9 @@ public class ViewRestaurante extends JFrame {
 	ModelRestaurante restaurante = new ModelRestaurante();
 	ModelUsuario usuario = new ModelUsuario();
 
-	ControllerRestaurante cr = new ControllerRestaurante();
-	List<ModelRestaurante> list = cr.carregarRestaurantes();
+	ControllerProduto cp = new ControllerProduto();
+	ControllerTipo ct = new ControllerTipo();
+	List<ModelProduto> produtos = new ArrayList<ModelProduto>();
 
 	public ViewRestaurante(ModelRestaurante r, ModelUsuario u) {
 		setResizable(false);
@@ -144,8 +149,9 @@ public class ViewRestaurante extends JFrame {
 		txtEndereco.setText(
 				r.getRestaurante_bairro() + " - " + r.getRestaurante_endereco() + ", " + r.getRestaurante_logradouro());
 
-		list = cr.carregarRestaurantes();
-		int y = 11;
+		produtos = cp.carregarProdutos(r.getRestaurante_id());
+		int yproduto = 50;
+		int ytipo = 11;
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -156,22 +162,92 @@ public class ViewRestaurante extends JFrame {
 		JPanel viewport = new JPanel();
 		viewport.setLayout(null);
 		viewport.setBounds(0, 0, 414, 505);
-		
 
-		for (int i = 0; i <= list.size(); i++) {
-			String nome = "produto_" + i;
-			
-			JPanel produto = new JPanel();
-			produto.setName(nome);
-			produto.setBackground(new Color(51, 51, 51));
-			produto.setBounds(10, y, 375, 100);
-			viewport.add(produto);
-			y += 111;
+		ModelTipo t = new ModelTipo();
+
+		if (!produtos.isEmpty()) {
+
+			List<ModelTipo> tipos = new ArrayList<ModelTipo>();
+			tipos = ct.carregarTipos();
+
+			for (int i = 0; i < tipos.size(); i++) {
+
+				t = tipos.get(i);
+
+				JLabel tipo = new JLabel();
+				tipo.setName("tipo" + i);
+				tipo.setText(t.getTipo_descricao());
+				tipo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				tipo.setBounds(10, ytipo, 375, 22);
+				viewport.add(tipo);
+
+				// JSeparator separador = new JSeparator();
+				// viewport.add(separador);
+				// separador.setForeground(Color.BLACK);
+
+				ytipo += 50;
+
+				for (int x = 0; x < produtos.size(); x++) {
+					ModelProduto p = produtos.get(x);
+					if (p.getTipo_id() == t.getTipo_id()) {
+
+						JPanel produto = new JPanel();
+						produto.setName("produto_" + i);
+						produto.setBounds(10, 40, 375, 93);
+						produto.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.WHITE, Color.BLACK));
+						produto.setBackground(Color.WHITE);
+						produto.setLayout(null);
+
+						JLabel thumbnail = new JLabel();
+						thumbnail.setName("produto" + i + "_thumbnail");
+						thumbnail.setIcon(new ImageIcon(ViewRestaurante.class.getResource(p.getProduto_thumbnail())));
+						thumbnail.setBounds(10, 11, 78, 71);
+						produto.add(thumbnail);
+
+						JLabel titulo = new JLabel();
+						titulo.setName("produto" + i + "_nome");
+						titulo.setText(p.getProduto_nome());
+						titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+						titulo.setBounds(98, 11, 250, 20);
+						produto.add(titulo);
+
+						JTextArea descricao = new JTextArea();
+						descricao.setName("produto" + i + "_descricao");
+						descricao.setText(p.getProduto_descricao());
+						descricao.setLineWrap(true);
+						descricao.setEditable(false);
+						descricao.setRows(2);
+						descricao.setBounds(98, 30, 250, 30);
+						produto.add(descricao);
+
+						String valor = String.format("%.2f", p.getProduto_valor());
+
+						JLabel preco = new JLabel();
+						preco.setName("produto" + i + "_valor");
+						preco.setText("R$" + valor);
+						preco.setBounds(98, 57, 250, 30);
+						produto.add(preco);
+
+						viewport.add(produto);
+						yproduto += 111;
+					}
+				}
+
+			}
+
+		} else {
+			JLabel vazio = new JLabel();
+			vazio.setName("vazio");
+			vazio.setBounds(42, 10, 375, 100);
+			vazio.setText("Este restaurante ainda não possui produtos cadastrados.");
+			viewport.add(vazio);
 		}
-		viewport.setPreferredSize(new Dimension(414, y));
-		
+
+		viewport.setPreferredSize(new Dimension(414, yproduto));
+
 		scrollPane.setViewportView(viewport);
 		contentPane.add(scrollPane);
 
 	}
+
 }

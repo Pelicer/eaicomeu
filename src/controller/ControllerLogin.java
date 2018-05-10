@@ -9,6 +9,9 @@ import view.usuario.cadastro.ViewCadastroLogin;
 
 public class ControllerLogin {
 
+	DaoLogin dao = new DaoLogin();
+	ModelLogin login = new ModelLogin();
+
 	public void carregarLogin() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,24 +45,19 @@ public class ControllerLogin {
 	}
 
 	public void cadastrarLoginUsuario(ModelLogin l) {
-		DaoLogin dao = new DaoLogin();
 		dao.cadastrarLogin(l, true);
 	}
 
 	public void cadastrarLoginRestaurante(ModelLogin l) {
-		DaoLogin dao = new DaoLogin();
 		dao.cadastrarLogin(l, false);
 	}
 
 	public ModelLogin selecionarLoginCRED(ModelLogin l, boolean email) {
-		DaoLogin dao = new DaoLogin();
-		ModelLogin login = new ModelLogin();
 		login = dao.selecionarLoginCRED(l, email);
 		return login;
 	}
 
 	public boolean logar(ModelLogin l) {
-		DaoLogin dao = new DaoLogin();
 		boolean connected = false;
 		connected = dao.logarUsuario(l);
 		return connected;
@@ -67,7 +65,6 @@ public class ControllerLogin {
 
 	public String verificarCredenciais(String usuario, String email) {
 		String resultado = "";
-		DaoLogin dao = new DaoLogin();
 		if (dao.verificarUsuario(usuario)) {
 			resultado = "Este nome de usuário já está em uso.";
 		}

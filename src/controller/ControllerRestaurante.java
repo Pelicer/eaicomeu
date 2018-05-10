@@ -9,15 +9,17 @@ import view.restaurante.ViewIndexRes;
 
 public class ControllerRestaurante {
 
+	DaoRestaurante dao = new DaoRestaurante();
+	ModelRestaurante r = new ModelRestaurante();
+
 	public void carregarIndex(int id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 
 					// Passa o restaurante como parâmetro para a página principal
-					ModelRestaurante r = new ModelRestaurante();
-					DaoRestaurante resDAO = new DaoRestaurante();
-					r = resDAO.selecionarRestauranteID(id);
+
+					r = dao.selecionarRestauranteID(id);
 
 					ViewIndexRes frame = new ViewIndexRes(r);
 					frame.setLocationRelativeTo(null);
@@ -31,33 +33,25 @@ public class ControllerRestaurante {
 	}
 
 	public void cadastrarRestaurante(ModelRestaurante r) {
-		DaoRestaurante dao = new DaoRestaurante();
 		dao.cadastrarRestaurante(r);
 	}
 
 	public ModelRestaurante selecionarRestauranteID(int id) {
-		DaoRestaurante dao = new DaoRestaurante();
-		ModelRestaurante r = new ModelRestaurante();
 		r = dao.selecionarRestauranteID(id);
 		return r;
 	}
 
 	public ModelRestaurante selecionarRestauranteCNPJ(String cnpj) {
-		DaoRestaurante dao = new DaoRestaurante();
-		ModelRestaurante r = new ModelRestaurante();
 		r = dao.selecionarRestauranteCNPJ(cnpj);
 		return r;
 	}
 
 	public ModelRestaurante selecionarRestauranteRazaoSocial(String razaoSocial) {
-		DaoRestaurante dao = new DaoRestaurante();
-		ModelRestaurante r = new ModelRestaurante();
 		r = dao.selecionarRestauranteRazaoSocial(razaoSocial);
 		return r;
 	}
 
 	public List<ModelRestaurante> carregarRestaurantes() {
-		DaoRestaurante dao = new DaoRestaurante();
 		List<ModelRestaurante> r = dao.carregarRestaurantes();
 		return r;
 	}

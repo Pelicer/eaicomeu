@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS `tbl_produto`;
 CREATE TABLE tbl_produto(
 	produto_id INT NOT NULL AUTO_INCREMENT,
 	produto_nome VARCHAR(30) NOT NULL,
-	produto_descricao VARCHAR(120),
+	produto_descricao VARCHAR(300),
 	produto_valor DECIMAL(5,2) NOT NULL,
 	produto_thumbnail VARCHAR(60),
 	tipo_id INT NOT NULL,
@@ -113,11 +113,11 @@ CREATE TABLE tbl_produto(
 
 INSERT INTO tbl_produto (produto_nome,produto_descricao,produto_valor,produto_thumbnail,tipo_id,restaurante_id) VALUES
 ('X-salada','Pão, Hambúrguer, Queijo, Alface e Tomate.',10.0,'/img/products/restaurant/papatudo/x-salada.png',5,1),
-('Big Mac','Dois hambúrgueres, alface, queijo e molho especial, cebola e picles num pão com gergelim.',15.0,'/img/products/restaurant/macdonalds/bigmac.png',5,2),
+('Big Mac','Dois hambúrgueres, alface, queijo e molho especial, cebola e picles num pão com gergelim.',15.0,'/img/products/restaurant/mcdonalds/bigmac.png',5,2),
 ('Carne e queijo','Fatias de carne bovina magra em uma combinação perfeita com vegetais e molhos. A escolha perfeita.',8.9,'/img/products/restaurant/subway/carne_e_queijo.png',5,3),
 ('Cheeseburguer','Pão com gergelim, um saboroso hambúrguer de pura carne bovina, uma fatia de queijo derretido, duas fatias de picles, ketchup e mostarda. Imagem meramente ilustrativa.',10.0,'/img/products/restaurant/burgerking/cheeseburguer.png',5,4),
-('Corn&Bacon - 8 fatias','Mussarela, bacon e milho.',35.00,'/img/products/restaurant/pizzahut/corn&bacon.png',10,6),
-('Corn&Bacon - 12 fatias','Mussarela, bacon e milho.',42.00,'/img/products/restaurant/pizzahut/corn&bacon.png',10,6),
+('Corn&Bacon - 8 fatias','Mussarela, bacon e milho.',35.00,'/img/products/restaurant/pizzahut/corn_bacon.png',10,6),
+('Corn&Bacon - 12 fatias','Mussarela, bacon e milho.',42.00,'/img/products/restaurant/pizzahut/corn_bacon.png',10,6),
 ('Tradicional','Pão, salsicha, vinagrete, milho, ketchup, mostarda, batata-palha, purê, maionese e queijo ralado.',8.0,'/img/products/restaurant/hotdogexpress/tradicional.png',6,7),
 ('Yakissoba clássico - grande','Macarrão com carne, frango, legumes e champignons.',39.30,'/img/products/restaurant/chinainbox/yakissoba_classico.png',11,8),
 ('Yakissoba clássico - pequeno','Macarrão com carne, frango, legumes e champignons.',29.50,'/img/products/restaurant/chinainbox/yakissoba_classico.png',11,8),
@@ -221,25 +221,40 @@ INSERT INTO tbl_produtoingrediente (produto_id,ingrediente_id,quantidade) VALUES
 (10,8,1),
 (10,11,1);
 
+DROP TABLE IF EXISTS `tbl_status`;
+CREATE TABLE tbl_status(
+	status_id INT NOT NULL,
+    status_descricao VARCHAR(30),
+    PRIMARY KEY(status_id)
+);
+
+INSERT INTO tbl_status(status_id, status_descricao) VALUES 
+(1, 'Aguardando Pagamento'), 
+(2, 'Realizado'), 
+(3, 'Confirmado'), 
+(4, 'Em preparo'), 
+(5, 'Saiu para entrega'),
+(6, 'Entregue');
+
 DROP TABLE IF EXISTS `tbl_pedido`;
 CREATE TABLE tbl_pedido(
 	pedido_id INT NOT NULL AUTO_INCREMENT,
-	pedido_data DATETIME,
+	pedido_data DATE,
     pedido_valorTotal DECIMAL(5, 2) NOT NULL,
 	usuario_id INT NOT NULL,
+    status_id INT NOT NULL,
 	PRIMARY KEY(pedido_id),
 	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id)
 );
 
 DROP TABLE IF EXISTS `tbl_itensPedido`;
 CREATE TABLE tbl_itensPedido(
+	itensPedido_adicionais VARCHAR(500),
+	itensPedido_observacao VARCHAR(500),
 	pedido_id INT NOT NULL,
 	produto_id INT NOT NULL,
-	item_quantidade INT NOT NULL,
-	ingrediente_id INT NOT NULL,
 	FOREIGN KEY(pedido_id) REFERENCES tbl_pedido(pedido_id),
-	FOREIGN KEY(produto_id) REFERENCES tbl_produto(produto_id),
-	FOREIGN KEY(ingrediente_id) REFERENCES tbl_ingrediente(ingrediente_id)
+	FOREIGN KEY(produto_id) REFERENCES tbl_produto(produto_id)
 );
 
 DROP TABLE IF EXISTS `tbl_feedback`; 

@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import controller.ControllerPedido;
 import controller.ControllerProduto;
 import controller.ControllerTipo;
 import controller.ControllerUsuario;
+import model.ModelPedido;
 import model.ModelProduto;
 import model.ModelRestaurante;
 import model.ModelTipo;
@@ -95,6 +99,14 @@ public class ViewRestaurante extends JFrame {
 		menu.add(btnPerfil);
 
 		JButton btnPedidos = new JButton("");
+		btnPedidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarPedidos(usuario);
+				dispose();
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
+			}
+		});
 		btnPedidos.setIcon(new ImageIcon(ViewRestaurante.class.getResource("/img/icon/list (64x64).png")));
 		btnPedidos.setOpaque(true);
 		btnPedidos.setForeground(Color.WHITE);
@@ -105,6 +117,17 @@ public class ViewRestaurante extends JFrame {
 		menu.add(btnPedidos);
 
 		JButton btnCarrinho = new JButton("");
+		btnCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControllerUsuario cu = new ControllerUsuario();
+				ControllerPedido cp = new ControllerPedido();
+				ModelPedido p = new ModelPedido();
+				p = cp.selecionarPedidoAberto(usuario.getUsuario_id());
+				cu.carregarCarrinho(usuario, p);
+				dispose();
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
+			}
+		});
 		btnCarrinho.setIcon(new ImageIcon(ViewRestaurante.class.getResource("/img/icon/cart (64x64).png")));
 		btnCarrinho.setOpaque(true);
 		btnCarrinho.setForeground(Color.WHITE);
@@ -150,11 +173,11 @@ public class ViewRestaurante extends JFrame {
 				r.getRestaurante_bairro() + " - " + r.getRestaurante_endereco() + ", " + r.getRestaurante_logradouro());
 
 		produtos = cp.carregarProdutos(r.getRestaurante_id());
-		int yproduto = 50;
+		int yproduto = 40;
 		int ytipo = 11;
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 217, 414, 505);
 		scrollPane.setPreferredSize(new Dimension(414, 414));
@@ -168,12 +191,10 @@ public class ViewRestaurante extends JFrame {
 		if (!produtos.isEmpty()) {
 
 			List<ModelTipo> tipos = new ArrayList<ModelTipo>();
-			tipos = ct.carregarTipos();
+			tipos = ct.carregarTipos(r.getRestaurante_id());
 
 			for (int i = 0; i < tipos.size(); i++) {
-
 				t = tipos.get(i);
-
 				JLabel tipo = new JLabel();
 				tipo.setName("tipo" + i);
 				tipo.setText(t.getTipo_descricao());
@@ -181,11 +202,11 @@ public class ViewRestaurante extends JFrame {
 				tipo.setBounds(10, ytipo, 375, 22);
 				viewport.add(tipo);
 
-				// JSeparator separador = new JSeparator();
-				// viewport.add(separador);
-				// separador.setForeground(Color.BLACK);
-
-				ytipo += 50;
+				JSeparator separadortipo = new JSeparator();
+				separadortipo.setForeground(Color.BLACK);
+				separadortipo.setBounds(10, ytipo + 22, 375, 2);
+				separadortipo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
+				viewport.add(separadortipo);
 
 				for (int x = 0; x < produtos.size(); x++) {
 					ModelProduto p = produtos.get(x);
@@ -193,9 +214,17 @@ public class ViewRestaurante extends JFrame {
 
 						JPanel produto = new JPanel();
 						produto.setName("produto_" + i);
-						produto.setBounds(10, 40, 375, 93);
+						produto.setBounds(10, yproduto, 375, 93);
 						produto.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.WHITE, Color.BLACK));
 						produto.setBackground(Color.WHITE);
+						produto.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseReleased(MouseEvent e) {
+								ControllerProduto cp = new ControllerProduto();
+								cp.carregarProduto(p, restaurante, usuario);
+								dispose();
+							}
+						});
 						produto.setLayout(null);
 
 						JLabel thumbnail = new JLabel();
@@ -230,8 +259,11 @@ public class ViewRestaurante extends JFrame {
 
 						viewport.add(produto);
 						yproduto += 111;
+						ytipo += 111;
 					}
 				}
+				yproduto += 20;
+				ytipo += 20;
 
 			}
 
@@ -244,7 +276,6 @@ public class ViewRestaurante extends JFrame {
 		}
 
 		viewport.setPreferredSize(new Dimension(414, yproduto));
-
 		scrollPane.setViewportView(viewport);
 		contentPane.add(scrollPane);
 

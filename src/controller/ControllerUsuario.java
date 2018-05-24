@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import dao.DaoRestaurante;
 import dao.DaoUsuario;
+import model.ModelPedido;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.ViewReenvio;
@@ -134,11 +135,11 @@ public class ControllerUsuario {
 		});
 	}
 
-	public void carregarCarrinho(ModelUsuario u) {
+	public void carregarCarrinho(ModelUsuario u, ModelPedido p) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewCarrinho frame = new ViewCarrinho(u);
+					ViewCarrinho frame = new ViewCarrinho(u, p);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {

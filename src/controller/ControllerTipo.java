@@ -11,9 +11,9 @@ public class ControllerTipo {
 	DaoTipo dao = new DaoTipo();
 	ModelTipo t = new ModelTipo();
 
-	public List<ModelTipo> carregarTipos() {
+	public List<ModelTipo> carregarTipos(int id) {
 		List<ModelTipo> lista = new ArrayList<ModelTipo>();
-		lista = dao.carregarTipos();
+		lista = dao.carregarTipos(id);
 		return lista;
 	}
 }

@@ -17,8 +17,6 @@ public class ControllerRestaurante {
 			public void run() {
 				try {
 
-					// Passa o restaurante como parâmetro para a página principal
-
 					r = dao.selecionarRestauranteID(id);
 
 					ViewIndexRes frame = new ViewIndexRes(r);

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.ModelIngrediente;
 
@@ -94,4 +96,66 @@ public class DaoIngrediente {
 		}
 		return i;
 	}
+
+	public List<ModelIngrediente> carregarIngredientes(int produto_id) {
+
+		Connection con = ConnectionFactory.getConnection();
+		List<ModelIngrediente> lista = new ArrayList<ModelIngrediente>();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_produtoingrediente LEFT JOIN tbl_ingrediente ON tbl_produtoingrediente.ingrediente_id = tbl_ingrediente.ingrediente_id WHERE produto_id = "
+							+ produto_id + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ModelIngrediente i = new ModelIngrediente();
+				i.setIngrediente_id(rs.getInt("ingrediente_id"));
+				i.setIngrediente_quantidade(rs.getInt("quantidade"));
+				i.setIngrediente_descricao(rs.getString("ingrediente_descricao"));
+				i.setIngrediente_valor(rs.getFloat("ingrediente_valor"));
+				lista.add(i);
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
+	public List<ModelIngrediente> carregarAdicionais(int restaurante_id) {
+
+		Connection con = ConnectionFactory.getConnection();
+		List<ModelIngrediente> lista = new ArrayList<ModelIngrediente>();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement(
+					"select tbl_ingrediente.ingrediente_id, ingrediente_descricao, ingrediente_valor from tbl_ingrediente inner join tbl_produtoingrediente on tbl_ingrediente.ingrediente_id=tbl_produtoingrediente.ingrediente_id inner join tbl_produto on tbl_produtoingrediente.produto_id = tbl_produto.produto_id inner join tbl_tipo on tbl_produto.tipo_id = tbl_tipo.tipo_id where tbl_produto.restaurante_id = "
+							+ restaurante_id + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ModelIngrediente i = new ModelIngrediente();
+				i.setIngrediente_id(rs.getInt("ingrediente_id"));
+				i.setIngrediente_descricao(rs.getString("ingrediente_descricao"));
+				i.setIngrediente_valor(rs.getFloat("ingrediente_valor"));
+				lista.add(i);
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
 }

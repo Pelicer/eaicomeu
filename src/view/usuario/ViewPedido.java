@@ -10,7 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerPedido;
 import controller.ControllerUsuario;
+import model.ModelPedido;
 import model.ModelUsuario;
 
 public class ViewPedido extends JFrame {
@@ -92,7 +94,10 @@ public class ViewPedido extends JFrame {
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerUsuario cu = new ControllerUsuario();
-				cu.carregarCarrinho(usuario);
+				ControllerPedido cp = new ControllerPedido();
+				ModelPedido p = new ModelPedido();
+				p = cp.selecionarPedidoAberto(usuario.getUsuario_id());
+				cu.carregarCarrinho(usuario, p);
 				dispose();
 				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
 			}

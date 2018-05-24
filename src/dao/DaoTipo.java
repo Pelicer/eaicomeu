@@ -76,7 +76,7 @@ public class DaoTipo {
 		return nt;
 	}
 
-	public List<ModelTipo> carregarTipos() {
+	public List<ModelTipo> carregarTipos(int id) {
 
 		Connection con = ConnectionFactory.getConnection();
 		List<ModelTipo> lista = new ArrayList<ModelTipo>();
@@ -84,7 +84,9 @@ public class DaoTipo {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("SELECT * FROM tbl_tipo;");
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_produto RIGHT JOIN tbl_tipo ON tbl_produto.tipo_id = tbl_tipo.tipo_id WHERE restaurante_id = ? GROUP BY tipo_descricao;");
+			stm.setInt(1, id);
 			rs = stm.executeQuery();
 
 			while (rs.next()) {

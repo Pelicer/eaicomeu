@@ -18,8 +18,10 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControllerPedido;
 import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
+import model.ModelPedido;
 import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.cadastro.ViewCadastroLogin;
@@ -74,7 +76,7 @@ public class ViewIndex extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(51, 51, 51));
-		panel.setBounds(0, 0, 414, 100);
+		panel.setBounds(0, 0, 429, 100);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -134,7 +136,10 @@ public class ViewIndex extends JFrame {
 		btnCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerUsuario cu = new ControllerUsuario();
-				cu.carregarCarrinho(usuario);
+				ControllerPedido cp = new ControllerPedido();
+				ModelPedido p = new ModelPedido();
+				p = cp.selecionarPedidoAberto(usuario.getUsuario_id());
+				cu.carregarCarrinho(usuario, p);
 				dispose();
 				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
 			}
@@ -351,12 +356,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_1.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_1.setText("");
 						lblEndereco_1.setText("");
+						separator_1.setVisible(false);
 
 					} else {
 						lblImagem_1.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[0]))));
 						lblRestaurante_1.setText(carregarRazaoSocial(restaurante[0]));
 						lblEndereco_1.setText(carregarEndereco(restaurante[0]));
+						separator_1.setVisible(true);
 					}
 
 					if (res[1].toString().equals("")) {
@@ -364,11 +371,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_2.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_2.setText("");
 						lblEndereco_2.setText("");
+						separator_2.setVisible(false);
+
 					} else {
 						lblImagem_2.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[1]))));
 						lblRestaurante_2.setText(carregarRazaoSocial(restaurante[1]));
 						lblEndereco_2.setText(carregarEndereco(restaurante[1]));
+						separator_2.setVisible(true);
 
 					}
 
@@ -376,12 +386,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_3.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_3.setText("");
 						lblEndereco_3.setText("");
+						separator_3.setVisible(false);
 
 					} else {
 						lblImagem_3.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[2]))));
 						lblRestaurante_3.setText(carregarRazaoSocial(restaurante[2]));
 						lblEndereco_3.setText(carregarEndereco(restaurante[2]));
+						separator_3.setVisible(true);
 					}
 
 					if (res[3].toString().equals("")) {
@@ -389,12 +401,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_4.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_4.setText("");
 						lblEndereco_4.setText("");
+						separator_4.setVisible(false);
 
 					} else {
 						lblImagem_4.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[3]))));
 						lblRestaurante_4.setText(carregarRazaoSocial(restaurante[3]));
 						lblEndereco_4.setText(carregarEndereco(restaurante[3]));
+						separator_4.setVisible(true);
 					}
 
 				}
@@ -454,12 +468,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_1.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_1.setText("");
 						lblEndereco_1.setText("");
+						separator_1.setVisible(false);
 
 					} else {
 						lblImagem_1.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[0]))));
 						lblRestaurante_1.setText(carregarRazaoSocial(restaurante[0]));
 						lblEndereco_1.setText(carregarEndereco(restaurante[0]));
+						separator_1.setVisible(true);
 					}
 
 					if (res[1].toString().equals("")) {
@@ -467,11 +483,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_2.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_2.setText("");
 						lblEndereco_2.setText("");
+						separator_2.setVisible(false);
+
 					} else {
 						lblImagem_2.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[1]))));
 						lblRestaurante_2.setText(carregarRazaoSocial(restaurante[1]));
 						lblEndereco_2.setText(carregarEndereco(restaurante[1]));
+						separator_2.setVisible(true);
 
 					}
 
@@ -479,12 +498,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_3.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_3.setText("");
 						lblEndereco_3.setText("");
+						separator_3.setVisible(false);
 
 					} else {
 						lblImagem_3.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[2]))));
 						lblRestaurante_3.setText(carregarRazaoSocial(restaurante[2]));
 						lblEndereco_3.setText(carregarEndereco(restaurante[2]));
+						separator_3.setVisible(true);
 					}
 
 					if (res[3].toString().equals("")) {
@@ -492,12 +513,14 @@ public class ViewIndex extends JFrame {
 						lblImagem_4.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("")));
 						lblRestaurante_4.setText("");
 						lblEndereco_4.setText("");
+						separator_4.setVisible(false);
 
 					} else {
 						lblImagem_4.setIcon(
 								new ImageIcon(ViewCadastroLogin.class.getResource(carregarImagem(restaurante[3]))));
 						lblRestaurante_4.setText(carregarRazaoSocial(restaurante[3]));
 						lblEndereco_4.setText(carregarEndereco(restaurante[3]));
+						separator_4.setVisible(true);
 					}
 
 				}

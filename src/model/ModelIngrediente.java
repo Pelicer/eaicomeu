@@ -3,14 +3,17 @@ package model;
 public class ModelIngrediente {
 
 	int ingrediente_id;
+	int ingrediente_quantidade;
 	float ingrediente_valor;
 	String ingrediente_descricao;
 
-	public ModelIngrediente(int ingrediente_id, float ingrediente_valor, String ingrediente_descricao) {
+	public ModelIngrediente(int ingrediente_id, int ingrediente_quantidade, float ingrediente_valor,
+			String ingrediente_descricao) {
 		super();
 		this.ingrediente_id = ingrediente_id;
 		this.ingrediente_valor = ingrediente_valor;
 		this.ingrediente_descricao = ingrediente_descricao;
+		this.ingrediente_quantidade = ingrediente_quantidade;
 	}
 
 	public int getIngrediente_id() {
@@ -19,6 +22,14 @@ public class ModelIngrediente {
 
 	public void setIngrediente_id(int ingrediente_id) {
 		this.ingrediente_id = ingrediente_id;
+	}
+
+	public int getIngrediente_quantidade() {
+		return ingrediente_quantidade;
+	}
+
+	public void setIngrediente_quantidade(int ingrediente_quantidade) {
+		this.ingrediente_quantidade = ingrediente_quantidade;
 	}
 
 	public ModelIngrediente() {

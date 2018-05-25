@@ -16,6 +16,10 @@ public class ControllerItensPedido {
 		DAO.cadastrarItensPedido(pe, pr, adicionais, observacao);
 	}
 
+	public void cadastrarItensPedidoNull(ModelProduto pr, String[] observacao) {
+		DAO.cadastrarItensPedidoNull(pr, observacao);
+	}
+
 	public List<ModelItensPedido> carregarCarrinho(int id) {
 		List<ModelItensPedido> itens = new ArrayList<ModelItensPedido>();
 		itens = DAO.carregarCarrinho(id);
@@ -26,6 +30,16 @@ public class ControllerItensPedido {
 		ModelItensPedido ip = new ModelItensPedido();
 		ip = DAO.selecionarItensPedido(id);
 		return ip;
+	}
+
+	public ModelItensPedido selecionarUltimaEntrada() {
+		ModelItensPedido ip = new ModelItensPedido();
+		ip = DAO.selecionarUltimaEntrada();
+		return ip;
+	}
+
+	public void atualizarItensPedido(int pedidoID, String[] adicionais, int ID) {
+		DAO.atualizarItensPedido(pedidoID, adicionais, ID);
 	}
 
 }

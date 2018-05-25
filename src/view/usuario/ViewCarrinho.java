@@ -64,10 +64,6 @@ public class ViewCarrinho extends JFrame {
 		itens = cip.carregarCarrinho(p.getPedido_id());
 		itens_encapsulado = itens;
 
-		for (int i = 0; i < itens.size(); i++) {
-			System.out.println(itens.get(i).getProduto_id());
-		}
-
 		itensPedido = cip.selecionarItensPedido(pedido.getPedido_id());
 		produto = cprod.selecionarProduto(itensPedido.getProduto_id());
 		restaurante = cr.selecionarRestauranteID(produto.getRestaurante_id());
@@ -209,7 +205,7 @@ public class ViewCarrinho extends JFrame {
 			descricao.setBounds(98, 30, 250, 30);
 			item.add(descricao);
 
-			String valor = String.format("%.2f", prod.getProduto_valor());
+			String valor = String.format("%.2f", pedido.getValorTotal());
 
 			JLabel preco = new JLabel();
 			preco.setName("item" + i + "_valor");

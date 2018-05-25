@@ -87,7 +87,7 @@ public class DaoPedido {
 		return p;
 	}
 
-	public ModelPedido selecionarPedidoAberto(int id) {
+	public ModelPedido selecionarPedidoAberto(int usuario, int restaurante) {
 
 		Connection con = ConnectionFactory.getConnection();
 		ModelPedido p = new ModelPedido();
@@ -96,7 +96,41 @@ public class DaoPedido {
 
 		try {
 
-			stm = con.prepareStatement("SELECT * FROM tbl_pedido WHERE usuario_id = " + id + " AND status_id = 1;");
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_pedido AS p INNER JOIN tbl_itensPedido AS ip ON ip.pedido_id = p.pedido_id INNER JOIN tbl_produto AS prod ON prod.produto_id = ip.produto_id INNER JOIN tbl_restaurante AS r ON r.restaurante_id = prod.restaurante_id WHERE usuario_id ="
+							+ usuario + " AND status_id = 1 AND r.restaurante_id = " + restaurante + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				p.setValorTotal(rs.getInt("pedido_valorTotal"));
+				p.setStatus_id(rs.getInt("status_id"));
+				System.out.println("ID DO PEDIDO");
+				System.out.println(rs.getInt("pedido_id"));
+				p.setPedido_id(rs.getInt("pedido_id"));
+				p.setUsuario_id(rs.getInt("usuario_id"));
+				p.setPedido_data(rs.getDate("pedido_data"));
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return p;
+	}
+
+	public ModelPedido selecionarPedidosAbertos(int usuario) {
+
+		Connection con = ConnectionFactory.getConnection();
+		ModelPedido p = new ModelPedido();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+
+			stm = con
+					.prepareStatement("SELECT * FROM tbl_pedido WHERE usuario_id = " + usuario + " AND status_id = 1;");
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -114,6 +148,91 @@ public class DaoPedido {
 		}
 
 		return p;
+	}
+
+	public ModelPedido selecionarUltimaEntrada() {
+
+		Connection con = ConnectionFactory.getConnection();
+		ModelPedido pe = new ModelPedido();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_pedido WHERE status_id = 1 ORDER BY pedido_id DESC LIMIT 0, 1;");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				pe.setPedido_data(rs.getDate("pedido_data"));
+				pe.setPedido_id(rs.getInt("pedido_id"));
+				pe.setStatus_id(1);
+				pe.setUsuario_id(rs.getInt("usuario_id"));
+				pe.setValorTotal(rs.getInt("pedido_valorTotal"));
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pe;
+
+	}
+
+	public boolean verificarPedidoAberto(int usuario, int restaurante) {
+
+		boolean aberto = false;
+
+		Connection con = ConnectionFactory.getConnection();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_pedido AS p INNER JOIN tbl_itensPedido AS ip ON ip.pedido_id = p.pedido_id INNER JOIN tbl_produto AS prod ON prod.produto_id = ip.produto_id INNER JOIN tbl_restaurante AS r ON r.restaurante_id = prod.restaurante_id WHERE usuario_id ="
+							+ usuario + " AND status_id = 1 AND r.restaurante_id = " + restaurante + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				aberto = true;
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return aberto;
+	}
+
+	public boolean verificarOutrosPedidos(int usuario, int restaurante) {
+		boolean aberto = false;
+
+		Connection con = ConnectionFactory.getConnection();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+
+			stm = con.prepareStatement(
+					"SELECT * FROM tbl_pedido AS p INNER JOIN tbl_itensPedido AS ip ON ip.pedido_id = p.pedido_id INNER JOIN tbl_produto AS prod ON prod.produto_id = ip.produto_id INNER JOIN tbl_restaurante AS r ON r.restaurante_id = prod.restaurante_id WHERE usuario_id ="
+							+ usuario + " AND status_id = 1 AND r.restaurante_id != " + restaurante + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				aberto = true;
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return aberto;
 	}
 
 	public List<ModelPedido> carregarLista(int id) {

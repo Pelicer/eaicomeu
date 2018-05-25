@@ -7,6 +7,7 @@ import java.util.List;
 import dao.DaoPedido;
 import model.ModelPedido;
 import model.ModelProduto;
+import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.ViewCarrinho;
 import view.usuario.pedido.ViewAdicionais;
@@ -31,8 +32,18 @@ public class ControllerPedido {
 		return p;
 	}
 
-	public ModelPedido selecionarPedidoAberto(int id) {
-		p = DAO.selecionarPedidoAberto(id);
+	public ModelPedido selecionarPedidoAberto(int usuario, int restaurante) {
+		p = DAO.selecionarPedidoAberto(usuario, restaurante);
+		return p;
+	}
+
+	public ModelPedido selecionarPedidosAbertos(int usuario) {
+		p = DAO.selecionarPedidosAbertos(usuario);
+		return p;
+	}
+
+	public ModelPedido selecionarUltimaEntrada() {
+		p = DAO.selecionarUltimaEntrada();
 		return p;
 	}
 
@@ -46,11 +57,22 @@ public class ControllerPedido {
 		return lstped;
 	}
 
-	public void carregarViewAdicionais(ModelUsuario u, ModelPedido pe, ModelProduto pr, String[] observacao) {
+	public boolean verificarPedidoAberto(int usuario, int restaurante) {
+		boolean i = DAO.verificarPedidoAberto(usuario, restaurante);
+		return i;
+	}
+
+	public boolean verificarOutrosPedidos(int usuario, int restaurante) {
+		boolean i = DAO.verificarOutrosPedidos(usuario, restaurante);
+		return i;
+	}
+
+	public void carregarViewAdicionais(ModelUsuario u, ModelPedido pe, ModelProduto pr, ModelRestaurante r,
+			String[] observacao) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewAdicionais frame = new ViewAdicionais(u, pe, pr, observacao);
+					ViewAdicionais frame = new ViewAdicionais(u, pe, pr, r, observacao);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {

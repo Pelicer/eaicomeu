@@ -46,6 +46,32 @@ public class DaoItensPedido {
 		}
 	}
 
+	public void cadastrarItensPedidoNull(ModelProduto pr, String[] observacao) {
+
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		String obs = "";
+		for (int i = 0; i < observacao.length; i++) {
+			obs += observacao[i] + "/";
+		}
+
+		try {
+			stm = con.prepareStatement(
+					"INSERT INTO tbl_itensPedido (pedido_id, produto_id, itensPedido_adicionais, itensPedido_observacao) VALUES ( null,  ?,  '', ?);");
+			stm.setInt(1, pr.getProduto_id());
+			stm.setString(2, obs);
+
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+	}
+
 	public List<ModelItensPedido> carregarCarrinho(int id) {
 
 		List<ModelItensPedido> itens = new ArrayList<ModelItensPedido>();
@@ -84,10 +110,40 @@ public class DaoItensPedido {
 		PreparedStatement stm = null;
 
 		try {
-			stm = con.prepareStatement("SELECT * FROM tbl_itensPedido WHERE pedido_id = " + id + ";");
+			stm = con.prepareStatement("SELECT * FROM tbl_itensPedido WHERE itensPedido_id = " + id + ";");
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
+				ip.setItensPedido_adicionais(rs.getString("itensPedido_adicionais"));
+				ip.setItensPedido_observacao(rs.getString("itensPedido_observacao"));
+				ip.setItensPedido_id(rs.getInt("itensPedido_id"));
+				ip.setPedido_id(rs.getInt("pedido_id"));
+				ip.setProduto_id(rs.getInt("produto_id"));
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ip;
+
+	}
+
+	public ModelItensPedido selecionarUltimaEntrada() {
+
+		Connection con = ConnectionFactory.getConnection();
+		ModelItensPedido ip = new ModelItensPedido();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_itensPedido ORDER BY itensPedido_id DESC LIMIT 0, 1;");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ip.setItensPedido_id(rs.getInt("itensPedido_id"));
 				ip.setItensPedido_adicionais(rs.getString("itensPedido_adicionais"));
 				ip.setItensPedido_observacao(rs.getString("itensPedido_observacao"));
 				ip.setPedido_id(rs.getInt("pedido_id"));
@@ -102,5 +158,30 @@ public class DaoItensPedido {
 
 		return ip;
 
+	}
+
+	public void atualizarItensPedido(int pedidoID, String[] adicionais, int ID) {
+
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		String add = "";
+		for (int i = 0; i < adicionais.length; i++) {
+			add += adicionais[i] + "/";
+		}
+
+		try {
+			stm = con.prepareStatement(
+					"UPDATE tbl_itensPedido SET itensPedido_adicionais = ?, pedido_id = ? WHERE itensPedido_id = " + ID
+							+ ";");
+			stm.setString(1, add);
+			stm.setInt(2, pedidoID);
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -96,7 +96,7 @@ public class ViewPedido extends JFrame {
 				ControllerUsuario cu = new ControllerUsuario();
 				ControllerPedido cp = new ControllerPedido();
 				ModelPedido p = new ModelPedido();
-				p = cp.selecionarPedidoAberto(usuario.getUsuario_id());
+				p = cp.selecionarPedidosAbertos(usuario.getUsuario_id());
 				cu.carregarCarrinho(usuario, p);
 				dispose();
 				usuario = cu.selecionarUsuarioID(u.getUsuario_id());

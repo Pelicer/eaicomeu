@@ -249,10 +249,12 @@ CREATE TABLE tbl_pedido(
 
 DROP TABLE IF EXISTS `tbl_itensPedido`;
 CREATE TABLE tbl_itensPedido(
+	itensPedido_id INT NOT NULL AUTO_INCREMENT,
 	itensPedido_adicionais VARCHAR(500),
 	itensPedido_observacao VARCHAR(500),
-	pedido_id INT NOT NULL,
+	pedido_id INT,
 	produto_id INT NOT NULL,
+    PRIMARY KEY (itensPedido_id), 
 	FOREIGN KEY(pedido_id) REFERENCES tbl_pedido(pedido_id),
 	FOREIGN KEY(produto_id) REFERENCES tbl_produto(produto_id)
 );

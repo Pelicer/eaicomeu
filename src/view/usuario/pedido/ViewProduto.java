@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -26,9 +27,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import controller.ControllerIngrediente;
+import controller.ControllerItensPedido;
 import controller.ControllerPedido;
 import controller.ControllerUsuario;
 import model.ModelIngrediente;
+import model.ModelItensPedido;
 import model.ModelPedido;
 import model.ModelProduto;
 import model.ModelRestaurante;
@@ -42,7 +45,10 @@ public class ViewProduto extends JFrame {
 	ModelUsuario usuario = new ModelUsuario();
 	ModelRestaurante restaurante = new ModelRestaurante();
 	ModelProduto produto = new ModelProduto();
+	ModelItensPedido itensPedido = new ModelItensPedido();
+
 	ControllerIngrediente ci = new ControllerIngrediente();
+	ControllerItensPedido cip = new ControllerItensPedido();
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -136,7 +142,7 @@ public class ViewProduto extends JFrame {
 				ControllerUsuario cu = new ControllerUsuario();
 				ControllerPedido cp = new ControllerPedido();
 				ModelPedido p = new ModelPedido();
-				p = cp.selecionarPedidoAberto(usuario.getUsuario_id());
+				p = cp.selecionarPedidosAbertos(usuario.getUsuario_id());
 				cu.carregarCarrinho(usuario, p);
 				dispose();
 				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
@@ -239,17 +245,11 @@ public class ViewProduto extends JFrame {
 									i = observacao.length;
 								}
 							}
-							for (int y = 0; y < observacao.length; y++) {
-								System.out.println(observacao[y]);
-							}
 						}
 
 					} else {
 						if (observacao[obs_posicao].equals("")) {
 							observacao[obs_posicao] = desejado.getName();
-							for (int y = 0; y < observacao.length; y++) {
-								System.out.println(observacao[y]);
-							}
 						} else {
 							for (int i = 0; i < observacao.length; i++) {
 								if (observacao[i].equals("")) {
@@ -257,9 +257,6 @@ public class ViewProduto extends JFrame {
 								}
 							}
 							observacao[obs_posicao] = desejado.getName();
-							for (int y = 0; y < observacao.length; y++) {
-								System.out.println(observacao[y]);
-							}
 						}
 					}
 				}
@@ -277,10 +274,6 @@ public class ViewProduto extends JFrame {
 					@Override
 					public void mouseReleased(MouseEvent e) {
 
-						for (int y = 0; y < observacao.length; y++) {
-							System.out.println(observacao[y]);
-						}
-
 						ModelPedido pe = new ModelPedido();
 						ControllerPedido cpe = new ControllerPedido();
 
@@ -288,10 +281,31 @@ public class ViewProduto extends JFrame {
 						pe.setValorTotal(produto.getProduto_valor());
 						Date data = new Date();
 						pe.setPedido_data(data);
-						cpe.cadastrarPedido(pe);
-						cpe.carregarViewAdicionais(u, pe, produto, observacao);
-						dispose();
 
+						boolean outros = cpe.verificarOutrosPedidos(usuario.getUsuario_id(),
+								restaurante.getRestaurante_id());
+
+						if (outros) {
+							JOptionPane.showMessageDialog(null,
+									"Opa! Parece que você tem um pedido em aberto com outro restaurante.",
+									"Pedido em Aberto", JOptionPane.WARNING_MESSAGE);
+						} else {
+							boolean aberto = cpe.verificarPedidoAberto(usuario.getUsuario_id(),
+									restaurante.getRestaurante_id());
+
+							if (!aberto) {
+								cpe.cadastrarPedido(pe);
+							} else {
+								pe = cpe.selecionarPedidoAberto(usuario.getUsuario_id(),
+										restaurante.getRestaurante_id());
+							}
+
+							cip.cadastrarItensPedidoNull(pr, observacao);
+
+							cpe.carregarViewAdicionais(u, pe, produto, restaurante, observacao);
+							dispose();
+
+						}
 					}
 				});
 				lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));

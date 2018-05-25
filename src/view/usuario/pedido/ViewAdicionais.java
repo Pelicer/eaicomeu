@@ -27,10 +27,13 @@ import javax.swing.border.EtchedBorder;
 import controller.ControllerIngrediente;
 import controller.ControllerItensPedido;
 import controller.ControllerPedido;
+import controller.ControllerRestaurante;
 import controller.ControllerUsuario;
 import model.ModelIngrediente;
+import model.ModelItensPedido;
 import model.ModelPedido;
 import model.ModelProduto;
+import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.ViewIndex;
 
@@ -42,10 +45,14 @@ public class ViewAdicionais extends JFrame {
 	ModelUsuario u = new ModelUsuario();
 	ModelPedido pe = new ModelPedido();
 	ModelProduto pr = new ModelProduto();
+	ModelItensPedido ip = new ModelItensPedido();
+	ModelRestaurante r = new ModelRestaurante();
 
+	ControllerUsuario cu = new ControllerUsuario();
 	ControllerPedido cp = new ControllerPedido();
 	ControllerIngrediente ci = new ControllerIngrediente();
 	ControllerItensPedido cip = new ControllerItensPedido();
+	ControllerRestaurante cr = new ControllerRestaurante();
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -54,12 +61,14 @@ public class ViewAdicionais extends JFrame {
 
 	}
 
-	public ViewAdicionais(ModelUsuario usuario, ModelPedido pedido, ModelProduto produto, String[] obs) {
+	public ViewAdicionais(ModelUsuario usuario, ModelPedido pedido, ModelProduto produto, ModelRestaurante restaurante,
+			String[] obs) {
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(ViewAdicionais.class.getResource("/img/logo/logo (64x64).png")));
 		u = usuario;
 		pe = pedido;
 		pr = produto;
+		r = restaurante;
 		observacao = obs;
 
 		int yproduto = 40;
@@ -264,8 +273,11 @@ public class ViewAdicionais extends JFrame {
 				lblNext.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseReleased(MouseEvent e) {
-						pe = cp.selecionarPedidoAberto(u.getUsuario_id());
-						cip.cadastrarItensPedido(pe, pr, adicionais, observacao);
+
+						pe = cp.selecionarUltimaEntrada();
+						ip = cip.selecionarUltimaEntrada();
+						cip.atualizarItensPedido(pe.getPedido_id(), adicionais, ip.getItensPedido_id());
+						ip = cip.selecionarItensPedido(ip.getItensPedido_id());
 						cp.carregarViewCarrinho(u, pe);
 						dispose();
 					}

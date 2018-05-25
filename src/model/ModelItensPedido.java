@@ -4,6 +4,7 @@ public class ModelItensPedido {
 
 	int pedido_id;
 	int produto_id;
+	int itensPedido_id;
 	String itensPedido_adicionais;
 	String itensPedido_observacao;
 
@@ -12,11 +13,12 @@ public class ModelItensPedido {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ModelItensPedido(int pedido_id, int produto_id, String itensPedido_adicionais,
+	public ModelItensPedido(int pedido_id, int produto_id, int itensPedido_id, String itensPedido_adicionais,
 			String itensPedido_observacao) {
 		super();
 		this.pedido_id = pedido_id;
 		this.produto_id = produto_id;
+		this.itensPedido_id = itensPedido_id;
 		this.itensPedido_adicionais = itensPedido_adicionais;
 		this.itensPedido_observacao = itensPedido_observacao;
 	}
@@ -35,6 +37,14 @@ public class ModelItensPedido {
 
 	public void setProduto_id(int produto_id) {
 		this.produto_id = produto_id;
+	}
+
+	public int getItensPedido_id() {
+		return itensPedido_id;
+	}
+
+	public void setItensPedido_id(int itensPedido_id) {
+		this.itensPedido_id = itensPedido_id;
 	}
 
 	public String getItensPedido_adicionais() {

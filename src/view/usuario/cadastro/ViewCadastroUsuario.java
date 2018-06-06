@@ -87,7 +87,6 @@ public class ViewCadastroUsuario extends JFrame {
 			u.setUsuario_endereco(txtEndereco.getText());
 			u.setUsuario_logradouro(txtLogradouro.getText());
 			u.setUsuario_nome(txtNome.getText());
-			u.setUsuario_thumbnail("");
 			u.setUsuario_uf(txtUF.getText());
 			u.setUsuario_celular(txtCelular.getText());
 
@@ -156,7 +155,6 @@ public class ViewCadastroUsuario extends JFrame {
 			ue.setUsuario_endereco(txtEndereco.getText());
 			ue.setUsuario_logradouro(txtLogradouro.getText());
 			ue.setUsuario_nome(txtNome.getText());
-			ue.setUsuario_thumbnail("");
 			ue.setUsuario_uf(txtUF.getText());
 			ue.setUsuario_celular(txtCelular.getText());
 

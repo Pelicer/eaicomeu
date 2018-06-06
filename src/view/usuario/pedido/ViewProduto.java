@@ -301,7 +301,6 @@ public class ViewProduto extends JFrame {
 							}
 
 							cip.cadastrarItensPedidoNull(pr, observacao);
-
 							cpe.carregarViewAdicionais(u, pe, produto, restaurante, observacao);
 							dispose();
 

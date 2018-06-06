@@ -7,6 +7,7 @@ public class ModelPedido {
 	int usuario_id;
 	int pedido_id;
 	int status_id;
+	int entrega_id;
 	float valorTotal;
 	Date pedido_data;
 
@@ -15,11 +16,13 @@ public class ModelPedido {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ModelPedido(int usuario_id, int pedido_id, int status_id, float valorTotal, Date pedido_data) {
+	public ModelPedido(int usuario_id, int pedido_id, int status_id, int entrega_id, float valorTotal,
+			Date pedido_data) {
 		super();
 		this.usuario_id = usuario_id;
 		this.pedido_id = pedido_id;
 		this.status_id = status_id;
+		this.entrega_id = entrega_id;
 		this.valorTotal = valorTotal;
 		this.pedido_data = pedido_data;
 	}
@@ -46,6 +49,14 @@ public class ModelPedido {
 
 	public void setStatus_id(int status_id) {
 		this.status_id = status_id;
+	}
+
+	public int getEntrega_id() {
+		return entrega_id;
+	}
+
+	public void setEntrega_id(int entrega_id) {
+		this.entrega_id = entrega_id;
 	}
 
 	public float getValorTotal() {

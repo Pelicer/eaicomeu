@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.ControllerPedido;
 import model.ModelItensPedido;
 import model.ModelPedido;
 import model.ModelProduto;
@@ -90,6 +91,7 @@ public class DaoItensPedido {
 				i.setProduto_id(rs.getInt("produto_id"));
 				i.setItensPedido_adicionais(rs.getString("itensPedido_adicionais"));
 				i.setItensPedido_observacao(rs.getString("itensPedido_observacao"));
+				i.setItensPedido_id(rs.getInt("itensPedido_id"));
 				itens.add(i);
 			}
 
@@ -100,6 +102,24 @@ public class DaoItensPedido {
 		}
 
 		return itens;
+	}
+
+	public void limparCarrinho(int pedido_id) {
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("DELETE FROM tbl_itensPedido;");
+			stm.executeUpdate();
+
+			ControllerPedido cp = new ControllerPedido();
+			cp.deletarPedido(pedido_id);
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ModelItensPedido selecionarItensPedido(int id) {
@@ -177,6 +197,25 @@ public class DaoItensPedido {
 			stm.setString(1, add);
 			stm.setInt(2, pedidoID);
 			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void excluirItem(ModelItensPedido ip) {
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("DELETE FROM tbl_itensPedido WHERE itensPedido_id = ?;");
+			stm.setInt(1, ip.getItensPedido_id());
+			stm.executeUpdate();
+
+			ControllerPedido cp = new ControllerPedido();
+			cp.atualizarPreco(ip.getPedido_id());
 
 			ConnectionFactory.closeConnection(con, stm);
 

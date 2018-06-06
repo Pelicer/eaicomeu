@@ -274,10 +274,22 @@ public class ViewAdicionais extends JFrame {
 					@Override
 					public void mouseReleased(MouseEvent e) {
 
+						// Seleciona a última entrada de pedido e de itens pedido.
 						pe = cp.selecionarUltimaEntrada();
 						ip = cip.selecionarUltimaEntrada();
+
+						// Atualiza o itenspedido com as inforamções do pedido.
 						cip.atualizarItensPedido(pe.getPedido_id(), adicionais, ip.getItensPedido_id());
+
+						// Seleciona itenspedido mais atualizado.
 						ip = cip.selecionarItensPedido(ip.getItensPedido_id());
+
+						// Atualiza o preço do pedido com a soma dos valores dos itens.
+						cp.atualizarPreco(pe.getPedido_id());
+
+						// Atualiza mais uma vez o pedido para o mais recente (com valor atualizado).
+						pe = cp.selecionarUltimaEntrada();
+
 						cp.carregarViewCarrinho(u, pe);
 						dispose();
 					}

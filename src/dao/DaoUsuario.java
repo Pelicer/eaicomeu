@@ -20,7 +20,7 @@ public class DaoUsuario {
 
 		try {
 			stm = con.prepareStatement(
-					"INSERT INTO tbl_usuario (usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento, usuario_thumbnail) VALUES ( ?,  ?,  ?,  ?, ?,  ?,  ?,  ?, ?,  ?,  ?,  ?)");
+					"INSERT INTO tbl_usuario (usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento) VALUES ( ?,  ?,  ?,  ?, ?,  ?,  ?,  ?, ?,  ?,  ?)");
 			stm.setString(1, u.getUsuario_cpf());
 			stm.setString(2, u.getUsuario_nome());
 			stm.setString(3, u.getUsuario_email());
@@ -32,7 +32,6 @@ public class DaoUsuario {
 			stm.setString(9, u.getUsuario_endereco());
 			stm.setString(10, u.getUsuario_logradouro());
 			stm.setString(11, u.getUsuario_complemento());
-			stm.setString(12, u.getUsuario_thumbnail());
 
 			stm.executeUpdate();
 
@@ -67,7 +66,6 @@ public class DaoUsuario {
 				u.setUsuario_endereco(rs.getString("usuario_endereco"));
 				u.setUsuario_logradouro(rs.getString("usuario_logradouro"));
 				u.setUsuario_complemento(rs.getString("usuario_complemento"));
-				u.setUsuario_thumbnail(rs.getString("usuario_thumbnail"));
 			}
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -103,7 +101,6 @@ public class DaoUsuario {
 				u.setUsuario_endereco(rs.getString("usuario_endereco"));
 				u.setUsuario_logradouro(rs.getString("usuario_logradouro"));
 				u.setUsuario_complemento(rs.getString("usuario_complemento"));
-				u.setUsuario_thumbnail(rs.getString("usuario_thumbnail"));
 			}
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -123,7 +120,7 @@ public class DaoUsuario {
 
 		try {
 			stm = con.prepareStatement(
-					"UPDATE tbl_usuario SET usuario_cpf = ?, usuario_nome = ?, usuario_email = ?, usuario_celular = ?, usuario_uf = ?, usuario_cidade = ?, usuario_cep = ?, usuario_bairro = ?, usuario_endereco = ?, usuario_logradouro = ?, usuario_complemento = ?, usuario_thumbnail = ? WHERE usuario_id = ?");
+					"UPDATE tbl_usuario SET usuario_cpf = ?, usuario_nome = ?, usuario_email = ?, usuario_celular = ?, usuario_uf = ?, usuario_cidade = ?, usuario_cep = ?, usuario_bairro = ?, usuario_endereco = ?, usuario_logradouro = ?, usuario_complemento = ? WHERE usuario_id = ?");
 
 			stm.setString(1, u.getUsuario_cpf());
 			stm.setString(2, u.getUsuario_nome());
@@ -136,7 +133,6 @@ public class DaoUsuario {
 			stm.setString(9, u.getUsuario_endereco());
 			stm.setString(10, u.getUsuario_logradouro());
 			stm.setString(11, u.getUsuario_complemento());
-			stm.setString(12, u.getUsuario_thumbnail());
 			stm.setInt(13, u.getUsuario_id());
 
 			stm.executeUpdate();

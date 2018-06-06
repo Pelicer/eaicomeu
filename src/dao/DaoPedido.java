@@ -19,12 +19,27 @@ public class DaoPedido {
 
 		try {
 			stm = con.prepareStatement(
-					"INSERT INTO tbl_pedido (pedido_data, pedido_valorTotal, usuario_id, status_id) VALUES (?, ?, ?, ?);");
+					"INSERT INTO tbl_pedido (pedido_data, pedido_valorTotal, entrega_id, usuario_id, status_id) VALUES (?, ?, null, ?, ?);");
 			stm.setObject(1, p.getPedido_data().toInstant().atZone(ZoneId.of("America/Sao_Paulo")).toLocalDate());
 			stm.setFloat(2, p.getValorTotal());
 			stm.setInt(3, p.getUsuario_id());
 			stm.setInt(4, 1);
 
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void excluirPedidosAbertos() {
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("DELETE FROM tbl_pedido WHERE status_id = 1;");
 			stm.executeUpdate();
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -42,11 +57,12 @@ public class DaoPedido {
 
 		try {
 			stm = con.prepareStatement(
-					"UPDATE tbl_pedido SET pedido_data = ?, pedido_valorTotal = ?, status_id = ? WHERE pedido_id = ?");
+					"UPDATE tbl_pedido SET pedido_data = ?, pedido_valorTotal = ?, entrega_id = ?, status_id = ? WHERE pedido_id = ?");
 
 			stm.setObject(1, p.getPedido_data().toInstant().atZone(ZoneId.of("America/Sao_Paulo")).toLocalDate());
 			stm.setFloat(2, p.getValorTotal());
-			stm.setInt(3, p.getStatus_id());
+			stm.setInt(3, p.getEntrega_id());
+			stm.setInt(4, p.getStatus_id());
 
 			stm.executeUpdate();
 
@@ -58,6 +74,37 @@ public class DaoPedido {
 			e.printStackTrace();
 		}
 		return np;
+	}
+
+	public void atualizarPreco(int pedido_id) {
+
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+
+		try {
+			stm = con.prepareStatement(
+					"SELECT SUM(produto_valor) FROM tbl_produto AS prod INNER JOIN tbl_itenspedido AS ip ON prod.produto_id = ip.produto_id INNER JOIN tbl_pedido ON ip.pedido_id = tbl_pedido.pedido_id WHERE tbl_pedido.pedido_id = ?;");
+
+			stm.setInt(1, pedido_id);
+			rs = stm.executeQuery();
+
+			float novoTotal = 0;
+
+			while (rs.next()) {
+				novoTotal = rs.getFloat("SUM(produto_valor)");
+			}
+
+			stm = con.prepareStatement("UPDATE tbl_pedido SET pedido_valorTotal = ? WHERE pedido_id = ?;");
+			stm.setFloat(1, novoTotal);
+			stm.setInt(2, pedido_id);
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ModelPedido selecionarPedido(int id) {
@@ -75,6 +122,7 @@ public class DaoPedido {
 				p.setPedido_data(rs.getDate("pedido_data"));
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
+				p.setEntrega_id(rs.getInt("entrega_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
 			}
 
@@ -104,9 +152,8 @@ public class DaoPedido {
 			while (rs.next()) {
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
-				System.out.println("ID DO PEDIDO");
-				System.out.println(rs.getInt("pedido_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
+				p.setEntrega_id(rs.getInt("entrega_id"));
 				p.setUsuario_id(rs.getInt("usuario_id"));
 				p.setPedido_data(rs.getDate("pedido_data"));
 			}
@@ -137,6 +184,7 @@ public class DaoPedido {
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
+				p.setEntrega_id(rs.getInt("entrega_id"));
 				p.setUsuario_id(rs.getInt("usuario_id"));
 				p.setPedido_data(rs.getDate("pedido_data"));
 			}
@@ -153,7 +201,7 @@ public class DaoPedido {
 	public ModelPedido selecionarUltimaEntrada() {
 
 		Connection con = ConnectionFactory.getConnection();
-		ModelPedido pe = new ModelPedido();
+		ModelPedido p = new ModelPedido();
 		ResultSet rs = null;
 		PreparedStatement stm = null;
 
@@ -163,11 +211,12 @@ public class DaoPedido {
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
-				pe.setPedido_data(rs.getDate("pedido_data"));
-				pe.setPedido_id(rs.getInt("pedido_id"));
-				pe.setStatus_id(1);
-				pe.setUsuario_id(rs.getInt("usuario_id"));
-				pe.setValorTotal(rs.getInt("pedido_valorTotal"));
+				p.setPedido_data(rs.getDate("pedido_data"));
+				p.setPedido_id(rs.getInt("pedido_id"));
+				p.setStatus_id(1);
+				p.setEntrega_id(rs.getInt("entrega_id"));
+				p.setUsuario_id(rs.getInt("usuario_id"));
+				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 			}
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -176,7 +225,7 @@ public class DaoPedido {
 			e.printStackTrace();
 		}
 
-		return pe;
+		return p;
 
 	}
 
@@ -251,6 +300,7 @@ public class DaoPedido {
 				ModelPedido p = new ModelPedido();
 				p.setPedido_data(rs.getDate("pedido_data"));
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
+				p.setEntrega_id(rs.getInt("entrega_id"));
 				p.setStatus_id(rs.getInt("status_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
 				lstped.add(p);

@@ -26,6 +26,10 @@ public class ControllerItensPedido {
 		return itens;
 	}
 
+	public void limparCarrinho(int pedido_id) {
+		DAO.limparCarrinho(pedido_id);
+	}
+
 	public ModelItensPedido selecionarItensPedido(int id) {
 		ModelItensPedido ip = new ModelItensPedido();
 		ip = DAO.selecionarItensPedido(id);
@@ -40,6 +44,10 @@ public class ControllerItensPedido {
 
 	public void atualizarItensPedido(int pedidoID, String[] adicionais, int ID) {
 		DAO.atualizarItensPedido(pedidoID, adicionais, ID);
+	}
+
+	public void excluirItem(ModelItensPedido ip) {
+		DAO.excluirItem(ip);
 	}
 
 }

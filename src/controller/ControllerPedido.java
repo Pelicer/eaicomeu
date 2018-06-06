@@ -21,6 +21,10 @@ public class ControllerPedido {
 	public void cadastrarPedido(ModelPedido pedido) {
 		DAO.cadastrarPedido(pedido);
 	}
+	
+	public void excluirPedidosAbertos() {
+		DAO.excluirPedidosAbertos();
+	}
 
 	public ModelPedido atualizarPedido(ModelPedido pedido) {
 		p = DAO.atualizarPedido(pedido);
@@ -65,6 +69,10 @@ public class ControllerPedido {
 	public boolean verificarOutrosPedidos(int usuario, int restaurante) {
 		boolean i = DAO.verificarOutrosPedidos(usuario, restaurante);
 		return i;
+	}
+
+	public void atualizarPreco(int pedido_id) {
+		DAO.atualizarPreco(pedido_id);
 	}
 
 	public void carregarViewAdicionais(ModelUsuario u, ModelPedido pe, ModelProduto pr, ModelRestaurante r,

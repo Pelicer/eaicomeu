@@ -22,11 +22,10 @@ public class ModelUsuario {
 	String usuario_endereco;
 	String usuario_logradouro;
 	String usuario_complemento;
-	String usuario_thumbnail;
 
 	public ModelUsuario(String usuario_nome, String usuario_email, String usuario_uf, String usuario_cidade,
 			String usuario_bairro, String usuario_endereco, String usuario_logradouro, String usuario_complemento,
-			String usuario_thumbnail, String usuario_cpf, String usuario_celular, String usuario_cep, int usuario_id) {
+			String usuario_cpf, String usuario_celular, String usuario_cep, int usuario_id) {
 		super();
 		this.usuario_id = usuario_id;
 		this.usuario_cpf = usuario_cpf;
@@ -38,7 +37,6 @@ public class ModelUsuario {
 		this.usuario_endereco = usuario_endereco;
 		this.usuario_logradouro = usuario_logradouro;
 		this.usuario_complemento = usuario_complemento;
-		this.usuario_thumbnail = usuario_thumbnail;
 		this.usuario_celular = usuario_celular;
 		this.usuario_cep = usuario_cep;
 	}
@@ -109,14 +107,6 @@ public class ModelUsuario {
 
 	public void setUsuario_complemento(String usuario_complemento) {
 		this.usuario_complemento = usuario_complemento;
-	}
-
-	public String getUsuario_thumbnail() {
-		return usuario_thumbnail;
-	}
-
-	public void setUsuario_thumbnail(String usuario_thumbnail) {
-		this.usuario_thumbnail = usuario_thumbnail;
 	}
 
 	public int getUsuario_id() {

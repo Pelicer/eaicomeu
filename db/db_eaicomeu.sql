@@ -5,7 +5,7 @@ USE db_eaicomeu;
 DROP TABLE IF EXISTS `tbl_usuario`;
 CREATE TABLE tbl_usuario(
 	usuario_id INT NOT NULL AUTO_INCREMENT,
-    usuario_cpf VARCHAR(	20) NOT NULL UNIQUE,
+    usuario_cpf VARCHAR(20) NOT NULL UNIQUE,
 	usuario_nome VARCHAR(30) NOT NULL,
 	usuario_email VARCHAR(30) NOT NULL,
 	usuario_celular VARCHAR(30) NOT NULL,
@@ -16,12 +16,11 @@ CREATE TABLE tbl_usuario(
 	usuario_endereco VARCHAR(60) NOT NULL,
 	usuario_logradouro VARCHAR(10) NOT NULL,	
 	usuario_complemento VARCHAR(60),
-    usuario_thumbnail VARCHAR(60),
 	PRIMARY KEY(usuario_id)
 );
 
-INSERT INTO tbl_usuario(usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento, usuario_thumbnail) VALUES
-('488.727.448-30', 'William Filho', 'willpelicer@gmail.com', '(19) 99996-7251', 'SP', 'Hortolândia', '13.186-203', 'Jardim Mirante', 'Rua Primeiro de Maio', '133', '', '');
+INSERT INTO tbl_usuario(usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento) VALUES
+('488.727.448-30', 'William Filho', 'willpelicer@gmail.com', '(19) 99996-7251', 'SP', 'Hortolândia', '13.186-203', 'Jardim Mirante', 'Rua Primeiro de Maio', '133', 'Sem complemento');
 
 DROP TABLE IF EXISTS `tbl_entregador`;
 CREATE TABLE tbl_entregador(
@@ -241,6 +240,7 @@ CREATE TABLE tbl_pedido(
 	pedido_id INT NOT NULL AUTO_INCREMENT,
 	pedido_data DATE,
     pedido_valorTotal DECIMAL(5, 2) NOT NULL,
+	entrega_id INT,
 	usuario_id INT NOT NULL,
     status_id INT NOT NULL,
 	PRIMARY KEY(pedido_id),
@@ -272,3 +272,34 @@ CREATE TABLE tbl_feedback(
 	PRIMARY KEY(feedback_id),
 	FOREIGN KEY(pedido_id) REFERENCES tbl_pedido(pedido_id)
 );	
+
+DROP TABLE IF EXISTS `tbl_entrega`;
+CREATE TABLE tbl_entrega(
+	entrega_id INT NOT NULL, 
+	entrega_tipo VARCHAR(30),
+	PRIMARY KEY(entrega_id)
+);
+
+INSERT INTO tbl_entrega(entrega_id, entrega_tipo) VALUES
+(1, 'Retirada'),
+(2, 'Entrega'),
+(3, 'Motoboy');
+
+DROP TABLE IF EXISTS `tbl_formaPagamento`;
+CREATE TABLE tbl_formaPagamento(
+	formaPagamento_id INT NOT NULL,
+	formaPagamento_descricao VARCHAR(30),
+	formaPagamento_bandeira VARCHAR(60),
+	PRIMARY KEY (formaPagamento_id)
+);
+
+INSERT INTO tbl_formaPagamento VALUES 
+(1,'','');
+
+DROP TABLE IF EXISTS `tbl_restaurantePagamento`;
+CREATE TABLE tbl_restaurantePagamento(
+	formaPagamento_id INT NOT NULL,
+	restaurante_id INT NOT NULL,
+	FOREIGN KEY (formaPagamento_id) REFERENCES tbl_formaPagamento (formaPagamento_id),
+	FOREIGN KEY (restaurante_id) REFERENCES tbl_restaurante (restaurante_id)
+);

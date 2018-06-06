@@ -27,6 +27,7 @@ public class DaoProduto {
 				p.setProduto_nome(rs.getString("produto_nome"));
 				p.setProduto_thumbnail(rs.getString("produto_thumbnail"));
 				p.setProduto_valor(rs.getFloat("produto_valor"));
+				System.out.println(rs.getInt("restaurante_id"));
 				p.setRestaurante_id(rs.getInt("restaurante_id"));
 				p.setTipo_id(rs.getInt("tipo_id"));
 			}

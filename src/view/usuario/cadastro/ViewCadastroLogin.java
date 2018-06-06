@@ -7,13 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -235,54 +229,6 @@ public class ViewCadastroLogin extends JFrame {
 		pswSenha.setBounds(122, 260, 238, 30);
 		contentPane.add(pswSenha);
 		pswSenha.setDocument(new JTextFieldLimit(12));
-
-		JLabel lblEUmaFoto = new JLabel("E uma foto para lembrarmos de voc\u00EA");
-		lblEUmaFoto.setForeground(Color.WHITE);
-		lblEUmaFoto.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-		lblEUmaFoto.setBounds(39, 354, 365, 30);
-		contentPane.add(lblEUmaFoto);
-
-		JLabel lblPerfil = new JLabel("");
-		lblPerfil.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Importar imagem");
-				FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
-				fileChooser.addChoosableFileFilter(imageFilter);
-
-				fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
-				if (fileChooser.showOpenDialog(lblPerfil) == JFileChooser.APPROVE_OPTION) {
-
-					ImageIcon img = new ImageIcon(fileChooser.getSelectedFile().getPath());
-
-					img.setImage(img.getImage().getScaledInstance(lblPerfil.getWidth(), lblPerfil.getHeight(), 100));
-
-					String diretorio = fileChooser.getSelectedFile().getPath();
-
-					StringBuilder sb = new StringBuilder(diretorio);
-
-					int contador = diretorio.length();
-
-					for (int i = 0; i < contador; i++) {
-						if (diretorio.substring(i, i + 1).equals("\\")) {
-							int posicao = i + 1;
-							sb.setCharAt((posicao - 1), '/');
-						}
-					}
-
-					diretorio = sb.toString();
-					lblPerfil.setIcon(img);
-
-				}
-
-			}
-		});
-		lblPerfil.setIcon(new ImageIcon(ViewCadastroLogin.class.getResource("/img/user/user (128px).png")));
-		lblPerfil.setBounds(139, 419, 128, 128);
-		contentPane.add(lblPerfil);
 
 		JButton btnCadastrar = new JButton("TUDO PRONTO!");
 		btnCadastrar.setForeground(Color.WHITE);

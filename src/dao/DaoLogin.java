@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.ModelLogin;
+import model.ModelUsuario;
 
 public class DaoLogin {
 
@@ -139,7 +140,7 @@ public class DaoLogin {
 		ModelLogin login = new ModelLogin();
 
 		try {
-			if(!email) {
+			if (!email) {
 				stm = con.prepareStatement(
 						"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_nome = ? and login_senha = ?");
 				stm.setString(1, l.getLogin_nome());
@@ -152,7 +153,7 @@ public class DaoLogin {
 				}
 
 				ConnectionFactory.closeConnection(con, stm);
-			}else {
+			} else {
 				stm = con.prepareStatement(
 						"SELECT usuario_id, restaurante_id FROM tbl_login WHERE login_email = ? and login_senha = ?");
 				stm.setString(1, l.getLogin_email());
@@ -259,4 +260,24 @@ public class DaoLogin {
 
 		return existente;
 	}
+
+	public void deletarLogin(ModelUsuario u) {
+
+		Connection con = ConnectionFactory.getConnection();
+
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("DELETE FROM tbl_login WHERE usuario_id = ?");
+			stm.setInt(1, u.getUsuario_id());
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

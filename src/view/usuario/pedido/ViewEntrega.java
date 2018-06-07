@@ -132,11 +132,6 @@ public class ViewEntrega extends JFrame {
 		contentPane.add(viewport);
 		viewport.setLayout(null);
 
-		JLabel lblNext = new JLabel("");
-		lblNext.setBounds(346, 361, 32, 32);
-		lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
-		viewport.add(lblNext);
-
 		JPanel formasEntrega = new JPanel();
 		formasEntrega.setBackground(Color.WHITE);
 		formasEntrega.setBounds(0, 99, 414, 204);
@@ -179,6 +174,24 @@ public class ViewEntrega extends JFrame {
 						"Para o servi\u00E7o de retirada, n\u00E3o esque\u00E7a de aguardar pelo menos 30min antes de ir buscar seu pedido!");
 				txtAviso.setBounds(115, 42, 263, 64);
 				viewport.add(txtAviso);
+
+				pedido.setEntrega_id(1);
+				pedido.setEnderecoEntrega("");
+
+				JLabel lblNext = new JLabel("");
+				lblNext.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+						ControllerPedido cp = new ControllerPedido();
+						pedido.setPagamento_id(0);
+						cp.atualizarPedido(pedido);
+						cp.carregarViewPagamento(usuario, pedido);
+						dispose();
+					}
+				});
+				lblNext.setBounds(346, 361, 32, 32);
+				lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
+				viewport.add(lblNext);
 			}
 		});
 		btnRetirada.setOpaque(true);
@@ -203,24 +216,27 @@ public class ViewEntrega extends JFrame {
 				viewport.removeAll();
 				viewport.repaint();
 
-				JTextArea textEnderecoEntrega = new JTextArea();
-				textEnderecoEntrega.setWrapStyleWord(true);
-				textEnderecoEntrega.setLineWrap(true);
-				textEnderecoEntrega.setBounds(43, 72, 327, 198);
-				textEnderecoEntrega.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
-				textEnderecoEntrega.setText("Bairro " + usuario.getUsuario_bairro() + ", Rua "
+				JTextArea txtEnderecoEntrega = new JTextArea();
+				txtEnderecoEntrega.setWrapStyleWord(true);
+				txtEnderecoEntrega.setLineWrap(true);
+				txtEnderecoEntrega.setBounds(43, 72, 327, 198);
+				txtEnderecoEntrega.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
+				txtEnderecoEntrega.setText("Bairro " + usuario.getUsuario_bairro() + ", Rua "
 						+ usuario.getUsuario_endereco() + " - Nº " + usuario.getUsuario_logradouro() + ", "
 						+ usuario.getUsuario_cidade() + " - " + usuario.getUsuario_uf());
-				viewport.add(textEnderecoEntrega);
+				viewport.add(txtEnderecoEntrega);
 
-				JButton btnEditarEndereo = new JButton("Editar Endere\u00E7o");
-				btnEditarEndereo
+				JButton btnEditarEndereco = new JButton("Editar Endere\u00E7o");
+				btnEditarEndereco
 						.setIcon(new ImageIcon(ViewEntrega.class.getResource("/img/delivery/edit (32x32).png")));
-				btnEditarEndereo.setBounds(209, 295, 161, 41);
-				btnEditarEndereo.setOpaque(true);
-				btnEditarEndereo.setContentAreaFilled(false);
-				btnEditarEndereo.setBorderPainted(true);
-				viewport.add(btnEditarEndereo);
+				btnEditarEndereco.addMouseListener(new MouseAdapter() {
+
+				});
+				btnEditarEndereco.setBounds(209, 295, 161, 41);
+				btnEditarEndereco.setOpaque(true);
+				btnEditarEndereco.setContentAreaFilled(false);
+				btnEditarEndereco.setBorderPainted(true);
+				viewport.add(btnEditarEndereco);
 
 				JLabel lblEsteEndereco = new JLabel();
 				lblEsteEndereco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -229,6 +245,24 @@ public class ViewEntrega extends JFrame {
 				lblEsteEndereco.setFont(new Font("Tahoma", Font.PLAIN, 18));
 				lblEsteEndereco.setBounds(43, 25, 327, 22);
 				viewport.add(lblEsteEndereco);
+
+				pedido.setEntrega_id(2);
+				pedido.setEnderecoEntrega(txtEnderecoEntrega.getText());
+
+				JLabel lblNext = new JLabel("");
+				lblNext.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+						ControllerPedido cp = new ControllerPedido();
+						cp.atualizarPedido(pedido);
+						cp.carregarViewPagamento(usuario, pedido);
+						dispose();
+					}
+				});
+				lblNext.setBounds(346, 361, 32, 32);
+				lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
+				viewport.add(lblNext);
+
 			}
 		});
 		btnEntrega.setOpaque(true);

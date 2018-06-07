@@ -8,23 +8,27 @@ public class ModelPedido {
 	int pedido_id;
 	int status_id;
 	int entrega_id;
+	int pagamento_id;
 	float valorTotal;
 	Date pedido_data;
+	String enderecoEntrega;
 
 	public ModelPedido() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ModelPedido(int usuario_id, int pedido_id, int status_id, int entrega_id, float valorTotal,
-			Date pedido_data) {
+	public ModelPedido(int usuario_id, int pedido_id, int status_id, int entrega_id, int pagamento_id, float valorTotal,
+			Date pedido_data, String enderecoEntrega) {
 		super();
 		this.usuario_id = usuario_id;
 		this.pedido_id = pedido_id;
 		this.status_id = status_id;
 		this.entrega_id = entrega_id;
+		this.pagamento_id = pagamento_id;
 		this.valorTotal = valorTotal;
 		this.pedido_data = pedido_data;
+		this.enderecoEntrega = enderecoEntrega;
 	}
 
 	public int getUsuario_id() {
@@ -59,6 +63,14 @@ public class ModelPedido {
 		this.entrega_id = entrega_id;
 	}
 
+	public int getPagamento_id() {
+		return pagamento_id;
+	}
+
+	public void setPagamento_id(int pagamento_id) {
+		this.pagamento_id = pagamento_id;
+	}
+
 	public float getValorTotal() {
 		return valorTotal;
 	}
@@ -73,6 +85,14 @@ public class ModelPedido {
 
 	public void setPedido_data(Date pedido_data) {
 		this.pedido_data = pedido_data;
+	}
+
+	public String getEnderecoEntrega() {
+		return enderecoEntrega;
+	}
+
+	public void setEnderecoEntrega(String enderecoEntrega) {
+		this.enderecoEntrega = enderecoEntrega;
 	}
 
 }

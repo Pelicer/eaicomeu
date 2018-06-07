@@ -120,7 +120,17 @@ public class DaoUsuario {
 
 		try {
 			stm = con.prepareStatement(
-					"UPDATE tbl_usuario SET usuario_cpf = ?, usuario_nome = ?, usuario_email = ?, usuario_celular = ?, usuario_uf = ?, usuario_cidade = ?, usuario_cep = ?, usuario_bairro = ?, usuario_endereco = ?, usuario_logradouro = ?, usuario_complemento = ? WHERE usuario_id = ?");
+					"UPDATE tbl_usuario SET usuario_cpf = ?, "
+					+ "usuario_nome = ?, "
+					+ "usuario_email = ?, "
+					+ "usuario_celular = ?, "
+					+ "usuario_uf = ?, "
+					+ "usuario_cidade = ?, "
+					+ "usuario_cep = ?, "
+					+ "usuario_bairro = ?, "
+					+ "usuario_endereco = ?, "
+					+ "usuario_logradouro = ?, "
+					+ "usuario_complemento = ? WHERE usuario_id = ?");
 
 			stm.setString(1, u.getUsuario_cpf());
 			stm.setString(2, u.getUsuario_nome());
@@ -133,7 +143,7 @@ public class DaoUsuario {
 			stm.setString(9, u.getUsuario_endereco());
 			stm.setString(10, u.getUsuario_logradouro());
 			stm.setString(11, u.getUsuario_complemento());
-			stm.setInt(13, u.getUsuario_id());
+			stm.setInt(12, u.getUsuario_id());
 
 			stm.executeUpdate();
 

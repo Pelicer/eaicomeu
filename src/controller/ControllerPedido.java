@@ -21,7 +21,7 @@ public class ControllerPedido {
 	public void cadastrarPedido(ModelPedido pedido) {
 		DAO.cadastrarPedido(pedido);
 	}
-	
+
 	public void excluirPedidosAbertos() {
 		DAO.excluirPedidosAbertos();
 	}
@@ -57,7 +57,13 @@ public class ControllerPedido {
 
 	public List<ModelPedido> carregarCarrinho(int id) {
 		List<ModelPedido> lstped = new ArrayList<ModelPedido>();
-		lstped = DAO.carregarLista(id);
+		lstped = DAO.carregarCarrinho(id);
+		return lstped;
+	}
+
+	public List<ModelPedido> carregarTodosPedidos(int id) {
+		List<ModelPedido> lstped = new ArrayList<ModelPedido>();
+		lstped = DAO.carregarTodosPedidos(id);
 		return lstped;
 	}
 
@@ -75,6 +81,27 @@ public class ControllerPedido {
 		DAO.atualizarPreco(pedido_id);
 	}
 
+	public void atualizarStatus(ModelPedido p, int status) {
+		DAO.atualizarStatus(p, status);
+	}
+
+	public List<Integer> pagamentosRestaurante(ModelPedido p) {
+		List<Integer> pagamentos = new ArrayList<Integer>();
+		pagamentos = DAO.pagamentosRestaurante(p);
+		return pagamentos;
+	}
+
+	public int selecionarRestaurante(ModelPedido p) {
+		int i = DAO.selecionarRestaurante(p);
+		return i;
+	}
+
+	public String statusDescricao(int id) {
+		String descricao = "";
+		descricao = DAO.statusDescricao(id);
+		return descricao;
+	}
+
 	public void carregarViewAdicionais(ModelUsuario u, ModelPedido pe, ModelProduto pr, ModelRestaurante r,
 			String[] observacao) {
 		EventQueue.invokeLater(new Runnable() {
@@ -90,11 +117,11 @@ public class ControllerPedido {
 		});
 	}
 
-	public void carregarViewPagamento(ModelPedido p) {
+	public void carregarViewPagamento(ModelUsuario u, ModelPedido p) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewPagamento frame = new ViewPagamento(p);
+					ViewPagamento frame = new ViewPagamento(u, p);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {

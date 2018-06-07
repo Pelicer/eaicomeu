@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import dao.DaoLogin;
 import model.ModelLogin;
+import model.ModelUsuario;
 import view.ViewLogin;
 import view.usuario.cadastro.ViewCadastroLogin;
 
@@ -73,6 +74,10 @@ public class ControllerLogin {
 		}
 
 		return resultado;
+	}
+	
+	public void deletarLogin(ModelUsuario u) {
+		dao.deletarLogin(u);
 	}
 
 }

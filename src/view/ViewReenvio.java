@@ -104,5 +104,20 @@ public class ViewReenvio extends JFrame {
 		btnRecuperar.setBounds(39, 336, 115, 23);
 		contentPane.add(btnRecuperar);
 
+		JButton btnVoltar = new JButton("VOLTAR");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ControllerLogin cl = new ControllerLogin();
+				cl.carregarLogin();
+				dispose();
+			}
+		});
+		btnVoltar.setOpaque(true);
+		btnVoltar.setForeground(Color.WHITE);
+		btnVoltar.setContentAreaFilled(false);
+		btnVoltar.setBorderPainted(true);
+		btnVoltar.setBounds(289, 688, 115, 23);
+		contentPane.add(btnVoltar);
+
 	}
 }

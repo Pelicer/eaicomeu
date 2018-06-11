@@ -76,6 +76,7 @@ public class ViewCadastroLogin extends JFrame {
 				ControllerLogin clu = new ControllerLogin();
 				ControllerUsuario cu = new ControllerUsuario();
 
+				System.out.println(id);
 				nu = cu.selecionarUsuarioID(id);
 
 				String senhau = new String(pswSenha.getPassword());
@@ -107,6 +108,7 @@ public class ViewCadastroLogin extends JFrame {
 				ControllerLogin clr = new ControllerLogin();
 				ControllerRestaurante cr = new ControllerRestaurante();
 
+				System.out.println(id);
 
 				nr = cr.selecionarRestauranteID(id);
 
@@ -140,6 +142,7 @@ public class ViewCadastroLogin extends JFrame {
 				ControllerLogin clue = new ControllerLogin();
 				ControllerUsuario cue = new ControllerUsuario();
 
+				System.out.println(id);
 				nue = cue.selecionarUsuarioID(id);
 
 				String senhaue = new String(pswSenha.getPassword());

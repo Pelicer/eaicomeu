@@ -29,7 +29,6 @@ import javax.swing.border.EtchedBorder;
 import controller.ControllerIngrediente;
 import controller.ControllerItensPedido;
 import controller.ControllerPedido;
-import controller.ControllerStatus;
 import controller.ControllerUsuario;
 import model.ModelIngrediente;
 import model.ModelItensPedido;
@@ -70,7 +69,12 @@ public class ViewProduto extends JFrame {
 
 		String[] observacao = new String[50];
 		for (int i = 0; i < 50; i++) {
-			observacao[i] = "";
+			if(i>=ingredientes.size()) {
+				observacao[i]="";
+			}else {
+			observacao[i] = ingredientes.get(i).getIngrediente_descricao();
+			}
+			
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -236,7 +240,9 @@ public class ViewProduto extends JFrame {
 			desejado.setBounds(20, 11, 20, 20);
 			desejado.setSelected(true);
 			desejado.addActionListener(new ActionListener() {
+
 				public void actionPerformed(ActionEvent arg0) {
+
 					if (desejado.isSelected()) {
 						for (int i = 0; i < observacao.length; i++) {
 							if (observacao[i].equals(desejado.getName())) {
@@ -249,20 +255,31 @@ public class ViewProduto extends JFrame {
 						}
 
 					} else {
-						if (observacao[obs_posicao].equals("")) {
-							observacao[obs_posicao] = desejado.getName();
-						} else {
-							for (int i = 0; i < observacao.length; i++) {
-								if (observacao[i].equals("")) {
-									obs_posicao = i;
-								}
+						String rejeitado = ""; 
+						rejeitado = desejado.getName();
+						int posicao = 0, tamanho = 0;
+
+						for (int z = 0; z < observacao.length; z++) {
+							if (observacao[z].equals(rejeitado)) {
+								posicao = z;
+								break;
 							}
-							observacao[obs_posicao] = desejado.getName();
 						}
+
+						System.out.println(rejeitado + "\n");
+						System.out.println(observacao.length);
+						
+						for (int x = posicao; x < observacao.length; x++) {
+							if (!observacao[x].equals("") && !observacao[x].equals(null)) {
+								observacao[x] = observacao[x + 1];
+							}
+						}
+						System.out.println(observacao.length);
 					}
+					
 				}
 			});
-			observacao[x] = desejado.getName();
+
 			ingrediente.add(desejado);
 			ingrediente.add(titulo);
 
@@ -296,15 +313,13 @@ public class ViewProduto extends JFrame {
 
 							if (!aberto) {
 								cpe.cadastrarPedido(pe);
-								pe = cpe.selecionarUltimaEntrada();
-								ControllerStatus cs = new ControllerStatus();
-
-								Date datenow = new Date();
-								pe.setPedido_data(datenow);
-								cs.atualizarStatusHistorico(pe);
 							} else {
 								pe = cpe.selecionarPedidoAberto(usuario.getUsuario_id(),
 										restaurante.getRestaurante_id());
+							}
+
+							for (int y = 0; y < observacao.length; y++) {
+								System.out.println(observacao[y]);
 							}
 
 							cip.cadastrarItensPedidoNull(pr, observacao);
@@ -313,6 +328,7 @@ public class ViewProduto extends JFrame {
 
 						}
 					}
+
 				});
 				lblNext.setIcon(new ImageIcon(ViewIndex.class.getResource("/img/icon/next (32x32).png")));
 				lblNext.setBounds(330, yproduto, 32, 32);

@@ -329,6 +329,11 @@ public class ViewCadastroUsuario extends JFrame {
 						txtCidade.setText(webServiceCep.getCidade());
 						txtBairro.setText(webServiceCep.getBairro());
 						txtUF.setText(webServiceCep.getUf());
+						System.out.println("Cep: " + webServiceCep.getCep());
+						System.out.println("Logradouro: " + webServiceCep.getLogradouroFull());
+						System.out.println("Bairro: " + webServiceCep.getBairro());
+						System.out.println("Cidade: " + webServiceCep.getCidade() + "/" + webServiceCep.getUf());
+
 					} else {
 						JOptionPane.showMessageDialog(null, "CEP não encontrado. Por favor, verifique.", "CEP inválido",
 								JOptionPane.ERROR_MESSAGE);

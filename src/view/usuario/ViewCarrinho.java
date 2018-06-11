@@ -40,6 +40,7 @@ public class ViewCarrinho extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JPanel viewport;
 
 	ControllerPedido cped = new ControllerPedido();
 	ControllerProduto cprod = new ControllerProduto();
@@ -54,6 +55,10 @@ public class ViewCarrinho extends JFrame {
 	ModelRestaurante restaurante = new ModelRestaurante();
 
 	List<ModelItensPedido> itens_encapsulado = new ArrayList<ModelItensPedido>();
+	List<ModelItensPedido> itens;
+	ModelItensPedido i;
+	int yproduto;
+
 
 	public ViewCarrinho(ModelUsuario u, ModelPedido p) {
 		setIconImage(
@@ -61,7 +66,7 @@ public class ViewCarrinho extends JFrame {
 		usuario = u;
 		pedido = p;
 
-		List<ModelItensPedido> itens = new ArrayList<ModelItensPedido>();
+		itens = new ArrayList<ModelItensPedido>();
 		itens = cip.carregarCarrinho(p.getPedido_id());
 		itens_encapsulado = itens;
 
@@ -164,7 +169,7 @@ public class ViewCarrinho extends JFrame {
 		scrollPane.setBounds(0, 100, 414, 621);
 		contentPane.add(scrollPane);
 
-		JPanel viewport = new JPanel();
+		viewport = new JPanel();
 		viewport.setLayout(null);
 		viewport.setPreferredSize(new Dimension(414, 52));
 		scrollPane.setViewportView(viewport);
@@ -191,11 +196,35 @@ public class ViewCarrinho extends JFrame {
 		separator.setBounds(10, 37, 375, 2);
 		viewport.add(separator);
 
-		int yproduto = 60;
+		yproduto = 60;
 
+		atualizarItens();
+		
+		yproduto += 20 + 32;
+
+		viewport.setPreferredSize(new Dimension(414, yproduto));
+		scrollPane.setViewportView(viewport);
+		contentPane.add(scrollPane);
+	}
+
+	public void cancelarItem() {
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+		int dialogResult = JOptionPane.showConfirmDialog(null,
+				"Deseja excluir este produto do seu carrinho?", "Confirmação", dialogButton);
+		if (dialogResult == 0) {
+			cip.excluirItem(i);
+			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso.", "Confirmação",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+		} else {
+			//
+		}
+	}
+	
+	public void atualizarItens() {
 		for (int x = 0; x < itens.size(); x++) {
 
-			ModelItensPedido i = itens.get(x);
+			i = itens.get(x);
 			ModelProduto prod = new ModelProduto();
 			prod = cprod.selecionarProduto(i.getProduto_id());
 
@@ -213,16 +242,8 @@ public class ViewCarrinho extends JFrame {
 			cancel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							"Deseja excluir este produto do seu carrinho?", "Confirmação", dialogButton);
-					if (dialogResult == 0) {
-						cip.excluirItem(i);
-						JOptionPane.showMessageDialog(null, "Produto excluído com sucesso.", "Confirmação",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						//
-					}
+					cancelarItem();
+					reiniciarTela();
 				}
 			});
 			item.add(cancel);
@@ -286,7 +307,7 @@ public class ViewCarrinho extends JFrame {
 				btnLimparCarrinho.setBounds(10, yproduto + 5, 160, 23);
 				viewport.add(btnLimparCarrinho);
 
-				String valorTotal = String.format("%.2f", p.getValorTotal());
+				String valorTotal = String.format("%.2f", pedido.getValorTotal());
 
 				JLabel total = new JLabel("");
 				total.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -309,11 +330,11 @@ public class ViewCarrinho extends JFrame {
 				viewport.add(lblPagar);
 			}
 		}
-		yproduto += 20 + 32;
-
-		viewport.setPreferredSize(new Dimension(414, yproduto));
-		scrollPane.setViewportView(viewport);
-		contentPane.add(scrollPane);
 	}
-
+	
+	public void reiniciarTela() {
+		this.dispose();
+		pedido = cped.selecionarUltimaEntrada();
+		cped.carregarViewCarrinho(usuario, pedido);
+	}
 }

@@ -19,7 +19,6 @@ public class DaoPedido {
 
 		try {
 			stm = con.prepareStatement(
-					"INSERT INTO tbl_pedido (pedido_data, pedido_valorTotal, pedido_enderecoEntrega, entrega_id, pagamento_id, usuario_id, status_id) VALUES (?, ?, null, null, null, ?, ?);");
 			stm.setObject(1, p.getPedido_data().toInstant().atZone(ZoneId.of("America/Sao_Paulo")).toLocalDate());
 			stm.setFloat(2, p.getValorTotal());
 			stm.setInt(3, p.getUsuario_id());
@@ -57,19 +56,8 @@ public class DaoPedido {
 
 		try {
 			stm = con.prepareStatement(
-					"UPDATE tbl_pedido SET pedido_valorTotal = ?, pedido_enderecoEntrega = ?, entrega_id = ?, pagamento_id = ?, status_id = ? WHERE pedido_id = ?");
 
-			stm.setFloat(1, p.getValorTotal());
-			if (p.getEnderecoEntrega().equals("")) {
-				stm.setString(2, "null");
-
-			} else {
-				stm.setString(2, p.getEnderecoEntrega());
-			}
 			stm.setInt(3, p.getEntrega_id());
-			stm.setInt(4, p.getPagamento_id());
-			stm.setInt(5, p.getStatus_id());
-			stm.setInt(6, p.getPedido_id());
 
 			stm.executeUpdate();
 
@@ -129,9 +117,7 @@ public class DaoPedido {
 				p.setPedido_data(rs.getDate("pedido_data"));
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
 				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
 			}
 
@@ -162,9 +148,7 @@ public class DaoPedido {
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
 				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
 				p.setUsuario_id(rs.getInt("usuario_id"));
 				p.setPedido_data(rs.getDate("pedido_data"));
 			}
@@ -195,9 +179,7 @@ public class DaoPedido {
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 				p.setStatus_id(rs.getInt("status_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
 				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
 				p.setUsuario_id(rs.getInt("usuario_id"));
 				p.setPedido_data(rs.getDate("pedido_data"));
 			}
@@ -227,9 +209,7 @@ public class DaoPedido {
 				p.setPedido_data(rs.getDate("pedido_data"));
 				p.setPedido_id(rs.getInt("pedido_id"));
 				p.setStatus_id(1);
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
 				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
 				p.setUsuario_id(rs.getInt("usuario_id"));
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
 			}
@@ -299,7 +279,6 @@ public class DaoPedido {
 		return aberto;
 	}
 
-	public List<ModelPedido> carregarCarrinho(int id) {
 
 		List<ModelPedido> lstped = new ArrayList<ModelPedido>();
 
@@ -315,42 +294,7 @@ public class DaoPedido {
 				ModelPedido p = new ModelPedido();
 				p.setPedido_data(rs.getDate("pedido_data"));
 				p.setValorTotal(rs.getInt("pedido_valorTotal"));
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
 				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
-				p.setStatus_id(rs.getInt("status_id"));
-				p.setPedido_id(rs.getInt("pedido_id"));
-				lstped.add(p);
-			}
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return lstped;
-	}
-
-	public List<ModelPedido> carregarTodosPedidos(int id) {
-
-		List<ModelPedido> lstped = new ArrayList<ModelPedido>();
-
-		Connection con = ConnectionFactory.getConnection();
-		ResultSet rs = null;
-		PreparedStatement stm = null;
-
-		try {
-			stm = con.prepareStatement("SELECT * FROM tbl_pedido WHERE usuario_id = " + id + ";");
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				ModelPedido p = new ModelPedido();
-				p.setPedido_data(rs.getDate("pedido_data"));
-				p.setValorTotal(rs.getInt("pedido_valorTotal"));
-				p.setEnderecoEntrega(rs.getString("pedido_enderecoEntrega"));
-				p.setEntrega_id(rs.getInt("entrega_id"));
-				p.setPagamento_id(rs.getInt("pagamento_id"));
 				p.setStatus_id(rs.getInt("status_id"));
 				p.setPedido_id(rs.getInt("pedido_id"));
 				lstped.add(p);
@@ -379,119 +323,6 @@ public class DaoPedido {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void atualizarStatus(ModelPedido p, int status) {
-		Connection con = ConnectionFactory.getConnection();
-		PreparedStatement stm = null;
-
-		try {
-			stm = con.prepareStatement("UPDATE tbl_pedido SET status_id = ? WHERE pedido_id = ?;");
-			stm.setInt(1, status);
-			stm.setInt(2, p.getPedido_id());
-			stm.executeUpdate();
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public List<Integer> pagamentosRestaurante(ModelPedido p) {
-
-		List<Integer> pagamentos = new ArrayList<Integer>();
-
-		Connection con = ConnectionFactory.getConnection();
-		ResultSet rs = null;
-		PreparedStatement stm = null;
-
-		int restaurante_id = 0;
-
-		try {
-
-			stm = con.prepareStatement(
-					"SELECT r.restaurante_id FROM tbl_restaurante AS r INNER JOIN tbl_produto AS p ON r.restaurante_id = p.restaurante_id INNER JOIN tbl_itensPedido AS ip ON p.produto_id = ip.produto_id INNER JOIN tbl_pedido AS ped ON ip.pedido_id = ped.pedido_id WHERE ped.pedido_id = ?;");
-			stm.setInt(1, p.getPedido_id());
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				restaurante_id = rs.getInt("r.restaurante_id");
-			}
-
-			stm = con.prepareStatement(
-					"SELECT formaPagamento_id FROM tbl_restaurantepagamento WHERE restaurante_id = ?");
-			stm.setInt(1, restaurante_id);
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				int i = 0;
-				i = rs.getInt("formaPagamento_id");
-				pagamentos.add(i);
-			}
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return pagamentos;
-	}
-
-	public int selecionarRestaurante(ModelPedido p) {
-
-		Connection con = ConnectionFactory.getConnection();
-		ResultSet rs = null;
-		PreparedStatement stm = null;
-
-		int restaurante_id = 0;
-
-		try {
-
-			stm = con.prepareStatement(
-					"SELECT r.restaurante_id FROM tbl_restaurante AS r INNER JOIN tbl_produto AS p ON r.restaurante_id = p.restaurante_id INNER JOIN tbl_itensPedido AS ip ON p.produto_id = ip.produto_id INNER JOIN tbl_pedido AS ped ON ip.pedido_id = ped.pedido_id WHERE ped.pedido_id = ?;");
-			stm.setInt(1, p.getPedido_id());
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				restaurante_id = rs.getInt("r.restaurante_id");
-			}
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return restaurante_id;
-	}
-
-	public String selecionarFormaEntrega(ModelPedido p) {
-
-		Connection con = ConnectionFactory.getConnection();
-		ResultSet rs = null;
-		PreparedStatement stm = null;
-
-		String formaEntrega = "";
-
-		try {
-
-			stm = con.prepareStatement("SELECT entrega_tipo FROM tbl_entrega WHERE entrega_id = ?;");
-			stm.setInt(1, p.getEntrega_id());
-			rs = stm.executeQuery();
-
-			while (rs.next()) {
-				formaEntrega = rs.getString("entrega_tipo");
-			}
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return formaEntrega;
 	}
 
 }

@@ -79,7 +79,6 @@ public class ViewPerfil extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewPerfil.class.getResource("/img/logo/logo (64x64).png")));
 		setTitle("Perfil");
 
-		// Máscara de Campo.
 		MaskFormatter campoCelular = null;
 		MaskFormatter campoCpf = null;
 		MaskFormatter campoCep = null;
@@ -303,11 +302,8 @@ public class ViewPerfil extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null,
-						"Tem certeza de que deseja deletar sua conta? Seus dados continuarão salvos caso queira voltar.",
-						"Confirmação", dialogButton);
 				if (dialogResult == 0) {
 					cl.deletarLogin(u);
-					JOptionPane.showMessageDialog(null, "Usuário deletado com sucesso.", "Confirmação",
 							JOptionPane.INFORMATION_MESSAGE);
 					cl.carregarLogin();
 					dispose();
@@ -367,7 +363,6 @@ public class ViewPerfil extends JFrame {
 		txtCep = new JFormattedTextField(campoCep);
 		txtCep.setForeground(Color.BLACK);
 		txtCep.setColumns(10);
-		txtCep.setBounds(91, 259, 90, 20);
 		txtCep.setText(u.getUsuario_cep());
 		endereco.add(txtCep);
 
@@ -406,14 +401,12 @@ public class ViewPerfil extends JFrame {
 		txtEndereco.setText((String) null);
 		txtEndereco.setForeground(Color.BLACK);
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(91, 97, 158, 20);
 		txtEndereco.setText(u.getUsuario_endereco());
 		endereco.add(txtEndereco);
 
 		JLabel lblLogradouro = new JLabel("Logradouro:");
 		lblLogradouro.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblLogradouro.setForeground(Color.BLACK);
-		lblLogradouro.setBounds(259, 100, 70, 14);
 		endereco.add(lblLogradouro);
 
 		txtLogradouro = new JTextField();
@@ -425,15 +418,12 @@ public class ViewPerfil extends JFrame {
 		endereco.add(txtLogradouro);
 
 		JLabel lblComplemento = new JLabel("Complemento:");
-		lblComplemento.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComplemento.setForeground(Color.BLACK);
-		lblComplemento.setBounds(184, 262, 90, 14);
 		endereco.add(lblComplemento);
 
 		txtComplemento = new JTextField();
 		txtComplemento.setForeground(Color.BLACK);
 		txtComplemento.setColumns(10);
-		txtComplemento.setBounds(275, 259, 110, 20);
 		txtComplemento.setDocument(new JTextFieldLimit(60));
 		txtComplemento.setText(u.getUsuario_complemento());
 		endereco.add(txtComplemento);
@@ -441,7 +431,6 @@ public class ViewPerfil extends JFrame {
 		JLabel lblUf = new JLabel("UF:");
 		lblUf.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUf.setForeground(Color.BLACK);
-		lblUf.setBounds(297, 208, 30, 14);
 		endereco.add(lblUf);
 
 		txtUf = new JTextField();

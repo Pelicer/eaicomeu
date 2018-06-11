@@ -20,6 +20,7 @@ CREATE TABLE tbl_usuario(
 );
 
 INSERT INTO tbl_usuario(usuario_cpf, usuario_nome, usuario_email, usuario_celular, usuario_uf, usuario_cidade, usuario_cep, usuario_bairro, usuario_endereco, usuario_logradouro, usuario_complemento) VALUES
+('488.727.448-30', 'William Filho', 'willpelicer@gmail.com', '19999967251', 'SP', 'Hortolândia', '13.186-203', 'Jardim Mirante', 'Rua Primeiro de Maio', '133', 'Sem complemento');
 
 DROP TABLE IF EXISTS `tbl_entregador`;
 CREATE TABLE tbl_entregador(
@@ -234,15 +235,31 @@ INSERT INTO tbl_status(status_id, status_descricao) VALUES
 (5, 'Saiu para entrega'),
 (6, 'Entregue');
 
+DROP TABLE IF EXISTS `tbl_entrega`;
+CREATE TABLE tbl_entrega(
+	entrega_id INT NOT NULL, 
+	entrega_tipo VARCHAR(30),
+	PRIMARY KEY(entrega_id)
+);
+
+INSERT INTO tbl_entrega(entrega_id, entrega_tipo) VALUES
+(1, 'Retirada'),
+(2, 'Entrega'),
+(3, 'Motoboy');
+
 DROP TABLE IF EXISTS `tbl_pedido`;
 CREATE TABLE tbl_pedido(
 	pedido_id INT NOT NULL AUTO_INCREMENT,
 	pedido_data DATE,
     pedido_valorTotal DECIMAL(5, 2) NOT NULL,
+	pedido_enderecoEntrega VARCHAR(200),
 	entrega_id INT,
+	pagamento_id INT,
 	usuario_id INT NOT NULL,
     status_id INT NOT NULL,
 	PRIMARY KEY(pedido_id),
+	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id),
+	FOREIGN KEY(entrega_id) REFERENCES tbl_entrega(entrega_id)
 );
 
 DROP TABLE IF EXISTS `tbl_itensPedido`;
@@ -280,6 +297,12 @@ CREATE TABLE tbl_formaPagamento(
 );
 
 INSERT INTO tbl_formaPagamento VALUES 
+(0, '', ''),
+(1,'Cartão Dinners','/img/icon/payment/band_diners.png'),
+(2,'Cartão Elo','/img/icon/payment/band_elo.png'),
+(3,'Cartão Master','/img/icon/payment/band_master.png'),
+(4,'Cartão Visa','/img/icon/payment/band_visa.png'),
+(5,'Dinheiro','/img/icon/payment/money.png');
 
 DROP TABLE IF EXISTS `tbl_restaurantePagamento`;
 CREATE TABLE tbl_restaurantePagamento(
@@ -287,3 +310,58 @@ CREATE TABLE tbl_restaurantePagamento(
 	restaurante_id INT NOT NULL,
 	FOREIGN KEY (formaPagamento_id) REFERENCES tbl_formaPagamento (formaPagamento_id),
 	FOREIGN KEY (restaurante_id) REFERENCES tbl_restaurante (restaurante_id)
+);
+
+INSERT INTO tbl_restaurantePagamento(formaPagamento_id, restaurante_id) VALUES
+(1, 1),
+(3, 1),
+(5, 1),
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(1, 3),
+(2, 3),
+(3, 3),
+(4, 3),
+(5, 3),
+(1, 4),
+(2, 4),
+(3, 4),
+(4, 4),
+(5, 4),
+(1, 5),
+(2, 5),
+(3, 5),
+(4, 5),
+(5, 5),
+(1, 6),
+(2, 6),
+(3, 6),
+(4, 6),
+(5, 6),
+(1, 7),
+(2, 7),
+(3, 7),
+(4, 7),
+(5, 7),
+(1, 8),
+(2, 8),
+(3, 8),
+(4, 8),
+(5, 8),
+(1, 9),
+(2, 9),
+(3, 9),
+(4, 9),
+(5, 9);
+
+DROP TABLE IF EXISTS `tbl_status_update`;
+CREATE TABLE tbl_status_update(
+	status_id INT NOT NULL,
+	pedido_id INT NOT NULL,
+	status_update_datetime DATETIME,
+	FOREIGN KEY (status_id) REFERENCES tbl_status(status_id),
+	FOREIGN KEY (pedido_id) REFERENCES tbl_pedido(pedido_id)
+);

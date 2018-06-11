@@ -223,4 +223,36 @@ public class DaoItensPedido {
 			e.printStackTrace();
 		}
 	}
+
+	public List<ModelItensPedido> selecionarItemPorPedido(int id) {
+
+		Connection con = ConnectionFactory.getConnection();
+		ResultSet rs = null;
+		PreparedStatement stm = null;
+
+		List<ModelItensPedido> itens = new ArrayList<ModelItensPedido>();
+
+		try {
+			stm = con.prepareStatement("SELECT * FROM tbl_itensPedido WHERE pedido_id = " + id + ";");
+			rs = stm.executeQuery();
+
+			while (rs.next()) {
+				ModelItensPedido ip = new ModelItensPedido();
+				ip.setItensPedido_adicionais(rs.getString("itensPedido_adicionais"));
+				ip.setItensPedido_observacao(rs.getString("itensPedido_observacao"));
+				ip.setItensPedido_id(rs.getInt("itensPedido_id"));
+				ip.setPedido_id(rs.getInt("pedido_id"));
+				ip.setProduto_id(rs.getInt("produto_id"));
+				itens.add(ip);
+			}
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return itens;
+
+	}
 }

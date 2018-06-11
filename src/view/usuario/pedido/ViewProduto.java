@@ -69,12 +69,12 @@ public class ViewProduto extends JFrame {
 
 		String[] observacao = new String[50];
 		for (int i = 0; i < 50; i++) {
-			if(i>=ingredientes.size()) {
-				observacao[i]="";
-			}else {
-			observacao[i] = ingredientes.get(i).getIngrediente_descricao();
+			if (i >= ingredientes.size()) {
+				observacao[i] = "";
+			} else {
+				observacao[i] = ingredientes.get(i).getIngrediente_descricao();
 			}
-			
+
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -255,7 +255,7 @@ public class ViewProduto extends JFrame {
 						}
 
 					} else {
-						String rejeitado = ""; 
+						String rejeitado = "";
 						rejeitado = desejado.getName();
 						int posicao = 0, tamanho = 0;
 
@@ -268,7 +268,7 @@ public class ViewProduto extends JFrame {
 
 						System.out.println(rejeitado + "\n");
 						System.out.println(observacao.length);
-						
+
 						for (int x = posicao; x < observacao.length; x++) {
 							if (!observacao[x].equals("") && !observacao[x].equals(null)) {
 								observacao[x] = observacao[x + 1];
@@ -276,7 +276,7 @@ public class ViewProduto extends JFrame {
 						}
 						System.out.println(observacao.length);
 					}
-					
+
 				}
 			});
 

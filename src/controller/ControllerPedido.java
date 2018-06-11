@@ -11,6 +11,7 @@ import model.ModelRestaurante;
 import model.ModelUsuario;
 import view.usuario.ViewCarrinho;
 import view.usuario.pedido.ViewAdicionais;
+import view.usuario.pedido.ViewHistorico;
 import view.usuario.pedido.ViewPagamento;
 
 public class ControllerPedido {
@@ -96,10 +97,9 @@ public class ControllerPedido {
 		return i;
 	}
 
-	public String statusDescricao(int id) {
-		String descricao = "";
-		descricao = DAO.statusDescricao(id);
-		return descricao;
+	public String selecionarFormaEntrega(ModelPedido p) {
+		String formaEntrega = DAO.selecionarFormaEntrega(p);
+		return formaEntrega;
 	}
 
 	public void carregarViewAdicionais(ModelUsuario u, ModelPedido pe, ModelProduto pr, ModelRestaurante r,
@@ -136,6 +136,20 @@ public class ControllerPedido {
 			public void run() {
 				try {
 					ViewCarrinho frame = new ViewCarrinho(u, p);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void carregarViewHistorico(ModelUsuario u, ModelPedido p) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ViewHistorico frame = new ViewHistorico(u, p);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {

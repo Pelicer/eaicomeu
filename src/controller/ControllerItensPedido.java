@@ -50,4 +50,10 @@ public class ControllerItensPedido {
 		DAO.excluirItem(ip);
 	}
 
+	public List<ModelItensPedido> selecionarItemPorPedido(int id) {
+		List<ModelItensPedido> itens = new ArrayList<ModelItensPedido>();
+		itens = DAO.selecionarItemPorPedido(id);
+		return itens;
+	}
+
 }

@@ -1,4 +1,4 @@
-package view.usuario;
+package view.usuario.pedido;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,8 +6,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,45 +23,57 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import controller.ControllerItensPedido;
+import controller.ControllerPagamento;
 import controller.ControllerPedido;
 import controller.ControllerProduto;
 import controller.ControllerRestaurante;
 import controller.ControllerStatus;
 import controller.ControllerUsuario;
+import model.ModelPagamento;
 import model.ModelPedido;
 import model.ModelProduto;
 import model.ModelRestaurante;
+import model.ModelStatus;
 import model.ModelUsuario;
+import view.usuario.ViewCarrinho;
+import view.usuario.ViewPedido;
 
-public class ViewPedido extends JFrame {
+public class ViewHistorico extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-
-	ControllerPedido cped = new ControllerPedido();
+	ControllerPedido cp = new ControllerPedido();
 	ControllerStatus cs = new ControllerStatus();
+	ControllerPagamento cpag = new ControllerPagamento();
 	ControllerProduto cprod = new ControllerProduto();
 	ControllerItensPedido cip = new ControllerItensPedido();
 	ControllerUsuario cuser = new ControllerUsuario();
 	ControllerRestaurante cr = new ControllerRestaurante();
 
-	ModelPedido uniPedido = new ModelPedido();
+	ModelPedido pedido = new ModelPedido();
+	ModelStatus status = new ModelStatus();
+	ModelPagamento pagamento = new ModelPagamento();
 	ModelUsuario usuario = new ModelUsuario();
 	ModelProduto produto = new ModelProduto();
 	ModelRestaurante restaurante = new ModelRestaurante();
 
-	List<ModelPedido> itens_encapsulado = new ArrayList<ModelPedido>();
+	List<ModelStatus> historico = new ArrayList<ModelStatus>();
 
-	public ViewPedido(ModelUsuario u) {
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+
+	public ViewHistorico(ModelUsuario u, ModelPedido p) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewPedido.class.getResource("/img/icon/list (64x64).png")));
 
 		usuario = u;
+		pedido = p;
+		pagamento = cpag.selecionarPagamento(pedido.getPagamento_id());
 
-		List<ModelPedido> itens = new ArrayList<ModelPedido>();
-		itens = cped.carregarTodosPedidos(u.getUsuario_id());
-		itens_encapsulado = itens;
+		restaurante = cr.selecionarRestauranteID(cp.selecionarRestaurante(pedido));
+		historico = cs.carregarStatusHistorico(pedido);
 
-		setTitle("Meus Pedidos");
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		String dataFormatada = formato.format(pedido.getPedido_data());
+
+		setTitle("Pedido do dia " + dataFormatada);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 420, 750);
@@ -159,91 +170,109 @@ public class ViewPedido extends JFrame {
 		viewport.setPreferredSize(new Dimension(414, 52));
 		scrollPane.setViewportView(viewport);
 
-		if (itens.isEmpty()) {
-			JLabel lblTitulo = new JLabel();
-			lblTitulo.setText("Não há pedidos registrados");
-			lblTitulo.setName("titulo");
-			lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblTitulo.setBounds(10, 11, 375, 22);
-			viewport.add(lblTitulo);
-		} else {
-			JLabel lblTitulo = new JLabel();
-			lblTitulo.setText("Meus pedidos");
-			lblTitulo.setName("titulo");
-			lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblTitulo.setBounds(10, 11, 375, 22);
-			viewport.add(lblTitulo);
-		}
+		JLabel lblTitulo = new JLabel();
+		lblTitulo.setText(restaurante.getRestaurante_razaosocial());
+		lblTitulo.setName("titulo");
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTitulo.setBounds(10, 11, 375, 22);
+		viewport.add(lblTitulo);
 
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
 		separator.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
-		separator.setBounds(10, 37, 375, 2);
+		separator.setBounds(10, 37, 394, 2);
 		viewport.add(separator);
 
 		int yproduto = 60;
 
-		for (int x = 0; x < itens.size(); x++) {
+		JPanel item = new JPanel();
+		item.setName("pedido");
+		item.setBounds(10, 60, 394, 548);
+		item.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.WHITE, Color.BLACK));
+		item.setBackground(Color.WHITE);
+		item.setLayout(null);
 
-			ModelPedido i = itens.get(x);
+		JLabel thumbnail = new JLabel();
+		thumbnail.setName("pedido");
+		thumbnail.setIcon(new ImageIcon(ViewCarrinho.class.getResource(restaurante.getRestaurante_thumbnail())));
+		thumbnail.setBounds(10, 11, 78, 71);
+		item.add(thumbnail);
 
-			JPanel pedido = new JPanel();
-			pedido.setName("pedido_" + i);
-			pedido.setBounds(10, yproduto, 375, 93);
-			pedido.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.WHITE, Color.BLACK));
-			pedido.setBackground(Color.WHITE);
-			pedido.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					ControllerPedido cp = new ControllerPedido();
-					cp.carregarViewHistorico(u, i);
-					dispose();
-				}
-			});
-			pedido.setLayout(null);
+		JLabel titulo = new JLabel();
+		titulo.setName("pedido");
+		titulo.setText("Pedido " + cs.statusDescricao(pedido.getStatus_id()));
+		if (pedido.getStatus_id() == 6) {
+			titulo.setForeground(new Color(90, 155, 82));
+		}
+		titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		titulo.setBounds(98, 11, 250, 20);
+		item.add(titulo);
 
-			int id = cped.selecionarRestaurante(i);
-			restaurante = cr.selecionarRestauranteID(id);
+		pagamento = cpag.selecionarPagamento(pedido.getPagamento_id());
 
-			JLabel thumbnail = new JLabel();
-			thumbnail.setName("pedido_" + i + "_thumbnail");
-			thumbnail.setIcon(new ImageIcon(ViewCarrinho.class.getResource(restaurante.getRestaurante_thumbnail())));
-			thumbnail.setBounds(10, 11, 78, 71);
-			pedido.add(thumbnail);
+		JLabel formaPagamento = new JLabel();
+		formaPagamento.setName("formaPagamento");
+		formaPagamento.setText(" • Pagamento por " + pagamento.getPagamento_descricao());
+		if (pedido.getStatus_id() == 6) {
+			titulo.setForeground(new Color(90, 155, 82));
+		}
+		formaPagamento.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		formaPagamento.setBounds(98, 60, 250, 20);
+		item.add(formaPagamento);
 
-			JLabel titulo = new JLabel();
-			titulo.setName("pedido_" + i + "_nome");
-			titulo.setText("Pedido em " + restaurante.getRestaurante_razaosocial());
-			titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			titulo.setBounds(98, 11, 250, 20);
-			pedido.add(titulo);
+		String entrega = cp.selecionarFormaEntrega(pedido);
 
-			String statusDescricao = cs.statusDescricao(i.getStatus_id());
+		JLabel formaEntrega = new JLabel();
+		formaEntrega.setName("formaEntrega");
+		formaEntrega.setText(" • Forma de recebimento: " + entrega);
+		if (pedido.getStatus_id() == 6) {
+			titulo.setForeground(new Color(90, 155, 82));
+		}
+		formaEntrega.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		formaEntrega.setBounds(98, 90, 250, 20);
+		item.add(formaEntrega);
+
+		JSeparator separator2 = new JSeparator();
+		separator2.setForeground(Color.BLACK);
+		separator2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.ORANGE, Color.BLACK));
+		separator2.setBounds(10, 120, 375, 2);
+		item.add(separator2);
+
+		int ystatus = 140;
+
+		for (int i = 0; i < historico.size(); i++) {
+
+			status = historico.get(i);
+			String statusDescricao = cs.statusDescricao(status.getStatus_id());
 
 			JTextArea descricao = new JTextArea();
-			descricao.setName("pedido_" + i + "_descricao");
-			descricao.setText(i.getPedido_data().toString() + " - " + statusDescricao);
+			descricao.setName("pedido");
+			descricao.setText("• " + statusDescricao + " - " + status.getStatus_data_formatada());
 			descricao.setLineWrap(true);
 			descricao.setEditable(false);
 			descricao.setRows(2);
-			descricao.setBounds(98, 30, 250, 30);
-			pedido.add(descricao);
+			descricao.setBounds(30, ystatus, 360, 30);
+			descricao.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			item.add(descricao);
 
-			String valor = String.format("%.2f", i.getValorTotal());
+			ystatus += 30;
 
-			JLabel preco = new JLabel();
-			preco.setName("pedido_" + i + "_valor");
-			preco.setText("R$" + valor);
-			preco.setBounds(98, 57, 250, 30);
-			pedido.add(preco);
-
-			viewport.add(pedido);
-			yproduto += 111;
-
-			viewport.setPreferredSize(new Dimension(414, yproduto));
-			scrollPane.setViewportView(viewport);
-			contentPane.add(scrollPane);
 		}
+
+		String valor = String.format("%.2f", pedido.getValorTotal());
+
+		JLabel preco = new JLabel();
+		preco.setName("pedido");
+		preco.setText("R$" + valor);
+		preco.setBounds(98, ystatus + 30, 250, 30);
+		item.add(preco);
+
+		viewport.add(item);
+		yproduto += 111;
+
+		viewport.setPreferredSize(new Dimension(414, yproduto + ystatus));
+		scrollPane.setViewportView(viewport);
+		contentPane.add(scrollPane);
 	}
 
 }

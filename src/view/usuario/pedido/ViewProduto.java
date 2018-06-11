@@ -29,6 +29,7 @@ import javax.swing.border.EtchedBorder;
 import controller.ControllerIngrediente;
 import controller.ControllerItensPedido;
 import controller.ControllerPedido;
+import controller.ControllerStatus;
 import controller.ControllerUsuario;
 import model.ModelIngrediente;
 import model.ModelItensPedido;
@@ -295,6 +296,12 @@ public class ViewProduto extends JFrame {
 
 							if (!aberto) {
 								cpe.cadastrarPedido(pe);
+								pe = cpe.selecionarUltimaEntrada();
+								ControllerStatus cs = new ControllerStatus();
+
+								Date datenow = new Date();
+								pe.setPedido_data(datenow);
+								cs.atualizarStatusHistorico(pe);
 							} else {
 								pe = cpe.selecionarPedidoAberto(usuario.getUsuario_id(),
 										restaurante.getRestaurante_id());

@@ -427,7 +427,6 @@ public class DaoPedido {
 			while (rs.next()) {
 				int i = 0;
 				i = rs.getInt("formaPagamento_id");
-				System.out.println(i);
 				pagamentos.add(i);
 			}
 
@@ -468,22 +467,22 @@ public class DaoPedido {
 		return restaurante_id;
 	}
 
-	public String statusDescricao(int id) {
+	public String selecionarFormaEntrega(ModelPedido p) {
 
 		Connection con = ConnectionFactory.getConnection();
 		ResultSet rs = null;
 		PreparedStatement stm = null;
 
-		String descricao = "";
+		String formaEntrega = "";
 
 		try {
 
-			stm = con.prepareStatement("SELECT status_descricao FROM tbl_status WHERE status_id = ?;");
-			stm.setInt(1, id);
+			stm = con.prepareStatement("SELECT entrega_tipo FROM tbl_entrega WHERE entrega_id = ?;");
+			stm.setInt(1, p.getEntrega_id());
 			rs = stm.executeQuery();
 
 			while (rs.next()) {
-				descricao = rs.getString("status_descricao");
+				formaEntrega = rs.getString("entrega_tipo");
 			}
 
 			ConnectionFactory.closeConnection(con, stm);
@@ -492,7 +491,7 @@ public class DaoPedido {
 			e.printStackTrace();
 		}
 
-		return descricao;
+		return formaEntrega;
 	}
 
 }

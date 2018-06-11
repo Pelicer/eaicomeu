@@ -105,7 +105,6 @@ public class ViewPagamento extends JFrame {
 		panel.add(btnCarrinho);
 
 		for (int i = 0; i < numPagamentos; i++) {
-			System.out.println(pagamentos.get(i));
 			if (pagamentos.get(i) == 1) {
 				JLabel lblDinner = new JLabel("");
 				lblDinner.addMouseListener(new MouseAdapter() {

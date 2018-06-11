@@ -235,6 +235,18 @@ INSERT INTO tbl_status(status_id, status_descricao) VALUES
 (5, 'Saiu para entrega'),
 (6, 'Entregue');
 
+DROP TABLE IF EXISTS `tbl_entrega`;
+CREATE TABLE tbl_entrega(
+	entrega_id INT NOT NULL, 
+	entrega_tipo VARCHAR(30),
+	PRIMARY KEY(entrega_id)
+);
+
+INSERT INTO tbl_entrega(entrega_id, entrega_tipo) VALUES
+(1, 'Retirada'),
+(2, 'Entrega'),
+(3, 'Motoboy');
+
 DROP TABLE IF EXISTS `tbl_pedido`;
 CREATE TABLE tbl_pedido(
 	pedido_id INT NOT NULL AUTO_INCREMENT,
@@ -246,7 +258,8 @@ CREATE TABLE tbl_pedido(
 	usuario_id INT NOT NULL,
     status_id INT NOT NULL,
 	PRIMARY KEY(pedido_id),
-	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id)
+	FOREIGN KEY(usuario_id) REFERENCES tbl_usuario(usuario_id),
+	FOREIGN KEY(entrega_id) REFERENCES tbl_entrega(entrega_id)
 );
 
 DROP TABLE IF EXISTS `tbl_itensPedido`;
@@ -275,18 +288,6 @@ CREATE TABLE tbl_feedback(
 	FOREIGN KEY(pedido_id) REFERENCES tbl_pedido(pedido_id)
 );	
 
-DROP TABLE IF EXISTS `tbl_entrega`;
-CREATE TABLE tbl_entrega(
-	entrega_id INT NOT NULL, 
-	entrega_tipo VARCHAR(30),
-	PRIMARY KEY(entrega_id)
-);
-
-INSERT INTO tbl_entrega(entrega_id, entrega_tipo) VALUES
-(1, 'Retirada'),
-(2, 'Entrega'),
-(3, 'Motoboy');
-
 DROP TABLE IF EXISTS `tbl_formaPagamento`;
 CREATE TABLE tbl_formaPagamento(
 	formaPagamento_id INT NOT NULL,
@@ -297,11 +298,11 @@ CREATE TABLE tbl_formaPagamento(
 
 INSERT INTO tbl_formaPagamento VALUES 
 (0, '', ''),
-(1,'band_diners','/img/icon/payment/band_diners.png'),
-(2,'band_elo','/img/icon/payment/band_elo.png'),
-(3,'band_master','/img/icon/payment/band_master.png'),
-(4,'band_visa','/img/icon/payment/band_visa.png'),
-(5,'dinheiro','/img/icon/payment/money.png');
+(1,'Cartão Dinners','/img/icon/payment/band_diners.png'),
+(2,'Cartão Elo','/img/icon/payment/band_elo.png'),
+(3,'Cartão Master','/img/icon/payment/band_master.png'),
+(4,'Cartão Visa','/img/icon/payment/band_visa.png'),
+(5,'Dinheiro','/img/icon/payment/money.png');
 
 DROP TABLE IF EXISTS `tbl_restaurantePagamento`;
 CREATE TABLE tbl_restaurantePagamento(
@@ -355,3 +356,12 @@ INSERT INTO tbl_restaurantePagamento(formaPagamento_id, restaurante_id) VALUES
 (3, 9),
 (4, 9),
 (5, 9);
+
+DROP TABLE IF EXISTS `tbl_status_update`;
+CREATE TABLE tbl_status_update(
+	status_id INT NOT NULL,
+	pedido_id INT NOT NULL,
+	status_update_datetime DATETIME,
+	FOREIGN KEY (status_id) REFERENCES tbl_status(status_id),
+	FOREIGN KEY (pedido_id) REFERENCES tbl_pedido(pedido_id)
+);

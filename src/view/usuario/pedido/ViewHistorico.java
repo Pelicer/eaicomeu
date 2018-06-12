@@ -187,7 +187,7 @@ public class ViewHistorico extends JFrame {
 
 		JPanel item = new JPanel();
 		item.setName("pedido");
-		item.setBounds(10, 60, 394, 548);
+		item.setBounds(10, 60, 394, 514);
 		item.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.WHITE, Color.BLACK));
 		item.setBackground(Color.WHITE);
 		item.setLayout(null);
@@ -195,7 +195,7 @@ public class ViewHistorico extends JFrame {
 		JLabel thumbnail = new JLabel();
 		thumbnail.setName("pedido");
 		thumbnail.setIcon(new ImageIcon(ViewCarrinho.class.getResource(restaurante.getRestaurante_thumbnail())));
-		thumbnail.setBounds(10, 11, 78, 71);
+		thumbnail.setBounds(10, 25, 78, 71);
 		item.add(thumbnail);
 
 		JLabel titulo = new JLabel();
@@ -204,8 +204,8 @@ public class ViewHistorico extends JFrame {
 		if (pedido.getStatus_id() == 6) {
 			titulo.setForeground(new Color(90, 155, 82));
 		}
-		titulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		titulo.setBounds(98, 11, 250, 20);
+		titulo.setFont(new Font("Tahoma", Font.BOLD, 16));
+		titulo.setBounds(115, 11, 270, 20);
 		item.add(titulo);
 
 		pagamento = cpag.selecionarPagamento(pedido.getPagamento_id());
@@ -262,9 +262,10 @@ public class ViewHistorico extends JFrame {
 		String valor = String.format("%.2f", pedido.getValorTotal());
 
 		JLabel preco = new JLabel();
+		preco.setFont(new Font("Tahoma", Font.BOLD, 16));
 		preco.setName("pedido");
 		preco.setText("R$" + valor);
-		preco.setBounds(98, ystatus + 30, 250, 30);
+		preco.setBounds(31, 452, 250, 30);
 		item.add(preco);
 
 		viewport.add(item);
@@ -272,7 +273,21 @@ public class ViewHistorico extends JFrame {
 
 		viewport.setPreferredSize(new Dimension(414, yproduto + ystatus));
 		scrollPane.setViewportView(viewport);
+
+		JButton btnVoltar = new JButton("VOLTAR");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ControllerUsuario cu = new ControllerUsuario();
+				cu.carregarPedidos(usuario);
+				dispose();
+				usuario = cu.selecionarUsuarioID(u.getUsuario_id());
+			}
+		});
+		btnVoltar.setOpaque(true);
+		btnVoltar.setForeground(Color.BLACK);
+		btnVoltar.setContentAreaFilled(false);
+		btnVoltar.setBounds(315, 585, 89, 23);
+		viewport.add(btnVoltar);
 		contentPane.add(scrollPane);
 	}
-
 }

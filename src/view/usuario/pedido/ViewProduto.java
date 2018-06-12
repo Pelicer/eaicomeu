@@ -244,20 +244,16 @@ public class ViewProduto extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 
 					if (desejado.isSelected()) {
-						for (int i = 0; i < observacao.length; i++) {
-							if (observacao[i].equals(desejado.getName())) {
-								observacao[i] = "";
-								for (int j = i + 1; j < observacao.length; j++) {
-									observacao[j - 1] = observacao[j];
-									i = observacao.length;
-								}
+						for (int i = 0; i <= observacao.length + 1; i++) {
+							if (observacao[i].equals("")) {
+								observacao[i] = desejado.getName();
+								break;
 							}
 						}
-
 					} else {
 						String rejeitado = "";
 						rejeitado = desejado.getName();
-						int posicao = 0, tamanho = 0;
+						int posicao = 0;
 
 						for (int z = 0; z < observacao.length; z++) {
 							if (observacao[z].equals(rejeitado)) {
@@ -266,15 +262,11 @@ public class ViewProduto extends JFrame {
 							}
 						}
 
-						System.out.println(rejeitado + "\n");
-						System.out.println(observacao.length);
-
 						for (int x = posicao; x < observacao.length; x++) {
 							if (!observacao[x].equals("") && !observacao[x].equals(null)) {
 								observacao[x] = observacao[x + 1];
 							}
 						}
-						System.out.println(observacao.length);
 					}
 
 				}
@@ -316,10 +308,6 @@ public class ViewProduto extends JFrame {
 							} else {
 								pe = cpe.selecionarPedidoAberto(usuario.getUsuario_id(),
 										restaurante.getRestaurante_id());
-							}
-
-							for (int y = 0; y < observacao.length; y++) {
-								System.out.println(observacao[y]);
 							}
 
 							cip.cadastrarItensPedidoNull(pr, observacao);

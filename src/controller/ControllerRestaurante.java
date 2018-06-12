@@ -49,8 +49,8 @@ public class ControllerRestaurante {
 		return r;
 	}
 
-	public List<ModelRestaurante> carregarRestaurantes() {
-		List<ModelRestaurante> r = dao.carregarRestaurantes();
+	public List<ModelRestaurante> carregarRestaurantesAbertos() {
+		List<ModelRestaurante> r = dao.carregarRestaurantesAbertos();
 		return r;
 	}
 

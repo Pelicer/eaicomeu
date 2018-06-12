@@ -27,5 +27,13 @@ public class ControllerStatus {
 		historico = DAO.carregarStatusHistorico(p);
 		return historico;
 	}
+	
+	public void cadastrarStatusUpdate(ModelPedido p, int status) {
+		DAO.cadastrarStatusUpdate(p, status);
+	}
+
+	public void atualizarStatus(ModelPedido p, int status) {
+		DAO.atualizarStatus(p, status);
+	}
 
 }

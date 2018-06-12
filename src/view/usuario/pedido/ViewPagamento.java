@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import controller.ControllerPedido;
+import controller.ControllerStatus;
 import controller.ControllerUsuario;
 import model.ModelPedido;
 import model.ModelUsuario;
@@ -223,7 +224,9 @@ public class ViewPagamento extends JFrame {
 					cp.atualizarPedido(pedido);
 
 					// Atualiza status para confirmado.
-					cp.atualizarStatus(pedido, 2);
+					ControllerStatus cs = new ControllerStatus();
+					cs.atualizarStatus(pedido, 2);
+					cs.cadastrarStatusUpdate(pedido, 2);
 
 					cu.carregarPedidos(usuario);
 					dispose();

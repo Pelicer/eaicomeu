@@ -381,23 +381,6 @@ public class DaoPedido {
 		}
 	}
 
-	public void atualizarStatus(ModelPedido p, int status) {
-		Connection con = ConnectionFactory.getConnection();
-		PreparedStatement stm = null;
-
-		try {
-			stm = con.prepareStatement("UPDATE tbl_pedido SET status_id = ? WHERE pedido_id = ?;");
-			stm.setInt(1, status);
-			stm.setInt(2, p.getPedido_id());
-			stm.executeUpdate();
-
-			ConnectionFactory.closeConnection(con, stm);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public List<Integer> pagamentosRestaurante(ModelPedido p) {
 
 		List<Integer> pagamentos = new ArrayList<Integer>();

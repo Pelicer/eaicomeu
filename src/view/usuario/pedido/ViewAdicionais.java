@@ -40,7 +40,7 @@ import view.usuario.ViewIndex;
 public class ViewAdicionais extends JFrame {
 
 	int adc_posicao = 0;
-	String[] observacao = new String[50];
+	String[] adicional = new String[50];
 
 	ModelUsuario u = new ModelUsuario();
 	ModelPedido pe = new ModelPedido();
@@ -61,23 +61,22 @@ public class ViewAdicionais extends JFrame {
 
 	}
 
-	public ViewAdicionais(ModelUsuario usuario, ModelPedido pedido, ModelProduto produto, ModelRestaurante restaurante,
-			String[] obs) {
+	public ViewAdicionais(ModelUsuario usuario, ModelPedido pedido, ModelProduto produto,
+			ModelRestaurante restaurante) {
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(ViewAdicionais.class.getResource("/img/logo/logo (64x64).png")));
 		u = usuario;
 		pe = pedido;
 		pr = produto;
 		r = restaurante;
-		observacao = obs;
 
 		int yproduto = 40;
 		List<ModelIngrediente> ingredientes = new ArrayList<ModelIngrediente>();
 		ingredientes = ci.carregarAdicionais(produto.getRestaurante_id());
 
-		String[] adicionais = new String[50];
+		String[] adicional = new String[50];
 		for (int i = 0; i < 50; i++) {
-			adicionais[i] = "";
+			adicional[i] = "";
 		}
 
 		setResizable(false);
@@ -240,28 +239,33 @@ public class ViewAdicionais extends JFrame {
 			desejado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (desejado.isSelected()) {
-						for (int i = 0; i < adicionais.length; i++) {
-							if (adicionais[i].equals(desejado.getName())) {
-								adicionais[i] = "";
-								for (int j = i + 1; j < adicionais.length; j++) {
-									adicionais[j - 1] = adicionais[j];
-									i = adicionais.length;
-								}
+						for (int i = 0; i <= adicional.length + 1; i++) {
+							if (adicional[i].equals("")) {
+								adicional[i] = desejado.getName();
+								break;
+							}
+						}
+					} else {
+						String rejeitado = "";
+						rejeitado = desejado.getName();
+						int posicao = 0;
+
+						for (int z = 0; z < adicional.length; z++) {
+							if (adicional[z].equals(rejeitado)) {
+								posicao = z;
+								break;
 							}
 						}
 
-					} else {
-						if (adicionais[adc_posicao].equals("")) {
-							adicionais[adc_posicao] = desejado.getName();
-						} else {
-							adc_posicao++;
-							adicionais[adc_posicao] = desejado.getName();
+						for (int x = posicao; x < adicional.length; x++) {
+							if (!adicional[x].equals("") && !adicional[x].equals(null)) {
+								adicional[x] = adicional[x + 1];
+							}
 						}
 					}
 				}
 			});
 			ingrediente.add(desejado);
-
 			ingrediente.add(titulo);
 
 			viewport.add(ingrediente);
@@ -278,7 +282,7 @@ public class ViewAdicionais extends JFrame {
 						ip = cip.selecionarUltimaEntrada();
 
 						// Atualiza o itenspedido com as inforamções do pedido.
-						cip.atualizarItensPedido(pe.getPedido_id(), adicionais, ip.getItensPedido_id());
+						cip.atualizarItensPedido(pe.getPedido_id(), adicional, ip.getItensPedido_id());
 
 						// Seleciona itenspedido mais atualizado.
 						ip = cip.selecionarItensPedido(ip.getItensPedido_id());
@@ -289,6 +293,8 @@ public class ViewAdicionais extends JFrame {
 						// Atualiza mais uma vez o pedido para o mais recente (com valor atualizado).
 						pe = cp.selecionarUltimaEntrada();
 
+						// cip.cadastrarItensPedido(pedido, produto, adicional,
+						// ip.getItensPedido_observacao());
 						cp.carregarViewCarrinho(u, pe);
 						dispose();
 					}

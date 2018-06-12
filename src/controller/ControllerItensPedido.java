@@ -11,8 +11,8 @@ import model.ModelProduto;
 public class ControllerItensPedido {
 
 	DaoItensPedido DAO = new DaoItensPedido();
-
-	public void cadastrarItensPedido(ModelPedido pe, ModelProduto pr, String[] adicionais, String[] observacao) {
+	
+	public void cadastrarItensPedido(ModelPedido pe, ModelProduto pr, String[] adicionais, String observacao) {
 		DAO.cadastrarItensPedido(pe, pr, adicionais, observacao);
 	}
 

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import model.ModelRestaurante;
@@ -188,15 +190,21 @@ public class DaoRestaurante {
 		return nr;
 	}
 
-	public List<ModelRestaurante> carregarRestaurantes() {
+	public List<ModelRestaurante> carregarRestaurantesAbertos() {
 		Connection con = ConnectionFactory.getConnection();
 		ResultSet rs = null;
 		PreparedStatement stm = null;
 
 		List<ModelRestaurante> restaurantes = new ArrayList<ModelRestaurante>();
 
+		// Horário da mudança de status.
+		Calendar horarioAtual = Calendar.getInstance();
+		SimpleDateFormat ha = new SimpleDateFormat("HH:mm:ss");
+
 		try {
-			stm = con.prepareStatement("SELECT * FROM tbl_restaurante");
+			stm = con.prepareStatement("SELECT * FROM tbl_restaurante WHERE restaurante_horarioAbertura <= '"
+					+ ha.format(horarioAtual.getTime()) + "' AND restaurante_horarioFechamento > '"
+					+ ha.format(horarioAtual.getTime()) + "';");
 			rs = stm.executeQuery();
 
 			while (rs.next()) {

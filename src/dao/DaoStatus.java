@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import model.ModelPedido;
@@ -93,6 +94,56 @@ public class DaoStatus {
 			e.printStackTrace();
 		}
 		return historico;
+	}
+
+	public void atualizarStatus(ModelPedido p, int status) {
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		try {
+			stm = con.prepareStatement("UPDATE tbl_pedido SET status_id = ? WHERE pedido_id = ?;");
+			stm.setInt(1, status);
+			stm.setInt(2, p.getPedido_id());
+			stm.executeUpdate();
+
+			ConnectionFactory.closeConnection(con, stm);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cadastrarStatusUpdate(ModelPedido p, int status) {
+
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+
+		try {
+
+			if (p.getStatus_id() == 6) {
+				//
+			} else {
+
+				// Horário da mudança de status.
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+				stm = con.prepareStatement(
+						"INSERT INTO tbl_status_update (status_id, pedido_id, status_update_datetime) VALUES (?, ?, '"
+								+ sdf.format(cal.getTime()) + "');");
+				stm.setInt(1, status);
+				System.out.println(p.getPedido_id());
+				stm.setInt(2, p.getPedido_id());
+
+				stm.executeUpdate();
+
+				ConnectionFactory.closeConnection(con, stm);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

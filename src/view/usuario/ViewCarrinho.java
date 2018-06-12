@@ -29,6 +29,7 @@ import controller.ControllerItensPedido;
 import controller.ControllerPedido;
 import controller.ControllerProduto;
 import controller.ControllerRestaurante;
+import controller.ControllerStatus;
 import controller.ControllerUsuario;
 import model.ModelItensPedido;
 import model.ModelPedido;
@@ -58,7 +59,6 @@ public class ViewCarrinho extends JFrame {
 	List<ModelItensPedido> itens;
 	ModelItensPedido i;
 	int yproduto;
-
 
 	public ViewCarrinho(ModelUsuario u, ModelPedido p) {
 		setIconImage(
@@ -199,7 +199,7 @@ public class ViewCarrinho extends JFrame {
 		yproduto = 60;
 
 		atualizarItens();
-		
+
 		yproduto += 20 + 32;
 
 		viewport.setPreferredSize(new Dimension(414, yproduto));
@@ -209,18 +209,18 @@ public class ViewCarrinho extends JFrame {
 
 	public void cancelarItem() {
 		int dialogButton = JOptionPane.YES_NO_OPTION;
-		int dialogResult = JOptionPane.showConfirmDialog(null,
-				"Deseja excluir este produto do seu carrinho?", "Confirmação", dialogButton);
+		int dialogResult = JOptionPane.showConfirmDialog(null, "Deseja excluir este produto do seu carrinho?",
+				"Confirmação", dialogButton);
 		if (dialogResult == 0) {
 			cip.excluirItem(i);
 			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso.", "Confirmação",
 					JOptionPane.INFORMATION_MESSAGE);
-			
+
 		} else {
 			//
 		}
 	}
-	
+
 	public void atualizarItens() {
 		for (int x = 0; x < itens.size(); x++) {
 
@@ -321,6 +321,10 @@ public class ViewCarrinho extends JFrame {
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						ControllerEntrega ce = new ControllerEntrega();
+						ControllerStatus cs = new ControllerStatus();
+						cs.cadastrarStatusUpdate(pedido, 2);
+						cs.atualizarStatus(pedido, 3);
+						cs.cadastrarStatusUpdate(pedido, 3);
 						ce.carregarViewEntrega(usuario, pedido);
 						dispose();
 					}
@@ -331,7 +335,7 @@ public class ViewCarrinho extends JFrame {
 			}
 		}
 	}
-	
+
 	public void reiniciarTela() {
 		this.dispose();
 		pedido = cped.selecionarUltimaEntrada();

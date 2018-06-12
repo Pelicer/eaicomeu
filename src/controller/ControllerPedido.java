@@ -82,10 +82,6 @@ public class ControllerPedido {
 		DAO.atualizarPreco(pedido_id);
 	}
 
-	public void atualizarStatus(ModelPedido p, int status) {
-		DAO.atualizarStatus(p, status);
-	}
-
 	public List<Integer> pagamentosRestaurante(ModelPedido p) {
 		List<Integer> pagamentos = new ArrayList<Integer>();
 		pagamentos = DAO.pagamentosRestaurante(p);
@@ -107,7 +103,7 @@ public class ControllerPedido {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewAdicionais frame = new ViewAdicionais(u, pe, pr, r, observacao);
+					ViewAdicionais frame = new ViewAdicionais(u, pe, pr, r);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {

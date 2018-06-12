@@ -14,19 +14,18 @@ import model.ModelProduto;
 
 public class DaoItensPedido {
 
-	public void cadastrarItensPedido(ModelPedido pe, ModelProduto pr, String[] adicionais, String[] observacao) {
+	public void cadastrarItensPedido(ModelPedido pe, ModelProduto pr, String[] adicionais,String observacao) {
 
 		Connection con = ConnectionFactory.getConnection();
 		PreparedStatement stm = null;
 
+		int i;
+		
 		String add = "";
-		for (int i = 0; i < adicionais.length; i++) {
-			add += adicionais[i] + "/";
-		}
-
-		String obs = "";
-		for (int i = 0; i < observacao.length; i++) {
-			obs += observacao[i] + "/";
+		for (i = 0; i < adicionais.length; i++) {
+			if(!adicionais[i].equals("") && !adicionais[i].equals(null)) {
+				add += adicionais[i] + "/";
+			}
 		}
 
 		try {
@@ -35,7 +34,7 @@ public class DaoItensPedido {
 			stm.setInt(1, pe.getPedido_id());
 			stm.setInt(2, pr.getProduto_id());
 			stm.setString(3, add);
-			stm.setString(4, obs);
+			stm.setString(4, observacao);
 
 			stm.executeUpdate();
 
@@ -54,7 +53,9 @@ public class DaoItensPedido {
 
 		String obs = "";
 		for (int i = 0; i < observacao.length; i++) {
-			obs += observacao[i] + "/";
+			if(!observacao[i].equals("") && !observacao[i].equals(null)){
+				obs += observacao[i] + "/";
+			}
 		}
 
 		try {
@@ -187,7 +188,9 @@ public class DaoItensPedido {
 
 		String add = "";
 		for (int i = 0; i < adicionais.length; i++) {
-			add += adicionais[i] + "/";
+			if(!adicionais[i].equals("") && !adicionais[i].equals(null)) {
+				add += adicionais[i] + "/";
+			}
 		}
 
 		try {

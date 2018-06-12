@@ -47,19 +47,21 @@ CREATE TABLE tbl_restaurante(
 	restaurante_logradouro VARCHAR(10) NOT NULL,	
 	restaurante_complemento VARCHAR(60) NOT NULL,
 	restaurante_thumbnail VARCHAR(60) NOT NULL,
+    restaurante_horarioAbertura TIME NOT NULL,
+    restaurante_horarioFechamento TIME NOT NULL,
 	PRIMARY KEY(restaurante_id)
 );
 
-INSERT INTO `tbl_restaurante`( `restaurante_cnpj`, `restaurante_razaoSocial`, `restaurante_email`, `restaurante_telefone`,`restaurante_celular`, `restaurante_uf`, `restaurante_cidade`, `restaurante_cep`, `restaurante_bairro`, `restaurante_endereco`, `restaurante_logradouro`, `restaurante_complemento`, `restaurante_thumbnail`) VALUES 
-('55.457.438/0001-95','Papa tudo lanches ME','papatudolanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/papatudo.png'),
-('43.341.433/0001-13','MC Donalds ME' ,'mcdonaldslanche@mcdonalds.com','3819-5577','3819-5577','SP','Campinas',' 13184-210','Parque Ortolândia','Av. Santana','970','Drive Thru','/img/perfil/restaurante/mcdonalds.png'),
-('77.441.422/0001-27','Subway Alimentos ME', 'subwayalimentos@subway.com', '3116-1137', '3116-1137','SP','Americana',' 13184-210',' Parque Ortolândia','Av. Santana','847','','/img/perfil/restaurante/subway.png'),
-('55.666.438/0001-95','Burger King','bk@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/burgerking.png'),
-('25.666.438/0001-95','Turbinado Lanches','turbinado-lanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/turbinado.png'),
-('56.623.138/0001-15','Pizza Hut','contato@pizzahut.com','3965-5506','3965-2506','SP','Campinas',' 13156-054','Jardim Mirante','R. Tancredo Neves', '524','Hamburgueria','/img/perfil/restaurante/pizzahut.png'),
-('92.126.238/0001-26','Hot Dog Express','express@yahoo.com','3965-5506','3965-4306','SP','Sumaré',' 14186-054','Emancipação','R. Emancipação', '6356','Trailer','/img/perfil/restaurante/hotdogexpress.png'),
-('74.567.358/0001-32','China in Box','sac@chinainbox.com','3965-5506','3965-5234','SP','Monte-Mor',' 16186-054','Cambuí','R. Moraes Sales', '134','','/img/perfil/restaurante/chinainbox.png'),
-('49.837.445/0001-78','Kanibal Burger','kanibal-burger@gmail.com','3965-2137','3965-5506','SP','Hortolandia',' 13186-054','Jardim Oswaldo','R. dos Estudantes', '654','Trailer','/img/perfil/restaurante/kanibalburger.png');
+INSERT INTO `tbl_restaurante`( `restaurante_cnpj`, `restaurante_razaoSocial`, `restaurante_email`, `restaurante_telefone`,`restaurante_celular`, `restaurante_uf`, `restaurante_cidade`, `restaurante_cep`, `restaurante_bairro`, `restaurante_endereco`, `restaurante_logradouro`, `restaurante_complemento`, `restaurante_thumbnail`, `restaurante_horarioAbertura`, `restaurante_horarioFechamento`) VALUES 
+('55.457.438/0001-95','Papa tudo lanches ME','papatudolanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/papatudo.png', '17:00:00', '23:00:00'),
+('43.341.433/0001-13','MC Donalds ME' ,'mcdonaldslanche@mcdonalds.com','3819-5577','3819-5577','SP','Campinas',' 13184-210','Parque Ortolândia','Av. Santana','970','Drive Thru','/img/perfil/restaurante/mcdonalds.png', '17:00:00', '21:00:00'),
+('77.441.422/0001-27','Subway Alimentos ME', 'subwayalimentos@subway.com', '3116-1137', '3116-1137','SP','Americana',' 13184-210',' Parque Ortolândia','Av. Santana','847','','/img/perfil/restaurante/subway.png','18:00:00', '22:00:00'),
+('55.666.438/0001-95','Burger King','bk@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/burgerking.png', '12:00:00', '00:00:00'),
+('25.666.438/0001-95','Turbinado Lanches','turbinado-lanches@hotmail.com','3965-5506','3965-5506','SP','Hortolandia',' 13186-054','Jardim Santa Rita de Cassia','R. dos Estudantes', '132','Trailer','/img/perfil/restaurante/turbinado.png', '12:00:00', '00:00:00'),
+('56.623.138/0001-15','Pizza Hut','contato@pizzahut.com','3965-5506','3965-2506','SP','Campinas',' 13156-054','Jardim Mirante','R. Tancredo Neves', '524','Hamburgueria','/img/perfil/restaurante/pizzahut.png', '13:00:00', '00:00:00'),
+('92.126.238/0001-26','Hot Dog Express','express@yahoo.com','3965-5506','3965-4306','SP','Sumaré',' 14186-054','Emancipação','R. Emancipação', '6356','Trailer','/img/perfil/restaurante/hotdogexpress.png', '21:00:00', '05:00:00'),
+('74.567.358/0001-32','China in Box','sac@chinainbox.com','3965-5506','3965-5234','SP','Monte-Mor',' 16186-054','Cambuí','R. Moraes Sales', '134','','/img/perfil/restaurante/chinainbox.png', '11:00:00', '17:00:00'),
+('49.837.445/0001-78','Kanibal Burger','kanibal-burger@gmail.com','3965-2137','3965-5506','SP','Hortolandia',' 13186-054','Jardim Oswaldo','R. dos Estudantes', '654','Trailer','/img/perfil/restaurante/kanibalburger.png', '19:00:00', '01:00:00');
 
 DROP TABLE IF EXISTS `tbl_login`;
 CREATE TABLE tbl_login(

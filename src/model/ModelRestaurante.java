@@ -24,13 +24,21 @@ public class ModelRestaurante {
 	String restaurante_logradouro;
 	String restaurante_complemento;
 	String restaurante_thumbnail;
+	String restaurante_horarioAbertura;
+	String restaurante_horarioFechamento;
 
-	public ModelRestaurante(int restaurante_id, String restaurante_cnpj, String restaurante_cep,
+	public ModelRestaurante() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ModelRestaurante(Email email, int restaurante_id, String restaurante_cnpj, String restaurante_cep,
 			String restaurante_razaosocial, String restaurante_email, String restaurante_telefone,
 			String restaurante_celular, String restaurante_uf, String restaurante_cidade, String restaurante_bairro,
 			String restaurante_endereco, String restaurante_logradouro, String restaurante_complemento,
-			String restaurante_thumbnail) {
+			String restaurante_thumbnail, String restaurante_horarioAbertura, String restaurante_horarioFechamento) {
 		super();
+		this.email = email;
 		this.restaurante_id = restaurante_id;
 		this.restaurante_cnpj = restaurante_cnpj;
 		this.restaurante_cep = restaurante_cep;
@@ -45,10 +53,16 @@ public class ModelRestaurante {
 		this.restaurante_logradouro = restaurante_logradouro;
 		this.restaurante_complemento = restaurante_complemento;
 		this.restaurante_thumbnail = restaurante_thumbnail;
+		this.restaurante_horarioAbertura = restaurante_horarioAbertura;
+		this.restaurante_horarioFechamento = restaurante_horarioFechamento;
 	}
 
-	public ModelRestaurante() {
-		super();
+	public Email getEmail() {
+		return email;
+	}
+
+	public void setEmail(Email email) {
+		this.email = email;
 	}
 
 	public int getRestaurante_id() {
@@ -163,8 +177,23 @@ public class ModelRestaurante {
 		this.restaurante_thumbnail = restaurante_thumbnail;
 	}
 
-	// Recuperação de senha.
+	public String getRestaurante_horarioAbertura() {
+		return restaurante_horarioAbertura;
+	}
 
+	public void setRestaurante_horarioAbertura(String restaurante_horarioAbertura) {
+		this.restaurante_horarioAbertura = restaurante_horarioAbertura;
+	}
+
+	public String getRestaurante_horarioFechamento() {
+		return restaurante_horarioFechamento;
+	}
+
+	public void setRestaurante_horarioFechamento(String restaurante_horarioFechamento) {
+		this.restaurante_horarioFechamento = restaurante_horarioFechamento;
+	}
+
+	// Recuperação de senha.
 	public void enviarEmail(String msg, String para) {
 		try {
 			email.setHostName("smtp.googlemail.com");
